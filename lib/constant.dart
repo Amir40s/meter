@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import 'constant/DB/collection_utils.dart';
+import 'constant/CollectionUtils/collection_utils.dart';
 import 'constant/prefUtils/pref_utils.dart';
 
 

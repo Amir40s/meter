@@ -1,8 +1,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constant.dart';
-import '../../constant/DB/collection_utils.dart';
 import 'dart:developer';
+
+import '../../constant/CollectionUtils/collection_utils.dart';
 
 class UserServices{
   static saveFaceData(String imageUrl) {
