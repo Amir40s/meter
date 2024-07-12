@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       fallbackLocale: const Locale('en', 'US'),
       translations: LanguageKey(),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Meter',
       theme: ThemeData(
         primaryColor: AppColor.primaryColor,
         useMaterial3: false,
