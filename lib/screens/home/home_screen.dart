@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meter/services/user/user_services.dart';
 import 'package:meter/widgets/categoriesWidget.dart';
 import 'package:meter/widgets/custom_rich_text.dart';
 import 'package:meter/widgets/servicesWidget.dart';
-
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../controller/bottomNav/bottom_nav_controller_main.dart';
@@ -21,7 +17,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // final onBoardController = Get.put(OnBoardController());
+    // final onBoardController = Get.put(OnBoardController());
     final controller = Get.put(HomeController());
     return SafeArea(
       child: Scaffold(
@@ -38,8 +34,10 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: Get.height * 0.01,
                 ),
-               CustomRichText(firstText: "Good Morning", secondText: 'secondText', press: (){}),
-
+                CustomRichText(
+                    firstText: "Good Morning",
+                    secondText: 'secondText',
+                    press: () {}),
                 SizedBox(
                   height: Get.height * 0.01,
                 ),
@@ -139,15 +137,14 @@ class HomeScreen extends StatelessWidget {
                         // )
                       ],
                     );
-                  }
-                  else if (controller.currentRole.value == "Provider") {
+                  } else if (controller.currentRole.value == "Provider") {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TextWidget(
                             title:
-                            "There are a lot of requests waiting for you",
+                                "There are a lot of requests waiting for you",
                             textColor: AppColor.semiTransparentDarkGrey,
                             fontSize: 14),
                         CustomTextField(
@@ -206,7 +203,7 @@ class HomeScreen extends StatelessWidget {
                               title: "Request a service".tr,
                               backgroundColor: Colors.transparent,
                               onTap: () {
-                               // Get.to(const RequestService());
+                                // Get.to(const RequestService());
                               }),
                           SizedBox(
                             height: Get.height * 0.03,
@@ -263,7 +260,7 @@ class HomeScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: const ScrollPhysics(),
                               gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2, // Number of columns
                                 crossAxisSpacing: 10.0,
                                 mainAxisSpacing: 10.0,
@@ -272,7 +269,7 @@ class HomeScreen extends StatelessWidget {
                               itemCount: controller.imaPath.length,
                               itemBuilder: (itemBuilder, index) {
                                 return ServicesWidget(
-                                    onTap: (){
+                                    onTap: () {
                                       // Get.to(SurveyReport(
                                       //   title: onBoardController.title[index],
                                       //   description:
@@ -314,7 +311,7 @@ class HomeScreen extends StatelessWidget {
                               shrinkWrap: true,
                               physics: const ScrollPhysics(),
                               gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2, // Number of columns
                                 crossAxisSpacing: 12.0,
                                 mainAxisSpacing: 12.0,
@@ -328,7 +325,7 @@ class HomeScreen extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           color: Colors.transparent,
                                           borderRadius:
-                                          BorderRadius.circular(12)),
+                                              BorderRadius.circular(12)),
                                       child: Column(
                                         children: [
                                           Image.asset(
@@ -351,7 +348,7 @@ class HomeScreen extends StatelessWidget {
                                               TextWidget(
                                                 title: "3.4",
                                                 textColor:
-                                                AppColor.semiDarkGrey,
+                                                    AppColor.semiDarkGrey,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w800,
                                               ),
@@ -359,7 +356,7 @@ class HomeScreen extends StatelessWidget {
                                               TextWidget(
                                                   title: "302 SAR",
                                                   textColor:
-                                                  AppColor.primaryColor,
+                                                      AppColor.primaryColor,
                                                   fontSize: 14)
                                             ],
                                           )
