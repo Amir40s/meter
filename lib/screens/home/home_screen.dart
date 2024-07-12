@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/widgets/categoriesWidget.dart';
 import 'package:meter/widgets/custom_rich_text.dart';
+import 'package:meter/widgets/request_widget.dart';
 import 'package:meter/widgets/servicesWidget.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
@@ -166,21 +167,21 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
-                        // ListView.separated(
-                        //   shrinkWrap: true,
-                        //   physics: const ScrollPhysics(),
-                        //   itemCount: 5,
-                        //   itemBuilder: (itemBuilder, index) {
-                        //     return const RequestContainer(
-                        //       buttonText: "Apply Now",
-                        //     );
-                        //   },
-                        //   separatorBuilder: (BuildContext context, int index) {
-                        //     return SizedBox(
-                        //       height: Get.height * 0.02,
-                        //     );
-                        //   },
-                        // )
+                        ListView.separated(
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          itemCount: 5,
+                          itemBuilder: (itemBuilder, index) {
+                            return const RequestWidget(
+                              buttonText: "Apply Now",
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: Get.height * 0.02,
+                            );
+                          },
+                        )
                       ],
                     );
                   } else {

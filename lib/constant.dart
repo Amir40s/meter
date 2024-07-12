@@ -26,7 +26,22 @@ class AppTextStyle {
   );
 }
 
+ const String seller = "Seller";
+ const String customer = "Customer";
+ const String provider = "Provider";
+ const String consolation = "Consolation";
+ const String requestService = "requestService";
+ const String engineeringJob = "engineeringJob";
 
+///////////////////API////////////////////
+
+ const String messageUserNameKey = "metersms";
+ const String messageApiKey = "3AE720DBA7FD7AC83952CE271A0C6633";
+ const String messageSenderNameKey = "MeterApp";
+
+ const String BASE_URL = "https://www.msegat.com/gw";
+ const String sendOtpApiRequest = "$BASE_URL/sendOTPCode.php";
+ const String verifyOtpApiRequest= "$BASE_URL/verifyOTPCode.php";
 
 String? getCurrentUid() {
   String userId = PrefUtil.getString(PrefUtil.userId);
