@@ -1,0 +1,38 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../constant.dart';
+import '../../constant/DB/collection_utils.dart';
+import 'dart:developer';
+
+class UserServices{
+  static saveFaceData(String imageUrl) {
+    log("UUID is ${getCurrentUid()}");
+    CollectionUtils.userCollection.doc(getCurrentUid()).set({
+      "isFaceVerify": true,
+      "faceImageUrl": imageUrl,
+    }, SetOptions(merge: true));
+  }
+
+  static saveFingerData() {
+    CollectionUtils.userCollection.doc(getCurrentUid()).set({
+      "isFingerVerify": true,
+    }, SetOptions(merge: true));
+  }
+
+  static Future<String> getRoleByUid() async {
+    try {
+      DocumentSnapshot userDoc =
+      await CollectionUtils.userCollection.doc(getCurrentUid()).get();
+      if (userDoc.exists) {
+        final data = userDoc.data() as Map<String, dynamic>?;
+        log("Role is ${data?["role"]}");
+        return data?['role'] as String;
+      } else {
+        return "Customer";
+      }
+    } catch (e) {
+      return "Customer";
+    }
+  }
+
+}

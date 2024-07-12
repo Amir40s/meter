@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "157200643690",
+    "project_id": "meter-762ba",
+    "storage_bucket": "meter-762ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157200643690:android:bc8e89c0686832e477fc13",
+        "android_client_info": {
+          "package_name": "com.solinovatiion.meter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh8JCzYgPwDpd_xe9NFs1rt9pSf_UeqSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
