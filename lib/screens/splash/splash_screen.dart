@@ -58,7 +58,7 @@ class SplashScreen extends StatelessWidget {
     if (auth != "" && auth != null) {
       Get.offAllNamed(RoutesName.bottomNavMain);
     } else {
-      Get.offAllNamed(RoutesName.onBoard);
+      Get.offAllNamed(RoutesName.onBoardScreen);
     }
   }
 }

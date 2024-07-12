@@ -8,8 +8,15 @@ import 'package:meter/screens/onboard/onboard_screen.dart';
 import 'package:meter/screens/onboard/onboard_welcome_screen.dart';
 import 'package:meter/screens/otpVerificatio/otp_verification_screen.dart';
 import 'package:meter/screens/requestServices/request_services_screen.dart';
+import 'package:meter/screens/signup/face.dart';
+import 'package:meter/screens/signup/finger.dart';
+import 'package:meter/screens/signup/seller/general_info_1.dart';
+import 'package:meter/screens/signup/seller/general_info_2.dart';
 import 'package:meter/screens/signup/signup_screen.dart';
 
+import '../../screens/signup/provider/provider_general_info_1.dart';
+import '../../screens/signup/provider/provider_general_info_2.dart';
+import '../../screens/signup/seller/general_info.dart';
 import '../../screens/splash/splash_screen.dart';
 
 class Routes {
@@ -20,15 +27,15 @@ class Routes {
     ),
     GetPage(
       name: RoutesName.loginScreen,
-      page: () =>  LoginScreen(),
+      page: () => const LoginScreen(),
     ),
     GetPage(
       name: RoutesName.signUpScreen,
-      page: () =>  SignupScreen(),
+      page: () => const SignupScreen(),
     ),
     GetPage(
       name: RoutesName.requestServicesScreen,
-      page: () =>  RequestServicesScreen(),
+      page: () => const RequestServicesScreen(),
     ),
     GetPage(
       name: RoutesName.bottomNavMain,
@@ -44,12 +51,44 @@ class Routes {
     ),
     GetPage(
       name: RoutesName.mainLoginSignupScreen,
-      page: () =>  MainLoginSignupScreen(),
+      page: () => MainLoginSignupScreen(),
     ),
 
     GetPage(
       name: RoutesName.otpVerificationScreen,
-      page: () =>  OtpVerificationScreen(),
+      page: () => const OtpVerificationScreen(),
+    ),
+    GetPage(
+      name: RoutesName.faceAuth,
+      page: () => FaceAuth(),
+    ),
+    GetPage(
+      name: RoutesName.sellerGeneralInfo,
+      page: () => const SellerGeneralInfo(),
+    ),
+    GetPage(
+      name: RoutesName.fingerAuth,
+      page: () =>  FingerAuth(),
+    ),
+    GetPage(
+      name: RoutesName.sellerFirstGeneralInfo,
+      page: () => const SellerFirstGeneralInfo(),
+    ),
+    GetPage(
+      name: RoutesName.sellerSecondGeneralInfo,
+      page: () => const SellerSecondGeneralInfo(),
+    ),
+    GetPage(
+      name: RoutesName.sellerSecondGeneralInfo,
+      page: () => const OnboardScreen(),
+    ),
+    GetPage(
+      name: RoutesName.providerFirstGeneralInfo,
+      page: () => const ProviderFirstGeneralInfo(),
+    ),
+    GetPage(
+      name: RoutesName.providerSecondGeneralInfo,
+      page: () => const ProviderSecondGeneralInfo(),
     ),
     // GetPage(
     //   name: RoutesName.publishFirstDevice,

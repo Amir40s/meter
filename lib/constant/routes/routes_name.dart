@@ -11,5 +11,13 @@ class RoutesName {
   static const bottomNavMain = "/bottomNavMain";
   static const publishFirstDevice = "/publishFirstDevice";
   static const otpVerificationScreen = "/otpVerificationScreen";
+  static const faceAuth = "/faceAuth";
+  static const fingerAuth = "/fingerAuth";
+  static const sellerGeneralInfo = "/sellerGeneralInfo";
+  static const sellerFirstGeneralInfo = "/sellerFirstGeneralInfo";
+  static const sellerSecondGeneralInfo = "/sellerSecondGeneralInfo";
+  static const onboardScreen = "/onboardScreen";
+  static const providerFirstGeneralInfo = "/providerFirstGeneralInfo";
+  static const providerSecondGeneralInfo = "/providerSecondGeneralInfo";
   static const requestServicesScreen = "/requestServicesScreen";
 }

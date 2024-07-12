@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/screens/signup/provider/provider_main.dart';
 import 'package:meter/screens/signup/seller/seller_signup_screen.dart';
 import 'package:meter/widgets/box_widget.dart';
-
 import '../../constant.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../controller/auth/main_auth_controller.dart';
+import 'customer/customer_main.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});

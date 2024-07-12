@@ -1,0 +1,179 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/screens/account/pivacy_policy.dart';
+import 'package:meter/screens/account/terms_of_service.dart';
+import 'package:meter/widgets/dialog_widget.dart';
+
+import '../../constant/prefUtils/pref_utils.dart';
+import '../../constant/res/app_color/app_color.dart';
+import '../../constant/res/app_images/app_images.dart';
+import '../../controller/account/profile_controller.dart';
+import '../../controller/bottomNav/bottom_nav_controller_main.dart';
+import '../../widgets/custom_back_button.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_row.dart';
+import '../../widgets/profile_header.dart';
+import '../../widgets/text_widget.dart';
+import 'help_center.dart';
+
+class AccountMain extends StatelessWidget {
+  const AccountMain({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.put(ProfileController());
+    final BottomNavController bottomNavController =
+        Get.find<BottomNavController>();
+    final String currentRole = bottomNavController.currentRole.value;
+    return SafeArea(
+      child: Scaffold(
+          backgroundColor: AppColor.whiteColor,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Container(
+                width: Get.width,
+                height: Get.height * 0.84,
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
+                        Row(
+                          children: [
+                            CustomBackButton(
+                              onTap: () {
+                                Get.find<BottomNavController>()
+                                    .currentIndex
+                                    .value = 0;
+                              },
+                            ),
+                            Spacer(),
+                            // SizedBox(
+                            //   width: Get.width * 0.04,
+                            // ),
+                            TextWidget(
+                              title: "Profile".tr,
+                              textColor: AppColor.semiDarkGrey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            Spacer(),
+                          ],
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.03,
+                        ),
+                        ProfileHeader(
+                          showPersonalInfo: currentRole == "Seller" ||
+                              currentRole == "Customer",
+                        ),
+                        if (currentRole == "Provider") ...[
+                          SizedBox(
+                            height: Get.height * 0.03,
+                          ),
+                          MyCustomButton(
+                              backgroundColor: AppColor.primaryShade,
+                              textColor: AppColor.primaryColor,
+                              iconPath: AppImage.autoCard,
+                              title: "Go To AutoCard".tr,
+                              onTap: () {})
+                        ],
+                        SizedBox(
+                          height: Get.height * 0.05,
+                        ),
+                        currentRole != "Provider" && currentRole != "Customer"
+                            ? CustomRow(
+                                firstImagePath: AppImage.paymentMethod,
+                                title: "Payment Methods".tr,
+                                onTap: () {},
+                              )
+                            : Container(),
+                        currentRole != "Provider" && currentRole != "Customer"
+                            ? CustomRow(
+                                firstImagePath: AppImage.help,
+                                title: "Help Center".tr,
+                                onTap: () {
+                                  Get.to(const HelpCenter());
+                                },
+                              )
+                            : Container(),
+                        CustomRow(
+                          dropDownItems: const ["English", "ﻋَﺮَﺑِﻲّ"],
+                          selectedLanguage: controller.selectedLanguage.value,
+                          onLanguageChanged: (newValue) {
+                            controller.changeSelectedLanguage(newValue);
+                          },
+                          title: "Language".tr,
+                          onTap: () {},
+                        ),
+                        currentRole == "Provider" || currentRole == "Customer"
+                            ? CustomRow(
+                                title: "Help Center".tr,
+                                onTap: () {
+                                  Get.to(const HelpCenter());
+                                },
+                              )
+                            : Container(),
+                        CustomRow(
+                          title: "Terms Of Services".tr,
+                          onTap: () {
+                            Get.to(const TermsOfService());
+                          },
+                        ),
+                        CustomRow(
+                          title: "Privacy Policy".tr,
+                          onTap: () {
+                            Get.to(const PrivacyPolicy());
+                          },
+                        ),
+                        CustomRow(
+                          title: "About App".tr,
+                          onTap: () {},
+                        ),
+                        CustomRow(
+                          textColor: AppColor.primaryColor,
+                          title: "Delete account".tr,
+                          onTap: () {
+                            // Get.bottomSheet()
+                          },
+                        ),
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: SizedBox(
+                        width: Get.width * 0.90,
+                        child: MyCustomButton(
+                          title: "Logout".tr,
+                          onTap: () {
+                            Get.dialog(DialogWidget(
+                                title: "Logout".tr,
+                                description: "Are you sure to logout?".tr,
+                                mainButtonText: "Logout".tr,
+                                mainButtonTap: () {
+                                  PrefUtil.remove(PrefUtil.userId);
+                                  Get.offAllNamed(
+                                      RoutesName.mainLoginSignupScreen);
+                                }));
+                          },
+                          textColor: AppColor.primaryColor,
+                          backgroundColor: AppColor.primaryShade,
+                          iconPath: AppImage.logout,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )),
+    );
+  }
+}

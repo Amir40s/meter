@@ -1,22 +1,19 @@
 import 'dart:developer';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meter_app/controller/auth_controller/seller_auth_controller.dart';
-import 'package:meter_app/res/app_color/app_color.dart';
-import 'package:meter_app/routes/routes_name.dart';
-import 'package:meter_app/utils/app_textstyle.dart';
-import 'package:meter_app/utils/backend_util/image_util.dart';
-import 'package:meter_app/utils/pref_util.dart';
-import 'package:meter_app/utils/validation_utils.dart';
-import 'package:meter_app/view/auth/Signup/seller_login/face_auth.dart';
-import 'package:meter_app/widget/containers/image_pick_container.dart';
-import 'package:meter_app/widget/custom_loading.dart';
-import 'package:meter_app/widget/header.dart';
-import 'package:meter_app/widget/text_widget.dart';
-import 'package:meter_app/widget/textfield.dart';
-import '../../../../widget/containers/button.dart';
+import 'package:meter/constant.dart';
+import 'package:meter/constant/errorUtills/image_utils.dart';
+import 'package:meter/constant/res/app_color/app_color.dart';
+import 'package:meter/constant/validationUtils/validation_utils.dart';
+import 'package:meter/controller/auth/seller_auth_controller.dart';
+import 'package:meter/widgets/custom_header.dart';
+import 'package:meter/widgets/custom_textfield.dart';
+import 'package:meter/widgets/image_pick_widget.dart';
+
+import '../../../widgets/custom_button.dart';
+import '../../../widgets/custom_loading.dart';
+import '../../../widgets/text_widget.dart';
 
 class SellerSecondGeneralInfo extends StatelessWidget {
   const SellerSecondGeneralInfo({super.key});
@@ -47,7 +44,7 @@ class SellerSecondGeneralInfo extends StatelessWidget {
                     Obx(
                       () => Padding(
                         padding: const EdgeInsets.only(left: 14.0, right: 14),
-                        child: ImagePickContainer(
+                        child: ImagePickWidget(
                           title: "Click to upload \n your papers",
                           onTap: () {
                             ImageUtil.pickAndUpdateFile(

@@ -1,7 +1,16 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/constant/prefUtils/message_utills.dart';
+import 'package:meter/constant/res/app_color/app_color.dart';
+import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/constant/validationUtils/validation_utils.dart';
+import 'package:meter/widgets/custom_button.dart';
+import 'package:meter/widgets/custom_header.dart';
+import 'package:meter/widgets/custom_textfield.dart';
+import 'package:meter/widgets/text_field_country_picker.dart';
 
+import '../../../controller/auth/seller_auth_controller.dart';
 
 class SellerGeneralInfo extends StatelessWidget {
   const SellerGeneralInfo({super.key});
@@ -36,7 +45,7 @@ class SellerGeneralInfo extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 14.0, right: 14),
                   child: Obx(
-                    () => CustomTextFieldWithCountryPicker(
+                    () => TextFieldCountryPicker(
                       isVerifySucces: controller.verifyMessage.value ==
                           "Success", //change to == "Success"
                       hintText: "115203867",
@@ -81,7 +90,7 @@ class SellerGeneralInfo extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 14.0, right: 14),
                   child: Obx(
-                    () => CustomTextFieldWithCountryPicker(
+                    () => TextFieldCountryPicker(
                       hintText: "115203867",
                       controller: controller.managerPhoneNumberController,
                       flagPath: controller.managerPhoneNumberFlagUri.value,
@@ -117,7 +126,7 @@ class SellerGeneralInfo extends StatelessWidget {
                                 controller.verifyMessage.value ==
                                     "Success" //Change to =="Success"
                             ) {
-                          Get.to(const SellerFirstGeneralInfo());
+                          Get.toNamed(RoutesName.sellerFirstGeneralInfo);
                         } else {
                           if (!controller.validatePhoneNumber()) {
                             ShortMessageUtils.showError(

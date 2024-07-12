@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:meter/constant/routes/routes_name.dart';
 import '../../../constant/prefUtils/message_utills.dart';
 import '../../../constant/res/app_color/app_color.dart';
 import '../../../constant/validationUtils/validation_utils.dart';
+import '../../../controller/auth/seller_auth_controller.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/radio/group_raadio_widget.dart';
@@ -89,7 +90,7 @@ class SellerSignupScreen extends StatelessWidget {
                 title: "Register".tr,
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    Get.to(const SellerGeneralInfo());
+                    Get.toNamed(RoutesName.sellerGeneralInfo);
                   } else {
                     ShortMessageUtils.showError("Please Fill all fields");
                   }

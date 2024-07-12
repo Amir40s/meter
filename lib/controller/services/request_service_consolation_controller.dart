@@ -2,20 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:meter_app/model/requestServices/request_services_model.dart';
-import 'package:meter_app/services/db_services.dart';
-import 'package:meter_app/utils/backend_util/auth_util.dart';
-import 'package:meter_app/utils/backend_util/collection_utils.dart';
-import 'package:meter_app/utils/backend_util/dbutil.dart';
-import 'package:meter_app/utils/backend_util/error_util.dart';
-import 'package:meter_app/utils/backend_util/image_util.dart';
-import 'package:meter_app/utils/backend_util/constant_util.dart';
-import 'package:meter_app/utils/short_message_utils.dart';
-import 'package:meter_app/view/bottom_nav/bottom_nav_main.dart';
+import 'package:meter/bottomSheet/success/success_bottom_sheet.dart';
+import 'package:meter/constant/phoneUtils/phone_utils.dart';
+import 'package:meter/constant/prefUtils/message_utills.dart';
+import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/services/request/request_services.dart';
 
-import '../../../widget/success.dart';
+import '../../constant.dart';
+import '../../constant/errorUtills/error_utils.dart';
+import '../../constant/errorUtills/image_utils.dart';
+import '../../model/requestServices/request_services_model.dart';
+
+
 
 class RequestServiceConsolationController extends GetxController {
   final TextEditingController titleController = TextEditingController();
@@ -49,7 +47,7 @@ class RequestServiceConsolationController extends GetxController {
   }
 
   bool validatePhoneNumber() {
-    return AuthUtil.validatePhoneNumber(fullPhoneNumber(), countryCode.value);
+    return PhoneUtil.validatePhoneNumber(fullPhoneNumber(), countryCode.value);
   }
 
   void selectTypeOfConsolation(String value) {
@@ -87,9 +85,9 @@ class RequestServiceConsolationController extends GetxController {
           filePath.value != "") {
         String fileUrl = await ImageUtil.uploadToDatabase(filePath.value);
         RequestServicesModel requestServicesModel = RequestServicesModel(
-            id: DbUtil.getAutoUid()!,
-            role: ConstantUtil.customer,
-            userUID: DbUtil.getCurrentUid()!,
+            id: getAutoUid()!,
+            role: customer,
+            userUID:getCurrentUid()!,
             consolationTitle: titleController.text,
             consolationType: selectedTypeOfConsolation.value,
             details: detailsController.text,
@@ -100,19 +98,19 @@ class RequestServiceConsolationController extends GetxController {
             neighborhood: neighborhoodController.text,
             location: locationController.text,
             documentImage: fileUrl,
-            activityType: ConstantUtil.consolation);
-        await DbServices.addRequestService(requestServicesModel);
+            activityType: consolation);
+        await RequestServices.addRequestService(requestServicesModel);
         Get.bottomSheet(
             isDismissible: false,
             enableDrag: false,
-            CustomSuccessScreen(
+            SuccessBottomSheet(
               title: "Post Request",
               buttonTitle: "Done",
               desc:
                   "Your request has been posted. Click to show providers proposals",
               onDoneTap: () {
                 clearAllFields();
-                Get.offAll(const BottomNavMain());
+                Get.offAllNamed(RoutesName.bottomNavMain);
               },
             ));
       } else {

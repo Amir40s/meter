@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:meter/screens/requestServices/request_service/request_service1.dart';
 import '../../bottomSheet/purposePricing/purpose_pricing_bottom_sheet.dart';
 import '../../bottomSheet/surveyReport/survey_report_bottom_sheet.dart';
 import '../../constant/prefUtils/message_utills.dart';
@@ -15,7 +15,10 @@ import '../../widgets/custom_linear_progress.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/radio/group_raadio_widget.dart';
 import '../../widgets/text_widget.dart';
-
+import 'consolation/consolation_main.dart';
+import 'consolation/consolation_request_service.dart';
+import 'engineeringjob/engineering_job.dart';
+import 'engineeringjob/engineering_request_service.dart';
 
 class RequestServicesScreen extends StatelessWidget {
   const RequestServicesScreen({super.key});
@@ -23,12 +26,12 @@ class RequestServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final RequestServiceController controller =
-    Get.put(RequestServiceController());
+        Get.put(RequestServiceController());
 
     final consolationController =
-    Get.put(RequestServiceConsolationController());
+        Get.put(RequestServiceConsolationController());
     final engineeringJobController =
-    Get.put(EngineeringRequestServiceController());
+        Get.put(EngineeringRequestServiceController());
 
     final _formKey = GlobalKey<FormState>();
     return SafeArea(
@@ -36,14 +39,14 @@ class RequestServicesScreen extends StatelessWidget {
         bottomNavigationBar: Container(
           height: Get.height * 0.08,
           margin:
-          const EdgeInsets.only(bottom: 10, top: 7, left: 14, right: 14),
+              const EdgeInsets.only(bottom: 10, top: 7, left: 14, right: 14),
           child: MyCustomButton(
               title: "Continue".tr,
               onTap: () {
                 print("Value ${controller.selectedTypeOfApplicant}");
                 if (controller.selectedRadio.value == "consolation") {
                   if (consolationController.consolationFormKey.currentState!
-                      .validate() &&
+                          .validate() &&
                       consolationController.validatePhoneNumber()) {
                     Get.to(ConsolationRequestService());
                   } else if (!controller.validatePhoneNumber()) {
@@ -106,49 +109,49 @@ class RequestServicesScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Obx(
-                            () => Expanded(
+                        () => Expanded(
                           child: columnWithRadio(
                               "Consolation",
                               controller.selectedRadio.value,
                               "consolation",
-                                  (newValue) =>
+                              (newValue) =>
                                   controller.setSelectedRadio(newValue!),
                               controller.selectedRadio.value == "consolation",
-                                  () {
-                                controller.setSelectedRadio("consolation");
-                              }),
+                              () {
+                            controller.setSelectedRadio("consolation");
+                          }),
                         ),
                       ),
                       SizedBox(width: Get.width * 0.02),
                       Obx(
-                            () => Expanded(
+                        () => Expanded(
                           child: columnWithRadio(
                               "Request Service",
                               controller.selectedRadio.value,
                               "request_service",
-                                  (newValue) {
+                              (newValue) {
                                 controller.setSelectedRadio(newValue!);
                               },
                               controller.selectedRadio.value ==
                                   "request_service",
-                                  () {
+                              () {
                                 controller.setSelectedRadio("request_service");
                               }),
                         ),
                       ),
                       SizedBox(width: Get.width * 0.02),
                       Obx(
-                            () => Expanded(
+                        () => Expanded(
                           child: columnWithRadio(
                               "Engineering Job",
                               controller.selectedRadio.value,
                               "engineering_job",
-                                  (newValue) {
+                              (newValue) {
                                 controller.setSelectedRadio(newValue!);
                               },
                               controller.selectedRadio.value ==
                                   "engineering_job",
-                                  () {
+                              () {
                                 controller.setSelectedRadio("engineering_job");
                               }),
                         ),
@@ -173,7 +176,7 @@ class RequestServicesScreen extends StatelessWidget {
                             onChangeDropDown: (newValue) {},
                             dropDownItems: [],
                             onTap: () {
-                              Get.bottomSheet( PurposePricingBottomSheet(),
+                              Get.bottomSheet(PurposePricingBottomSheet(),
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -190,7 +193,7 @@ class RequestServicesScreen extends StatelessWidget {
                             title: "Purpose Of Survey Report",
                             dropDownColor: AppColor.primaryColor,
                             controller:
-                            controller.purposeOfSurveyReportController,
+                                controller.purposeOfSurveyReportController,
                             readOnly: true,
                             onTap: () {
                               Get.bottomSheet(const SurveyReportBottomSheet(),
@@ -215,7 +218,7 @@ class RequestServicesScreen extends StatelessWidget {
                               title: "Survey Report Number",
                               textInputType: TextInputType.number,
                               controller:
-                              controller.surveyReportNumberController),
+                                  controller.surveyReportNumberController),
                           CustomTextField(
                               validator: ValidationUtils.validateRequired(
                                   "Instrument Number"),
@@ -223,15 +226,13 @@ class RequestServicesScreen extends StatelessWidget {
                               title: "Instrument Number",
                               textInputType: TextInputType.number,
                               controller:
-                              controller.instrumentNumberController),
+                                  controller.instrumentNumberController),
                           SizedBox(
                             height: Get.height * 0.02,
                           ),
-
                           SizedBox(
                             height: Get.height * 0.03,
                           ),
-
                         ],
                       ),
                     );

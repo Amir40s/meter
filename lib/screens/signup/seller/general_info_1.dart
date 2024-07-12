@@ -3,16 +3,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meter_app/controller/auth_controller/seller_auth_controller.dart';
-import 'package:meter_app/res/app_assets/app_image.dart';
-import 'package:meter_app/res/app_color/app_color.dart';
-import 'package:meter_app/utils/backend_util/image_util.dart';
-import 'package:meter_app/utils/short_message_utils.dart';
-import 'package:meter_app/utils/validation_utils.dart';
-import 'package:meter_app/view/auth/Signup/seller_login/general_info_2.dart';
-import 'package:meter_app/widget/containers/button.dart';
-import 'package:meter_app/widget/header.dart';
-import 'package:meter_app/widget/textfield.dart';
+import 'package:meter/constant/errorUtills/image_utils.dart';
+import 'package:meter/constant/prefUtils/message_utills.dart';
+import 'package:meter/constant/res/app_color/app_color.dart';
+import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/constant/validationUtils/validation_utils.dart';
+import 'package:meter/controller/auth/seller_auth_controller.dart';
+import 'package:meter/widgets/custom_button.dart';
+import 'package:meter/widgets/custom_header.dart';
+
+import '../../../constant/res/app_images/app_images.dart';
+import '../../../widgets/custom_textfield.dart';
 
 class SellerFirstGeneralInfo extends StatelessWidget {
   const SellerFirstGeneralInfo({super.key});
@@ -121,7 +122,7 @@ class SellerFirstGeneralInfo extends StatelessWidget {
                       onTap: () {
                         if (_formKey.currentState!.validate() &&
                             controller.imagePath.value != "") {
-                          Get.to(const SellerSecondGeneralInfo());
+                          Get.toNamed(RoutesName.sellerSecondGeneralInfo);
                         } else {
                           if (controller.imagePath.value == "") {
                             ShortMessageUtils.showError(

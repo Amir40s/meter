@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:meter_app/model/requestServices/request_services_model.dart';
-import 'package:meter_app/services/db_services.dart';
-import 'package:meter_app/utils/backend_util/dbutil.dart';
-import 'package:meter_app/utils/backend_util/error_util.dart';
-import 'package:meter_app/utils/backend_util/image_util.dart';
-import 'package:meter_app/utils/backend_util/constant_util.dart';
-import 'package:meter_app/utils/short_message_utils.dart';
-import 'package:meter_app/view/bottom_nav/bottom_nav_main.dart';
-import 'package:meter_app/widget/success.dart';
+import 'package:meter/constant/errorUtills/image_utils.dart';
+import 'package:meter/constant/phoneUtils/phone_utils.dart';
+import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/services/request/request_services.dart';
 
-import '../../../utils/backend_util/auth_util.dart';
+import '../../bottomSheet/success/success_bottom_sheet.dart';
+import '../../constant.dart';
+import '../../constant/errorUtills/error_utils.dart';
+import '../../constant/prefUtils/message_utills.dart';
+import '../../model/requestServices/request_services_model.dart';
 
 class RequestServiceController extends GetxController {
   var selectedRadio =
@@ -137,7 +134,7 @@ class RequestServiceController extends GetxController {
   }
 
   bool validatePhoneNumber() {
-    return AuthUtil.validatePhoneNumber(fullPhoneNumber(), countryCode.value);
+    return PhoneUtil.validatePhoneNumber(fullPhoneNumber(), countryCode.value);
   }
 
   Future<void> onContinueClick(GlobalKey<FormState> _formKey) async {
@@ -149,9 +146,9 @@ class RequestServiceController extends GetxController {
           filePath.value != "") {
         String fileUrl = await ImageUtil.uploadToDatabase(filePath.value);
         RequestServicesModel requestServicesModel = RequestServicesModel(
-          id: DbUtil.getAutoUid()!,
-          role: ConstantUtil.customer,
-          userUID: DbUtil.getCurrentUid()!,
+          id: getAutoUid()!,
+          role: customer,
+          userUID: getCurrentUid()!,
           pricingPurpose: purposeOfPricingController.text,
           surveyReport: purposeOfSurveyReportController.text,
           reportNumber: surveyReportNumberController.text,
@@ -165,22 +162,22 @@ class RequestServiceController extends GetxController {
           applicationType: selectedTypeOfApplicant.value,
           applicationName: applicantsNameController.text,
           phoneNumber: fullPhoneNumber(),
-          activityType: ConstantUtil.requestService,
+          activityType: requestService,
           idNumber: idNumberController.text,
           agencyNumber: agencyNumberController.text,
           documentImage: fileUrl,
         );
-        await DbServices.addRequestService(requestServicesModel);
+        await RequestServices.addRequestService(requestServicesModel);
         Get.bottomSheet(
           isDismissible: false,
           enableDrag: false,
-          CustomSuccessScreen(
+          SuccessBottomSheet(
             title: "Post Request",
             buttonTitle: "Done",
             desc:
                 "Your request has been posted. Click to show providers proposals",
             onDoneTap: () {
-              Get.offAll(const BottomNavMain());
+              Get.offAllNamed(RoutesName.bottomNavMain);
             },
           ),
         );
