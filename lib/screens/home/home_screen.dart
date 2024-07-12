@@ -35,9 +35,15 @@ class HomeScreen extends StatelessWidget {
                   height: Get.height * 0.01,
                 ),
                 CustomRichText(
-                    firstText: "Good Morning",
-                    secondText: 'secondText',
-                    press: () {}),
+                  firstText: "Good Morning",
+                  secondText: 'secondText !',
+                  press: () {},
+                  firstTextFontWeight: FontWeight.w600,
+                  firstSize: 20,
+                  secondSize: 20,
+                  secondTextFontWeight: FontWeight.bold,
+                  firstTextColor: AppColor.semiDarkGrey,
+                ),
                 SizedBox(
                   height: Get.height * 0.01,
                 ),

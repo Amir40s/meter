@@ -8,19 +8,18 @@ import '../../constant/prefUtils/pref_utils.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../constant/routes/routes_name.dart';
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    Timer(const Duration(seconds: 4),(){
-
+    Timer(const Duration(seconds: 4), () {
       bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
-      if(isEnglish){
+      if (isEnglish) {
         changeLanguage("en", "US");
-      }else{
-       changeLanguage("ar", "Ar");
+      } else {
+        changeLanguage("ar", "Ar");
       }
       navigate();
     });
@@ -51,6 +50,7 @@ class SplashScreen extends StatelessWidget {
       ),
     );
   }
+
   void navigate() {
     final auth = getCurrentUid();
     log("Auth is----> $auth");
@@ -58,7 +58,8 @@ class SplashScreen extends StatelessWidget {
     if (auth != "" && auth != null) {
       Get.offAllNamed(RoutesName.bottomNavMain);
     } else {
-      Get.offAllNamed(RoutesName.onBoard);
+      Get.offAllNamed(RoutesName.bottomNavMain);
+      // Get.offAllNamed(RoutesName.onBoard);
     }
   }
 }

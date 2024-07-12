@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/screens/bottomNav/bottom_nav_screen.dart';
 
 import '../../screens/splash/splash_screen.dart';
 
@@ -25,13 +26,13 @@ class Routes {
     //   name: RoutesName.sellerFaceAuth,
     //   page: () => const SellerFaceAuth(),
     // ),
-    // GetPage(
-    //   name: RoutesName.bottomNavMain,
-    //   page: () => const BottomNavMain(),
-    // ),
+    GetPage(
+      name: RoutesName.bottomNavMain,
+      page: () => const BottomNav(),
+    ),
     // GetPage(
     //   name: RoutesName.onBoard,
-    //   page: () => const OnBoard(),
+    //   page: () => const (),
     // ),
     // GetPage(
     //   name: RoutesName.publishFirstDevice,
