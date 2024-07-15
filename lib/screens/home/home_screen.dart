@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/constant.dart';
+import 'package:meter/controller/account/profile_controller.dart';
+import 'package:meter/controller/onboard/onboard_controller.dart';
+import 'package:meter/screens/cServices/services_screen.dart';
+import 'package:meter/screens/requestServices/request_services_screen.dart';
 import 'package:meter/widgets/categoriesWidget.dart';
 import 'package:meter/widgets/custom_rich_text.dart';
 import 'package:meter/widgets/request_widget.dart';
@@ -18,12 +23,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final onBoardController = Get.put(OnBoardController());
-    final controller = Get.put(HomeController());
+    final onBoardController = Get.find<OnBoardController>();
+    final controller = Get.find<HomeController>();
+    final profileController = Get.find<ProfileController>();
     return SafeArea(
       child: Scaffold(
         appBar: CustomHomeAppBar(
-          title: "Makka,Saudi Arabia".tr,
+          title: profileController.user.value.city,
         ),
         body: Padding(
           padding: const EdgeInsets.all(14.0),
@@ -35,16 +41,16 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: Get.height * 0.01,
                 ),
-                CustomRichText(
-                  firstText: "Good Morning",
-                  secondText: 'secondText !',
-                  press: () {},
-                  firstTextFontWeight: FontWeight.w600,
-                  firstSize: 20,
-                  secondSize: 20,
-                  secondTextFontWeight: FontWeight.bold,
-                  firstTextColor: AppColor.semiDarkGrey,
-                ),
+                Obx(() => CustomRichText(
+                      firstText: getGreeting(),
+                      secondText: "${profileController.user.value.ownerName}!",
+                      press: () {},
+                      firstTextFontWeight: FontWeight.w600,
+                      firstSize: 20,
+                      secondSize: 20,
+                      secondTextFontWeight: FontWeight.bold,
+                      firstTextColor: AppColor.semiDarkGrey,
+                    )),
                 SizedBox(
                   height: Get.height * 0.01,
                 ),
@@ -210,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                               title: "Request a service".tr,
                               backgroundColor: Colors.transparent,
                               onTap: () {
-                                // Get.to(const RequestService());
+                                Get.to(const RequestServicesScreen());
                               }),
                           SizedBox(
                             height: Get.height * 0.03,
@@ -277,13 +283,15 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (itemBuilder, index) {
                                 return ServicesWidget(
                                     onTap: () {
-                                      // Get.to(SurveyReport(
-                                      //   title: onBoardController.title[index],
-                                      //   description:
-                                      //   onBoardController.description[index],
-                                      //   benefitList: onBoardController.benefitList[index],
-                                      //   imagePath: onBoardController.imagePath[index],
-                                      // ));
+                                      Get.to(ServicesScreen(
+                                        title: onBoardController.title[index],
+                                        description: onBoardController
+                                            .description[index],
+                                        benefitList: onBoardController
+                                            .benefitList[index],
+                                        imagePath:
+                                            onBoardController.imagePath[index],
+                                      ));
                                     },
                                     title: controller.title[index],
                                     imagePath: controller.imaPath[index]);

@@ -10,7 +10,6 @@ import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/radio/group_raadio_widget.dart';
 import '../../../widgets/text_widget.dart';
 
-
 class ConsolationMain extends StatelessWidget {
   const ConsolationMain({super.key});
 
@@ -74,7 +73,7 @@ class ConsolationMain extends StatelessWidget {
                       ValidationUtils.validateRequired("Applicant's name"),
                   hintText: "Enter Applicant's name",
                   title: "Applicant's name",
-                  controller: controller.detailsController),
+                  controller: controller.applicantNameController),
               Obx(
                 () => TextFieldCountryPicker(
                   hintText: "115203867",

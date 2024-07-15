@@ -19,7 +19,7 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomNavController = Get.put(BottomNavController());
+    final bottomNavController = Get.find<BottomNavController>();
     return SafeArea(
         child: Scaffold(
       body: Obx(() {

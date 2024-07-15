@@ -20,7 +20,7 @@ class FaceRecognizeController extends GetxController {
   Future<void> _initializeCameras() async {
     _cameras = await availableCameras();
     selectedCamera.value = _cameras.firstWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.back,
+        (camera) => camera.lensDirection == CameraLensDirection.front,
         orElse: () => _cameras.first);
     _controller = CameraController(
       selectedCamera.value!,

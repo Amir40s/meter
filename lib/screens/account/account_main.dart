@@ -1,10 +1,12 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/model/user/user_model.dart';
 import 'package:meter/screens/account/pivacy_policy.dart';
 import 'package:meter/screens/account/terms_of_service.dart';
+import 'package:meter/widgets/custom_loading.dart';
 import 'package:meter/widgets/dialog_widget.dart';
-
 import '../../constant/prefUtils/pref_utils.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
@@ -22,17 +24,19 @@ class AccountMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProfileController());
+    final controller = Get.find<ProfileController>();
     final BottomNavController bottomNavController =
         Get.find<BottomNavController>();
     final String currentRole = bottomNavController.currentRole.value;
+    UserModel userModel = controller.user.value;
+    log("User is ${userModel.email}");
     return SafeArea(
       child: Scaffold(
           backgroundColor: AppColor.whiteColor,
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(14.0),
-              child: Container(
+              child: SizedBox(
                 width: Get.width,
                 height: Get.height * 0.84,
                 child: Stack(
@@ -51,7 +55,7 @@ class AccountMain extends StatelessWidget {
                                     .value = 0;
                               },
                             ),
-                            Spacer(),
+                            const Spacer(),
                             // SizedBox(
                             //   width: Get.width * 0.04,
                             // ),
@@ -61,7 +65,7 @@ class AccountMain extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
-                            Spacer(),
+                            const Spacer(),
                           ],
                         ),
                         SizedBox(
@@ -138,6 +142,17 @@ class AccountMain extends StatelessWidget {
                           textColor: AppColor.primaryColor,
                           title: "Delete account".tr,
                           onTap: () {
+                            Get.dialog(Obx(() => controller
+                                    .deleteAccountLoading.value
+                                ? const CustomLoading()
+                                : DialogWidget(
+                                    title: "Delete",
+                                    description:
+                                        "Are you sure you want to delete account?",
+                                    mainButtonText: "Delete",
+                                    mainButtonTap: () {
+                                      controller.deleteAccount();
+                                    })));
                             // Get.bottomSheet()
                           },
                         ),

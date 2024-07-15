@@ -16,8 +16,6 @@ import '../../constant/prefUtils/message_utills.dart';
 import '../../constant/prefUtils/pref_utils.dart';
 import '../../constant/routes/routes_name.dart';
 
-
-
 class CustomerAuthController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -69,7 +67,7 @@ class CustomerAuthController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     // fetchCities();
-   // fetchNeighborhoods();
+    // fetchNeighborhoods();
   }
 
   void onChangeCity(String newValue) {
@@ -140,11 +138,12 @@ class CustomerAuthController extends GetxController {
   Future sendOtp() async {
     try {
       if (validatePhoneNumber()) {
+        sendOtpLoading.value = true;
         bool isAlready = await PhoneUtil.checkPhoneNumberExist(
             phoneNumber: fullPhoneNumber());
         if (!isAlready) {
-          sendOtpLoading.value = true;
-          final sendCodeResponse = await OtpApiServices.sendOtp(fullPhoneNumber());
+          final sendCodeResponse =
+              await OtpApiServices.sendOtp(fullPhoneNumber());
           final jsonResponse = jsonDecode(sendCodeResponse.body);
           if (sendCodeResponse.statusCode == 200) {
             if (jsonResponse['code'] == 1) {
@@ -157,8 +156,8 @@ class CustomerAuthController extends GetxController {
                     enableDrag: false,
                     Obx(
                       () => VerificationBottomSheet(
-                        phoneNumber: PhoneUtil.formatPhoneNumber(
-                            fullPhoneNumber()),
+                        phoneNumber:
+                            PhoneUtil.formatPhoneNumber(fullPhoneNumber()),
                         controller: otpController,
                         isLoadingVerify: verifyOneTimePasswordLoading.value,
                         showResend: showResendValue.value,
@@ -214,6 +213,8 @@ class CustomerAuthController extends GetxController {
           ShortMessageUtils.showSuccess(jsonResponse["message"]);
         } else {
           verifyMessage.value = jsonResponse["message"];
+          // Get.back();
+          // verifyMessage.value = "Success";
           ShortMessageUtils.showError(jsonResponse["message"]);
         }
       } else {
@@ -265,7 +266,7 @@ class CustomerAuthController extends GetxController {
       log("Auth model ${authModel.toJson()}");
       await CollectionUtils.userCollection.doc(userId).set(authModel.toJson());
       PrefUtil.setString(PrefUtil.userId, userId);
-      Get.offAllNamed(RoutesName.sellerFaceAuth);
+      Get.offAllNamed(RoutesName.faceAuth);
       PrefUtil.setString(PrefUtil.role, "Customer");
     } else {
       if (!areBothPasswordEqual) {
@@ -280,5 +281,4 @@ class CustomerAuthController extends GetxController {
       }
     }
   }
-
 }

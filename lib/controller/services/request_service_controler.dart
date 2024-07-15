@@ -75,7 +75,7 @@ class RequestServiceController extends GetxController {
   ];
   void selectPurposeOfPricing(String value) {
     selectedPurpose.value = value;
-    purposeOfPricingController.text = value;
+    purposeOfPricingController.text = value.tr;
   }
 
   RxString selectedSurveyReport = "Issuing a building permit".obs;
@@ -89,7 +89,7 @@ class RequestServiceController extends GetxController {
   ];
   void selectPurposeOfSurveyReport(String value) {
     selectedSurveyReport.value = value;
-    purposeOfSurveyReportController.text = value;
+    purposeOfSurveyReportController.text = value.tr;
   }
 
   RxString flagUri = "flags/sa.png".obs;

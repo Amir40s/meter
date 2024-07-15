@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/binding/bindings.dart';
 
 import 'constant/language/language_keys.dart';
 import 'constant/prefUtils/pref_utils.dart';
@@ -9,7 +10,7 @@ import 'constant/routes/routes.dart';
 import 'constant/routes/routes_name.dart';
 import 'firebase_options.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   PrefUtil.init();
@@ -28,14 +29,13 @@ class MyApp extends StatelessWidget {
       translations: LanguageKey(),
       debugShowCheckedModeBanner: false,
       title: 'Meter',
+      initialBinding: InitialBindings(),
       theme: ThemeData(
         primaryColor: AppColor.primaryColor,
         useMaterial3: false,
       ),
       initialRoute: RoutesName.splashScreen,
       getPages: Routes.routes,
-
     );
   }
 }
-

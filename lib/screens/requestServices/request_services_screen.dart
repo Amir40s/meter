@@ -212,16 +212,12 @@ class RequestServicesScreen extends StatelessWidget {
                             ],
                           ),
                           CustomTextField(
-                              validator: ValidationUtils.validateRequired(
-                                  "Survey Report Number"),
                               hintText: "Enter Report Number",
                               title: "Survey Report Number",
                               textInputType: TextInputType.number,
                               controller:
                                   controller.surveyReportNumberController),
                           CustomTextField(
-                              validator: ValidationUtils.validateRequired(
-                                  "Instrument Number"),
                               hintText: "Enter Instrument Number",
                               title: "Instrument Number",
                               textInputType: TextInputType.number,

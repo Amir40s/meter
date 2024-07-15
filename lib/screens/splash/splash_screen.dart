@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:meter/controller/account/profile_controller.dart';
 import '../../constant.dart';
 import '../../constant/prefUtils/pref_utils.dart';
 import '../../constant/res/app_color/app_color.dart';
@@ -14,13 +15,16 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 4), () {
+    Get.put(ProfileController(), permanent: true);
+    final controller = Get.find<ProfileController>();
+    Timer(const Duration(seconds: 4), () async {
       bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
       if (isEnglish) {
         changeLanguage("en", "US");
       } else {
         changeLanguage("ar", "Ar");
       }
+      await controller.fetchUserData();
       navigate();
     });
     return SafeArea(

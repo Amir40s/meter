@@ -14,6 +14,7 @@ import 'package:meter/screens/signup/seller/general_info_1.dart';
 import 'package:meter/screens/signup/seller/general_info_2.dart';
 import 'package:meter/screens/signup/signup_screen.dart';
 
+import '../../screens/signup/customer/customer_general_info.dart';
 import '../../screens/signup/provider/provider_general_info_1.dart';
 import '../../screens/signup/provider/provider_general_info_2.dart';
 import '../../screens/signup/seller/general_info.dart';
@@ -36,6 +37,10 @@ class Routes {
     GetPage(
       name: RoutesName.requestServicesScreen,
       page: () => const RequestServicesScreen(),
+    ),
+    GetPage(
+      name: RoutesName.customerGeneralInfoScreen,
+      page: () => const CustomerGeneralInfo(),
     ),
     GetPage(
       name: RoutesName.bottomNavMain,
@@ -68,7 +73,7 @@ class Routes {
     ),
     GetPage(
       name: RoutesName.fingerAuth,
-      page: () =>  FingerAuth(),
+      page: () => FingerAuth(),
     ),
     GetPage(
       name: RoutesName.sellerFirstGeneralInfo,

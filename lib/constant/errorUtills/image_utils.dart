@@ -128,11 +128,11 @@ class ImageUtil {
       final inputImage = InputImage.fromFilePath(pickedImage.path);
       final faceDetector = FaceDetector(
           options: FaceDetectorOptions(
-            enableClassification: true,
-            enableContours: true,
-            enableLandmarks: true,
-            enableTracking: true,
-          ));
+        enableClassification: true,
+        enableContours: true,
+        enableLandmarks: true,
+        enableTracking: true,
+      ));
       List<Face> faces = await faceDetector.processImage(inputImage);
       faceDetector.close();
       if (faces.isNotEmpty) {

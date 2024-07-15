@@ -13,7 +13,7 @@ class MainLoginSignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final  controller = Get.put(MainAuthController());
+    final controller = Get.find<MainAuthController>();
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
@@ -47,7 +47,7 @@ class MainLoginSignupScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(18.0),
                           child: TextWidget(
                             title:
-                            "Create an account or log in to explore about our app",
+                                "Create an account or log in to explore about our app",
                             textColor: AppColor.semiTransparentDarkGrey,
                             fontSize: 14,
                           ),
@@ -70,34 +70,34 @@ class MainLoginSignupScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Obx(() => Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.changeActive(true);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: controller.selectedLogin.value
-                                  ? Colors.transparent
-                                  : AppColor.whiteColor,
+                            child: GestureDetector(
+                              onTap: () {
+                                controller.changeActive(true);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(7),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: controller.selectedLogin.value
+                                      ? Colors.transparent
+                                      : AppColor.whiteColor,
+                                ),
+                                child: Center(
+                                    child: TextWidget(
+                                        title: "Log In",
+                                        textColor: controller
+                                                .selectedLogin.value
+                                            ? AppColor.primaryColor
+                                            : AppColor.semiTransparentDarkGrey,
+                                        fontSize: 14)),
+                              ),
                             ),
-                            child: Center(
-                                child: TextWidget(
-                                    title: "Log In",
-                                    textColor: controller
-                                        .selectedLogin.value
-                                        ? AppColor.primaryColor
-                                        : AppColor.semiTransparentDarkGrey,
-                                    fontSize: 14)),
-                          ),
-                        ),
-                      )),
+                          )),
                       SizedBox(
                         width: Get.width * 0.02,
                       ),
                       Obx(
-                            () => Expanded(
+                        () => Expanded(
                           child: GestureDetector(
                             onTap: () {
                               controller.changeActive(false);
@@ -128,7 +128,7 @@ class MainLoginSignupScreen extends StatelessWidget {
                   height: Get.height * 0.02,
                 ),
                 Obx(
-                      () => controller.selectedLogin.value
+                  () => controller.selectedLogin.value
                       ? const LoginScreen()
                       : const SignupScreen(),
                 )

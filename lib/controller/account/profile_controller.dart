@@ -1,6 +1,14 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:get/get.dart';
+import 'package:meter/constant/errorUtills/error_utils.dart';
+import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/model/user/user_model.dart';
+import 'package:meter/services/user/user_services.dart';
 
 import '../../constant.dart';
+import '../../constant/CollectionUtils/collection_utils.dart';
 import '../../constant/language/language_utils.dart';
 import '../../constant/prefUtils/pref_utils.dart';
 
@@ -31,10 +39,48 @@ If you encounter any issues during the sign-up process, feel free to reach out t
 
   RxString selectedLanguage =
       LanguageUtils.isEnglishLang() ? "English".obs : "ﻋَﺮَﺑِﻲّ".obs;
+
   RxBool leftIcon = LanguageUtils.isEnglishLang() ? true.obs : false.obs;
+
   List helpList = ["General", "Account", "Requests", "Payment"];
 
   RxInt selectedIndex = 0.obs;
+
+  RxBool deleteAccountLoading = false.obs;
+
+  Future<void> deleteAccount() async {
+    try {
+      deleteAccountLoading.value = true;
+      await UserServices.deleteAccount();
+      PrefUtil.remove(PrefUtil.userId);
+      Get.offNamed(RoutesName.onBoardWelcomeScreen);
+    } catch (e) {
+      ErrorUtil.handleDatabaseErrors(e);
+    } finally {
+      deleteAccountLoading.value = false;
+      Get.back();
+    }
+  }
+
+  var user = UserModel.fromJson({}).obs;
+
+  Future<void> fetchUserData() async {
+    try {
+      var snapshot = await CollectionUtils.userCollection
+          .where("userId", isEqualTo: getCurrentUid())
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        var userData = snapshot.docs.first.data() as Map<String, dynamic>;
+
+        user.value = UserModel.fromJson(userData);
+      } else {
+        log("User is empty");
+      }
+    } catch (e) {
+      log("Error is $e");
+    }
+  }
 
   void onChangeSelectedIndex(int newIndex) {
     selectedIndex.value = newIndex;

@@ -183,7 +183,8 @@ class SellerAuthController extends GetxController {
             phoneNumber: fullPhoneNumber());
         if (!isAlready) {
           sendOtpLoading.value = true;
-          final sendCodeResponse = await OtpApiServices.sendOtp(fullPhoneNumber());
+          final sendCodeResponse =
+              await OtpApiServices.sendOtp(fullPhoneNumber());
           final jsonResponse = jsonDecode(sendCodeResponse.body);
           if (sendCodeResponse.statusCode == 200) {
             if (jsonResponse['code'] == 1) {
@@ -196,8 +197,8 @@ class SellerAuthController extends GetxController {
                     enableDrag: false,
                     Obx(
                       () => VerificationBottomSheet(
-                        phoneNumber: PhoneUtil.formatPhoneNumber(
-                            fullPhoneNumber()),
+                        phoneNumber:
+                            PhoneUtil.formatPhoneNumber(fullPhoneNumber()),
                         controller: otpController,
                         isLoadingVerify: verifyOneTimePasswordLoading.value,
                         showResend: showResendValue.value,
@@ -338,10 +339,13 @@ class SellerAuthController extends GetxController {
               password: passwordController.text,
               fileUrl: fileUrl,
               email: '');
-          await CollectionUtils.userCollection.doc(userId).set(authModel.toJson());
+          await CollectionUtils.userCollection
+              .doc(userId)
+              .set(authModel.toJson());
           print("UserId is $userId");
           PrefUtil.setString(PrefUtil.userId, userId);
-          Get.offAll(RoutesName.sellerFaceAuth);
+
+          Get.offAll(RoutesName.faceAuth);
           // await authenticatePhoneNumber(context);
         } else {
           sellerLoading.value = false;
@@ -372,6 +376,4 @@ class SellerAuthController extends GetxController {
   RxBool showResend = true.obs;
 
   RxBool verifyOtpLoading = false.obs;
-
-
 }

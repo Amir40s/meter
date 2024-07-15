@@ -43,7 +43,6 @@ class TextFieldCountryPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,76 +91,76 @@ class TextFieldCountryPicker extends StatelessWidget {
                       border: InputBorder.none,
                       prefixIcon: isVerifySucces
                           ? Padding(
-                        padding: const EdgeInsets.only(
-                          top: 14,
-                          bottom: 10,
-                        ),
-                        child: TextWidget(
-                          title: countryShortCode!,
-                          textColor: AppColor.primaryColor,
-                        ),
-                      )
+                              padding: const EdgeInsets.only(
+                                top: 14,
+                                bottom: 10,
+                              ),
+                              child: TextWidget(
+                                title: countryShortCode!,
+                                textColor: AppColor.primaryColor,
+                              ),
+                            )
                           : CountryCodePicker(
-                        searchDecoration: InputDecoration(
-                          prefixIconColor:
-                          AppColor.semiTransparentDarkGrey,
-                          hintText: "Search".tr,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                                color: AppColor.semiTransparentDarkGrey),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: AppColor.semiTransparentDarkGrey,
+                              searchDecoration: InputDecoration(
+                                prefixIconColor:
+                                    AppColor.semiTransparentDarkGrey,
+                                hintText: "Search".tr,
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                      color: AppColor.semiTransparentDarkGrey),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: AppColor.semiTransparentDarkGrey,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: AppColor
+                                        .primaryColor, // Use your desired color for the focused border
+                                    width:
+                                        2.0, // You can customize the width of the focused border
+                                  ),
+                                ),
+                              ),
+                              initialSelection: countryShortCode ?? 'SA',
+                              textStyle: AppTextStyle.dark14
+                                  .copyWith(color: AppColor.primaryColor),
+                              favorite: [
+                                countryDialingCode ?? '+966',
+                                countryShortCode ?? 'SA'
+                              ],
+                              showFlagMain: false,
+                              showDropDownButton: false,
+                              padding: EdgeInsets.zero,
+                              onChanged: countryCode,
+                              dialogTextStyle: AppTextStyle.dark14,
+                              dialogSize: Size(Get.width, Get.height * 0.6),
+                              showFlag: true,
+                              showFlagDialog: true,
+                              showCountryOnly: false,
+                              showOnlyCountryWhenClosed: false,
+                              boxDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: AppColor.whiteColor),
                             ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: AppColor
-                                  .primaryColor, // Use your desired color for the focused border
-                              width:
-                              2.0, // You can customize the width of the focused border
-                            ),
-                          ),
-                        ),
-                        initialSelection: countryShortCode ?? 'SA',
-                        textStyle: AppTextStyle.dark14
-                            .copyWith(color: AppColor.primaryColor),
-                        favorite: [
-                          countryDialingCode ?? '+966',
-                          countryShortCode ?? 'SA'
-                        ],
-                        showFlagMain: false,
-                        showDropDownButton: false,
-                        padding: EdgeInsets.zero,
-                        onChanged: countryCode,
-                        dialogTextStyle: AppTextStyle.dark14,
-                        dialogSize: Size(Get.width, Get.height * 0.6),
-                        showFlag: true,
-                        showFlagDialog: true,
-                        showCountryOnly: false,
-                        showOnlyCountryWhenClosed: false,
-                        boxDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColor.whiteColor),
-                      ),
                       suffixIcon: onTapSuffix != null
                           ? Padding(
-                        padding: const EdgeInsets.only(
-                            top: 14, bottom: 10, right: 10),
-                        child: InkWell(
-                          onTap: onTapSuffix,
-                          child: TextWidget(
-                            title: verifyText,
-                            textColor: verifyColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
+                              padding: const EdgeInsets.only(
+                                  top: 14, bottom: 10, right: 10),
+                              child: InkWell(
+                                onTap: onTapSuffix,
+                                child: TextWidget(
+                                  title: verifyText,
+                                  textColor: verifyColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
                           : null),
                 ),
               ),

@@ -1,4 +1,3 @@
-
 import '../prefUtils/pref_utils.dart';
 
 class LanguageUtils {
@@ -12,7 +11,7 @@ class LanguageUtils {
     return {
       "Get Started Now": "Get Started Now",
       "Create an account or log in to explore about our app":
-      "Create an account or log in to explore about our app",
+          "Create an account or log in to explore about our app",
       "Log In": "Log In",
       "Sign Up": "Signup",
       "Phone Number": "Phone Number",
@@ -56,28 +55,28 @@ class LanguageUtils {
       "terms & conditions": "terms & conditions",
       " by creating account.": " by creating account.",
       "Commitment to the accuracy of inforamtion.":
-      "Commitment to the accuracy of inforamtion.",
+          "Commitment to the accuracy of inforamtion.",
       "Commitment to pay meter app dues, estimated at 10% of the project value.":
-      "Commitment to pay meter app dues, estimated at 10% of the project value.",
+          "Commitment to pay meter app dues, estimated at 10% of the project value.",
       "Face Id Security": "Face Id Security",
       "Secure your account with your face":
-      "Secure your account with your face",
+          "Secure your account with your face",
       "using Face ID": "using Face ID",
       "Please position your face in front of":
-      "Please position your face in front of",
+          "Please position your face in front of",
       "the camera to authenticate with Face ID":
-      "the camera to authenticate with Face ID",
+          "the camera to authenticate with Face ID",
       "Authentication successful": "Authentication successful",
       "Skip": "Skip",
       "Secure your account with your fingerprint":
-      "Secure your account with your fingerprint",
+          "Secure your account with your fingerprint",
       "using Touch ID": "using Touch ID",
       "Please place your finger": "Please place your finger",
       "on the fingerprint sensor to get started":
-      "on the fingerprint sensor to get started",
+          "on the fingerprint sensor to get started",
       "Created Account": "Created Account",
       "Congratulations! Your account has been created. Click continue to start":
-      "Congratulations! Your account has been created. Click continue to start",
+          "Congratulations! Your account has been created. Click continue to start",
       "Done": "Done",
       "Home": "Home",
       "Store": "Store",
@@ -110,10 +109,10 @@ class LanguageUtils {
       "privacy policy & terms": "privacy policy & terms",
       "ofServices": " of services.",
       "Commitment to the accuracy of inforamtion. ":
-      "Commitment to the accuracy of inforamtion. ",
+          "Commitment to the accuracy of inforamtion. ",
       "Post Device": "Post Device",
       "Your device has been posted. Click to show providers proposals":
-      "Your device has been posted. Click to show providers proposals",
+          "Your device has been posted. Click to show providers proposals",
       "Successfully🎉": "Successfully🎉",
       "Profile": "Profile",
       "Payment Methods": "Payment Methods",
@@ -157,7 +156,7 @@ class LanguageUtils {
       "Verify Code": "Verify Code",
       "You have been logged in": "You have been logged in",
       "Congratulations! Your phone number has been verified. Click continue to start":
-      "Congratulations! Your phone number has been verified. Click continue to start",
+          "Congratulations! Your phone number has been verified. Click continue to start",
       "Start": "Start",
       "Help": "Help",
       "How do I create a new account?": "How do I create a new account?",
@@ -188,9 +187,9 @@ class LanguageUtils {
       "Enter City": "Enter City",
       "Touch ID Security": "Touch ID Security",
       "Secure your account with your fingerprint using Touch ID":
-      "Secure your account with your fingerprint using Touch ID",
+          "Secure your account with your fingerprint using Touch ID",
       "Please place your finger on the fingerprint sensor to get started":
-      "Please place your finger on the fingerprint sensor to get started",
+          "Please place your finger on the fingerprint sensor to get started",
       "Enter your email": "Enter your email",
       "Completed": "Completed",
       "Active": "Active",
@@ -214,9 +213,9 @@ class LanguageUtils {
       "Apply": "Apply",
       "Applied Proposal": "Applied Proposal",
       "Your proposal has been applied. wait approvment from customer,":
-      "Your proposal has been applied. wait approvment from customer,",
+          "Your proposal has been applied. wait approvment from customer,",
       "There are a lot of requests waiting for you":
-      "There are a lot of requests waiting for you",
+          "There are a lot of requests waiting for you",
       "Proposals": "Proposals",
       "Request a service": "Request a service",
       "Type of activity": "Type of activity",
@@ -225,7 +224,7 @@ class LanguageUtils {
       "Purpose Of Pricing": "Purpose Of Pricing",
       "Choose purpose of pricing": "Choose purpose of pricing",
       "Choose purpose of cadastral report":
-      "Choose purpose of cadastral report",
+          "Choose purpose of cadastral report",
       "Purpose Of Survey Report": "Purpose Of Survey Report",
       "Survey Report1": "Survey Report1",
       "Survey Report2": "Survey Report2",
@@ -257,15 +256,15 @@ class LanguageUtils {
       "Survey report": "Survey report",
       "Building conformity certificate": "Building conformity certificate",
       "Construction completion certificate":
-      "Construction completion certificate",
+          "Construction completion certificate",
       "Construction license": "Construction license",
       "Correcting the condition of an existing building":
-      "Correcting the condition of an existing building",
+          "Correcting the condition of an existing building",
       "Building compliance certificate": "Building compliance certificate",
       "Occupancy certificate": "Occupancy certificate",
       "Choose": "Choose",
       "What is your purpose for issuing a survey report?":
-      "What is your purpose for issuing a survey report?",
+          "What is your purpose for issuing a survey report?",
       "Issuing a building permit": "Issuing a building permit",
       "Expropriation": "Expropriation",
       "Emptying": "Emptying",
@@ -274,14 +273,14 @@ class LanguageUtils {
       "Sorting built-up lands (duplexes)": "Sorting built-up lands (duplexes)",
       "Post Request": "Post Request",
       "Your request has been posted. Click to show providers proposals":
-      "Your request has been posted. Click to show providers proposals",
+          "Your request has been posted. Click to show providers proposals",
       "Consolation Title": "Consolation Title",
       "Enter consolation title": "Enter Consolation Title",
       "Consolation Type": "Consolation Type",
       "Engineering": "Engineering",
       "Real estate": "Real estate",
       "Commitment to pay Meter application dues":
-      "Commitment to pay Meter application dues",
+          "Commitment to pay Meter application dues",
       "Agency Number": "Agency Number",
       "University Degree": "University Degree",
       "Diploma": "Diploma",
@@ -300,7 +299,7 @@ class LanguageUtils {
       "Safety engineer": "Safety engineer",
       "What is your Specialization?": "What is your Specialization?",
       "Your job has been posted. Click to show providers proposals":
-      "Your job has been posted. Click to show providers proposals",
+          "Your job has been posted. Click to show providers proposals",
       "Post Job": "Post Job",
       "Survey Reports": "Survey Reports",
       "Building Completion Certificate": "Building Completion Certificate",
@@ -308,11 +307,28 @@ class LanguageUtils {
       "Occupancy Certificate": "Occupancy Certificate",
       "10+ Proposals": "10+ Proposals",
       "- Minimum angle reading 0.1 second - 4000m prism range with accuracy 1.5 mm + 2ppm - 500m NP range with accuracy 2 mm+ 2ppm - Fast and ultra-powerful advance EDM - Advanced Angle Accuracy , IACS - Measuring time: Fine 0.9 sec, Rapid 0.6 sec, tracking 0.4 sec - Touch screen, Large Graphics display":
-      "- Minimum angle reading 0.1 second - 4000m prism range with accuracy 1.5 mm + 2ppm - 500m NP range with accuracy 2 mm+ 2ppm - Fast and ultra-powerful advance EDM - Advanced Angle Accuracy , IACS - Measuring time: Fine 0.9 sec, Rapid 0.6 sec, tracking 0.4 sec - Touch screen, Large Graphics display",
+          "- Minimum angle reading 0.1 second - 4000m prism range with accuracy 1.5 mm + 2ppm - 500m NP range with accuracy 2 mm+ 2ppm - Fast and ultra-powerful advance EDM - Advanced Angle Accuracy , IACS - Measuring time: Fine 0.9 sec, Rapid 0.6 sec, tracking 0.4 sec - Touch screen, Large Graphics display",
 
       "Type your review": "Type your review",
       "Submit": "Submit",
       "Service Rating": "Service Rating",
+      "You must check all agreements": "You must check all agreements.",
+      "Please enter a valid phone number": "Please enter a valid phone number.",
+      "Please upload a file": "Please upload a file.",
+      "Please enter all fields": "Please enter all fields.",
+      "Please scan your finger first": "Please scan your finger first.",
+      "Request timed out. Please try again.":
+          "Request timed out. Please try again.",
+      "Network error. Please check your internet connection.":
+          "Network error. Please check your internet connection.",
+      "An unexpected error occurred. Please try again later.":
+          "An unexpected error occurred. Please try again later.",
+      "Please pick an image": "Please pick an image.",
+      "File size should not exceed 25 MB": "File size should not exceed 25 MB.",
+      "You should agree to all agreements":
+          "You should agree to all agreements.",
+      "Both passwords must be equal": "Both passwords must be equal.",
+      "Please fill all fields": "Please fill all fields.",
       ////////////////////////////New Start///////////////////
       "Accept": "Accept",
       "Decline": "Decline",
@@ -326,11 +342,9 @@ class LanguageUtils {
       "Length must be greater than": "Length must be greater than",
       "Length must be less than": "Length must be less than",
       ///////////////////Please Fill All Fields
-      "Please fill all fields": "Please fill all fields",
       "Please enter valid phone number": "Please enter valid phone number",
       "Please enter valid manager phone number":
-      "Please enter valid manager phone number",
-      "Please pick an image": "Please pick an image",
+          "Please enter valid manager phone number",
       "Please pick image first": "Please pick image first",
       "Both password must be equal": "Both password must be equal",
       "You should agree all agreements": "You should agree all agreements",
@@ -338,13 +352,13 @@ class LanguageUtils {
 /////////////////////////////////////New Start/////////////////////
       "Welcome To ": "Welcome To ",
       "Your Trusted Partner in Engineering and Surveying Solutions":
-      "Your Trusted Partner in Engineering and Surveying Solutions",
+          "Your Trusted Partner in Engineering and Surveying Solutions",
       "Log In With Phone Number": "Log In With Phone Number",
       "Face ID Security": "Face ID Security",
       "Log In your account with your face using face id":
-      "Log In your account with your face using face id",
+          "Log In your account with your face using face id",
       "Please position your face in front of the camera to authenticate with face id":
-      "Please position your face in front of the camera to authenticate with face id",
+          "Please position your face in front of the camera to authenticate with face id",
       "Write Description": "Write Description",
       "Click to upload \n your papers": "Click to upload \n your papers",
       "Capture": "Capture",
@@ -358,7 +372,7 @@ class LanguageUtils {
       "Send Work": "Send Work",
       "work has been sent": "work has been sent",
       "Congratulations! Your work has been sent":
-      "Congratulations! Your work has been sent",
+          "Congratulations! Your work has been sent",
       "Consolation Delivery": "Consolation Delivery",
       "ID number": "ID number",
       "Enter Id number": "Enter Id number",
@@ -370,7 +384,7 @@ class LanguageUtils {
       "Enter street name": "Enter street name",
       "Enter the property properties": "Enter the property properties",
       "Click to Upload\n Work from Autocad":
-      "Click to Upload\n Work from Autocad",
+          "Click to Upload\n Work from Autocad",
       "Electronic Signature": "Electronic Signature",
       "North Direction": "North Direction",
       "Enter height": "Enter height",
@@ -399,11 +413,11 @@ class LanguageUtils {
 
       /////////////////////////////////////New Text///////////////////////
       "Lorem ipsum dolor sit amet consectetur. Dignissim tortor dictum justo lorem suspendisse turpis integer eu. Elementum commodo ultrices sodales sed leo. Sed elit quis nisi laoreet mauris bibendum..":
-      "Lorem ipsum dolor sit amet consectetur. Dignissim tortor dictum justo lorem suspendisse turpis integer eu. Elementum commodo ultrices sodales sed leo. Sed elit quis nisi laoreet mauris bibendum..",
+          "Lorem ipsum dolor sit amet consectetur. Dignissim tortor dictum justo lorem suspendisse turpis integer eu. Elementum commodo ultrices sodales sed leo. Sed elit quis nisi laoreet mauris bibendum..",
       "Lorem ipsum dolor sit amet consectetur. Dictumst aenean sit viverra sapien purus phasellus. Pulvinar viverra tincidunt aenean velit ut nisl diam. Eu sed commodo pellentesque augue tincidunt. Urna euis....":
-      "Lorem ipsum dolor sit amet consectetur. Dictumst aenean sit viverra sapien purus phasellus. Pulvinar viverra tincidunt aenean velit ut nisl diam. Eu sed commodo pellentesque augue tincidunt. Urna euis....",
+          "Lorem ipsum dolor sit amet consectetur. Dictumst aenean sit viverra sapien purus phasellus. Pulvinar viverra tincidunt aenean velit ut nisl diam. Eu sed commodo pellentesque augue tincidunt. Urna euis....",
       "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan lingues.\n\nIt va esser tam simplic quam Occidental in fact, it va esser Occidental. A un Angleso it va semblar un simplificat Angles, quam un skeptic Cambridge amico dit me que Occidental es.Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.":
-      "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan lingues.\n\nIt va esser tam simplic quam Occidental in fact, it va esser Occidental. A un Angleso it va semblar un simplificat Angles, quam un skeptic Cambridge amico dit me que Occidental es.Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.",
+          "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan lingues.\n\nIt va esser tam simplic quam Occidental in fact, it va esser Occidental. A un Angleso it va semblar un simplificat Angles, quam un skeptic Cambridge amico dit me que Occidental es.Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.",
       """
   To create a new account, please follow these simple steps: 
 
@@ -441,7 +455,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
     return {
       "Get Started Now": "أبدا الأن",
       "Create an account or log in to explore about our app":
-      "إنشاء حساب أو تسجيل الدخول لاستكشاف تطبيقنا",
+          "إنشاء حساب أو تسجيل الدخول لاستكشاف تطبيقنا",
       "Log In": "تسجيل الدخول",
       "Sign Up": "الاشتراك",
       "Phone Number": "الهاتف الرقم",
@@ -484,18 +498,18 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Enter your password": "أدخل كلمة المرور الجديدة",
       "Re-enter password": "إعادة إدخال كلمة المرور",
       "Confirm Password": "تأكيد كلمة المرور",
-      "I agree to the ": "أنا أوافق على",
+      "I agree to the ": " أنا أوافق على",
       "terms & conditions": "الشروط والأحكام",
       " by creating account.": "بإنشاء حساب.",
       "Commitment to the accuracy of information.": "الالتزام بدقة المعلومات.",
       "Commitment to pay meter app dues, estimated at 10% of the project value.":
-      "الالتزام بسداد مستحقات تطبيق العدادات والمقدرة بـ 10% من قيمة المشروع.",
+          "الالتزام بسداد مستحقات تطبيق العدادات والمقدرة بـ 10% من قيمة المشروع.",
       "Face Id Security": "أمان معرف الوجه",
       "Secure your account with your face": "تأمين حسابك بوجهك",
       "using Face ID": "باستخدام Face ID",
       "Please position your face in front of": "يرجى وضع وجهك أمامه",
       "the camera to authenticate with Face ID":
-      "الكاميرا للمصادقة باستخدام Face ID",
+          "الكاميرا للمصادقة باستخدام Face ID",
       "Authentication successful": "نجحت المصادقة",
       "Skip": "تخطي",
       "touchId": "أمان بصمة الإصبع", //Skipped
@@ -503,10 +517,10 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "using Touch ID": "باستخدام Touch ID",
       "Please place your finger": "يرجى وضع إصبعك",
       "on the fingerprint sensor to get started":
-      "على مستشعر بصمة الإصبع للبدء",
+          "على مستشعر بصمة الإصبع للبدء",
       "Created Account": "تم إنشاء الحساب",
       "Congratulations! Your account has been created. Click continue to start":
-      "تهانينا! لقد تم انشاء الحساب بنجاح انقر فوق تم للبدء",
+          "تهانينا! لقد تم انشاء الحساب بنجاح انقر فوق تم للبدء",
       "Done": "تم",
       "Home": "الصفحة الرئيسية",
       "Store": "المتجر",
@@ -542,7 +556,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
 
       "Post Device": "نشر الجهاز",
       "Your device has been posted. Click to show providers proposals":
-      "لقد تم نشر جهازك. ,انقر لإظهار مقترحات مقدمي الخدمة",
+          "لقد تم نشر جهازك. ,انقر لإظهار مقترحات مقدمي الخدمة",
       "Successfully🎉": "بنجاح🎉",
       "Profile": "الملف الشخصي",
       "Payment Methods": "طرق الدفع",
@@ -587,7 +601,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Verify Code": "التحقق من الرمز",
       "You have been logged in": "لقد تم تسجيل الدخول",
       "Congratulations! Your phone number has been verified. Click continue to start":
-      "تهانينا! ,رقم هاتفك لديه,تم التحقق منها. ,انقر فوق متابعة للبدء",
+          "تهانينا! ,رقم هاتفك لديه,تم التحقق منها. ,انقر فوق متابعة للبدء",
       "Start": "ابدأ",
       "Help": "مساعدة",
       "How do I create a new account?": "كيف أقوم بإنشاء حساب جديد؟",
@@ -619,10 +633,10 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Enter City": "أدخل المدينة",
       "Touch ID Security": "أمان معرف اللمس",
       "Secure your account with your fingerprint using Touch ID":
-      "تأمين حسابك ببصمة إصبعك باستخدام Touch ID",
+          "تأمين حسابك ببصمة إصبعك باستخدام Touch ID",
 
       "Please place your finger on the fingerprint sensor to get started":
-      "يرجى وضع إصبعك على مستشعر بصمة الإصبع للبدء",
+          "يرجى وضع إصبعك على مستشعر بصمة الإصبع للبدء",
       "Enter your email": "أدخل بريدك الإلكتروني",
       "Completed": "مكتمل",
       "Active": "نشط",
@@ -648,7 +662,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Apply": "تقديم",
       "Applied Proposal": "الاقتراح المطبق",
       "Your proposal has been applied. wait approvment from customer,":
-      "لقد تم تطبيق اقتراحك. انتظر الموافقة من العميل،",
+          "لقد تم تطبيق اقتراحك. انتظر الموافقة من العميل،",
       "There are a lot of requests waiting for you": "اختر خدمتك وابدأ الان ",
       "Proposals": "اقتراح",
       "Request a service": "اطلب خدمة",
@@ -681,7 +695,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Applicant Type": "نوع مقدم الطلب",
       "Owner": "مالك",
       "Dealer": "وكيل",
-      "Applicant's name": "اسم مقدم الخدمة",
+      "Applicant's name": "اسم طالب الخدمة",
       "Enter Applicant's name": "أدخل اسم المتقدم",
       "ID Number": "رقم الهوية",
       "Enter id number": "أدخل رقم الهوية",
@@ -692,12 +706,12 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Construction completion certificate": "شهادة إتمام البناء",
       "Construction license": "رخصة البناء",
       "Correcting the condition of an existing building":
-      "تصحيح حالة مبنى قائم",
+          "تصحيح حالة مبنى قائم",
       "Building compliance certificate": "شهادة توافق البناء",
       "Occupancy certificate": "شهادة إشغال",
       "Choose": "اختر",
       "What is your purpose for issuing a survey report?":
-      "ما هو الهدف من إصدار تقرير المسح؟",
+          "ما هو الهدف من إصدار تقرير المسح؟",
       "Issuing a building permit": "إصدار رخصة بناء",
       "Expropriation": "نزع ملكية",
       "Emptying": "إفراغ",
@@ -706,14 +720,14 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Sorting built-up lands (duplexes)": "فرز الأراضي المبنية (دوبلكس)",
       "Post Request": "طلب النشر",
       "Your request has been posted. Click to show providers proposals":
-      "لقد تم نشر طلبك. انقر لإظهار مقترحات مقدمي الخدمة",
+          "لقد تم نشر طلبك. انقر لإظهار مقترحات مقدمي الخدمة",
       "Consolation Title": "عنوان الاستشارة",
       "Enter consolation title": "أدخل عنوان الاستشارة",
       "Consolation Type": "نوع الاستشارة",
       "Engineering": "هندسة",
       "Real estate": "عقار",
       "Commitment to pay Meter application dues":
-      "الإلتزام بالدفع مستحقات تطبيق متر",
+          "الإلتزام بالدفع مستحقات تطبيق متر",
       "Agency Number": "رقم الوكالة",
       "University Degree": "شهادة جامعية",
       "Diploma": "شهادة دبلوم",
@@ -724,7 +738,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Please fill all fields": "لو سمحت أملأ كل الحقول",
       "Please enter valid phone number": "الرجاء إدخال رقم هاتف صحيح",
       "Please enter valid manager phone number":
-      "الرجاء إدخال رقم هاتف مدير صالح",
+          "الرجاء إدخال رقم هاتف مدير صالح",
       "Please pick an image": "يرجى اختيار صورة",
       "Please pick image first": "يرجى اختيار صورة أولاً",
       "Both password must be equal": "يجب أن تكون كلمتا المرور متساويتين",
@@ -740,7 +754,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Safety engineer": "مهندس سلامة",
       "What is your Specialization?": "ما هو تخصصك؟",
       "Your job has been posted. Click to show providers proposals":
-      "لقد تم نشر وظيفتك. انقر لإظهار مقترحات مقدمي الخدمة",
+          "لقد تم نشر وظيفتك. انقر لإظهار مقترحات مقدمي الخدمة",
       "Post Job": "وظيفة بعد",
       "Survey Reports": "تقارير المساحة",
       "Building Completion Certificate": "شهادة إنجاز البناء",
@@ -756,13 +770,13 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "SAR": "ريال",
       "Welcome To ": "مرحبا بك في ",
       "Your Trusted Partner in Engineering and Surveying Solutions":
-      "شريكك الموثوق به في الحلول الهندسية والمساحة",
+          "شريكك الموثوق به في الحلول الهندسية والمساحة",
       "Log In With Phone Number": "تسجيل الدخول برقم الهاتف",
       "Face ID Security": "أمان معرف الوجه",
       "Log In your account with your face using face id":
-      "قم بتسجيل الدخول إلى حسابك باستخدام وجهك باستخدام معرف الوجه",
+          "قم بتسجيل الدخول إلى حسابك باستخدام وجهك باستخدام معرف الوجه",
       "Please position your face in front of the camera to authenticate with face id":
-      "يرجى وضع وجهك أمام الكاميرا للمصادقة باستخدام معرف الوجه",
+          "يرجى وضع وجهك أمام الكاميرا للمصادقة باستخدام معرف الوجه",
       "Write Description": "اكتب الوصف",
       "Click to upload \n your papers": "انقر لتحميل \n أوراقك",
       "Capture": "يأسر",
@@ -803,6 +817,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "South Direction": "اتجاه الجنوب",
       "West Direction": "اتجاه الغرب",
       "Title": "عنوان",
+
       "Enter title": "أدخل العنوان",
       "Choose Service Type": "اختر نوع الخدمة",
       "Service Type": "نوع الخدمة",
@@ -817,13 +832,28 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Length must be greater than": "الطول يجب أن يكون أكبر من",
       "Length must be less than": "يجب أن يكون الطول أقل من",
       "- Minimum angle reading 0.1 second - 4000m prism range with accuracy 1.5 mm + 2ppm - 500m NP range with accuracy 2 mm+ 2ppm - Fast and ultra-powerful advance EDM - Advanced Angle Accuracy , IACS - Measuring time: Fine 0.9 sec, Rapid 0.6 sec, tracking 0.4 sec - Touch screen, Large Graphics display":
-      "- أدنى قراءة للزاوية 0.1 ثانية - مدى المنشور 4000 متر بدقة 1.5 ملم + 2 جزء في المليون - مدى NP 500 متر بدقة 2 ملم + 2 جزء في المليون - EDM متقدم سريع وقوي للغاية - دقة زاوية متقدمة، IACS - وقت القياس: دقيق 0.9 ثانية، سريع 0.6 ثانية، تتبع 0.4 ثانية - شاشة لمس، عرض رسومات كبير",
-
+          "- أدنى قراءة للزاوية 0.1 ثانية - مدى المنشور 4000 متر بدقة 1.5 ملم + 2 جزء في المليون - مدى NP 500 متر بدقة 2 ملم + 2 جزء في المليون - EDM متقدم سريع وقوي للغاية - دقة زاوية متقدمة، IACS - وقت القياس: دقيق 0.9 ثانية، سريع 0.6 ثانية، تتبع 0.4 ثانية - شاشة لمس، عرض رسومات كبير",
+      "You must check all agreements": "يجب عليك التأكد من جميع الاتفاقيات.",
+      "Please enter a valid phone number": "الرجاء إدخال رقم هاتف صالح.",
+      "Please upload a file": "الرجاء تحميل الملف.",
+      "Please enter all fields": "الرجاء إدخال جميع الحقول.",
+      "Please scan your finger first": "الرجاء مسح الإصبع أولاً.",
+      "Request timed out. Please try again.":
+          "انتهت مدة الطلب. الرجاء المحاولة مرة أخرى.",
+      "Network error. Please check your internet connection.":
+          "خطأ في الشبكة. الرجاء التحقق من اتصالك بالإنترنت.",
+      "An unexpected error occurred. Please try again later.":
+          "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى لاحقاً.",
+      "File size should not exceed 25 MB":
+          "يجب ألا يتجاوز حجم الملف 25 ميغابايت.",
+      "You should agree to all agreements":
+          "يجب عليك الموافقة على جميع الاتفاقيات.",
+      "Both passwords must be equal": "يجب أن تكون كلمتا المرور متطابقتين.",
       //////////////////////////////////////Large Text
       "Lorem ipsum dolor sit amet consectetur. Dictumst aenean sit viverra sapien purus phasellus. Pulvinar viverra tincidunt aenean velit ut nisl diam. Eu sed commodo pellentesque augue tincidunt. Urna euis....":
-      "لوريم إيبسوم دولار سيت أميت كونسيكتيتور. ديكتومست أنيان سيت فيفيرا سابين بوروس فاسيلوس. بولفينار فيفيرا تينسيند أنيان فيليت أوت نيسل ديام. إيو سيد كومودو بينتيسكيلاي أوجيو تينسيند. أورنا إويس....",
+          "لوريم إيبسوم دولار سيت أميت كونسيكتيتور. ديكتومست أنيان سيت فيفيرا سابين بوروس فاسيلوس. بولفينار فيفيرا تينسيند أنيان فيليت أوت نيسل ديام. إيو سيد كومودو بينتيسكيلاي أوجيو تينسيند. أورنا إويس....",
       "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan lingues.\n\nIt va esser tam simplic quam Occidental in fact, it va esser Occidental. A un Angleso it va semblar un simplificat Angles, quam un skeptic Cambridge amico dit me que Occidental es.Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles.":
-      "اللغات الأوروبية هي أعضاء في نفس العائلة. الوجود المنفصل لها هو خرافة. من أجل العلم، الموسيقى، الرياضة، إلخ، تستخدم أوروبا نفس المفردات. تختلف اللغات فقط في القواعد، النطق والمفردات الأكثر شيوعًا. كل شيء يشير إلى ضرورة لغة مشتركة جديدة: يرفض الناس الاستمرار في دفع تكاليف الترجمة الباهظة. ولكن سيكون من الضروري فقط توحيد القواعد والنطق والكلمات الأكثر شيوعًا. عندما تندمج اللغات، تصبح قواعد اللغة الناتجة أبسط وأكثر انتظامًا من تلك الخاصة باللغات المندمجة. ستكون اللغة المشتركة الجديدة أبسط وأكثر انتظامًا من اللغات الأوروبية الحالية.\n\nستكون بسيطة مثل الأوكسيدنتال في الواقع، ستكون الأوكسيدنتال. بالنسبة لإنجليزي، سيبدو الأمر وكأنه إنجليزية مبسطة، كما قال لي صديق متشكك من كامبريدج أن الأوكسيدنتال كذلك. اللغات الأوروبية هي أعضاء في نفس العائلة. الوجود المنفصل لها هو خرافة. من أجل العلم، الموسيقى، الرياضة، إلخ، تستخدم أوروبا نفس المفردات. تختلف اللغات فقط في القواعد، النطق والمفردات الأكثر شيوعًا. كل شيء يشير إلى ضرورة لغة مشتركة جديدة: يرفض الناس الاستمرار في دفع تكاليف الترجمة الباهظة. ولكن سيكون من الضروري فقط توحيد القواعد والنطق والكلمات الأكثر شيوعًا.",
+          "اللغات الأوروبية هي أعضاء في نفس العائلة. الوجود المنفصل لها هو خرافة. من أجل العلم، الموسيقى، الرياضة، إلخ، تستخدم أوروبا نفس المفردات. تختلف اللغات فقط في القواعد، النطق والمفردات الأكثر شيوعًا. كل شيء يشير إلى ضرورة لغة مشتركة جديدة: يرفض الناس الاستمرار في دفع تكاليف الترجمة الباهظة. ولكن سيكون من الضروري فقط توحيد القواعد والنطق والكلمات الأكثر شيوعًا. عندما تندمج اللغات، تصبح قواعد اللغة الناتجة أبسط وأكثر انتظامًا من تلك الخاصة باللغات المندمجة. ستكون اللغة المشتركة الجديدة أبسط وأكثر انتظامًا من اللغات الأوروبية الحالية.\n\nستكون بسيطة مثل الأوكسيدنتال في الواقع، ستكون الأوكسيدنتال. بالنسبة لإنجليزي، سيبدو الأمر وكأنه إنجليزية مبسطة، كما قال لي صديق متشكك من كامبريدج أن الأوكسيدنتال كذلك. اللغات الأوروبية هي أعضاء في نفس العائلة. الوجود المنفصل لها هو خرافة. من أجل العلم، الموسيقى، الرياضة، إلخ، تستخدم أوروبا نفس المفردات. تختلف اللغات فقط في القواعد، النطق والمفردات الأكثر شيوعًا. كل شيء يشير إلى ضرورة لغة مشتركة جديدة: يرفض الناس الاستمرار في دفع تكاليف الترجمة الباهظة. ولكن سيكون من الضروري فقط توحيد القواعد والنطق والكلمات الأكثر شيوعًا.",
       """
   To create a new account, please follow these simple steps: 
 

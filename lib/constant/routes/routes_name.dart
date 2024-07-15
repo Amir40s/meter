@@ -7,7 +7,6 @@ class RoutesName {
   static const onBoardWelcomeScreen = "/onboard_welcome_screen";
   static const mainLoginSignupScreen = "/main_login_signup_screen";
   static const customerGeneralInfoScreen = "/customer_general_info_screen";
-  static const sellerFaceAuth = "/seller_face_auth";
   static const bottomNavMain = "/bottomNavMain";
   static const publishFirstDevice = "/publishFirstDevice";
   static const otpVerificationScreen = "/otpVerificationScreen";

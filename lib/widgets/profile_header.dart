@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/bottomSheet/profile/edit_profile_bottomsheet.dart';
+import 'package:meter/controller/account/profile_controller.dart';
+import 'package:meter/model/user/user_model.dart';
 import 'package:meter/widgets/text_widget.dart';
 
 import '../constant/res/app_color/app_color.dart';
@@ -13,39 +16,40 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<ProfileController>();
+    final userModel = controller.user;
     return Row(
       children: [
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: const CircleAvatar(
-            radius: 35,
-            backgroundImage: AssetImage(AppImage.profile),
-          ),
-        ),
+        Obx(() => Container(
+              margin: EdgeInsets.only(right: 5.0),
+              child: CircleAvatar(
+                radius: 35,
+                backgroundImage: NetworkImage(userModel.value.profilePicture),
+              ),
+            )),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Transform.translate(
-              offset: Offset(showPersonalInfo ? -Get.width * 0.06 : 3, 0),
-              child: const TextWidget(
-                  title: "Thomas k.Wilson",
+            Obx(
+              () => TextWidget(
+                  title: userModel.value.ownerName,
                   textColor: AppColor.primaryColor,
                   fontSize: 16),
             ),
             const SizedBox(
               height: 2,
             ),
-            showPersonalInfo
-                ? Transform.translate(
-                    offset: Offset(-Get.width * 0.06, 0),
-                    child: twoWidget(
-                        imagePath: AppImage.call, text: "(+966)  20 1234 5629"),
-                  )
-                : Container(),
-            showPersonalInfo
+            Obx(() => showPersonalInfo
                 ? twoWidget(
-                    imagePath: AppImage.mail, text: "thomas.abc.inc@gmail.com")
-                : Container(),
+                    imagePath: AppImage.call, text: userModel.value.phoneNumber)
+                : Container()),
+            Obx(
+              () => showPersonalInfo
+                  ? twoWidget(
+                      imagePath: AppImage.mail, text: userModel.value.email)
+                  : Container(),
+            )
           ],
         ),
         const Spacer(),
@@ -61,7 +65,7 @@ class ProfileHeader extends StatelessWidget {
                       topRight: Radius.circular(20),
                     ),
                   ),
-                  const EditUserInfo(),
+                  const EditProfileBottomSheet(),
                   backgroundColor: AppColor.whiteColor);
             })
       ],

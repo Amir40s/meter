@@ -11,13 +11,12 @@ import '../../widgets/custom_rich_text.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/text_widget.dart';
 
-
 class OnboardWelcomeScreen extends StatelessWidget {
   const OnboardWelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(OnBoardController());
+    final controller = Get.find<OnBoardController>();
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -181,7 +180,7 @@ class OnboardWelcomeScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
                     gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Number of columns
                       crossAxisSpacing: 10.0,
                       mainAxisSpacing: 10.0,
@@ -193,8 +192,7 @@ class OnboardWelcomeScreen extends StatelessWidget {
                           onTap: () {
                             Get.to(ServicesScreen(
                               title: controller.title[index],
-                              description:
-                              controller.description[index],
+                              description: controller.description[index],
                               benefitList: controller.benefitList[index],
                               imagePath: controller.imagePath[index],
                             ));
@@ -239,7 +237,7 @@ class OnboardWelcomeScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
                     gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Number of columns
                       crossAxisSpacing: 12.0,
                       mainAxisSpacing: 12.0,
