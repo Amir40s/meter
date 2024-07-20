@@ -15,7 +15,6 @@ import '../../controller/bottomNav/bottom_nav_controller_main.dart';
 import '../../controller/provider_controller/proposal_controller.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/customer_request_widget.dart';
-import '../../widgets/proposal_container.dart';
 import '../../widgets/text_widget.dart';
 
 class RequestsMain extends StatelessWidget {
@@ -106,7 +105,7 @@ class RequestsMain extends StatelessWidget {
                   }
                 }),
               ],
-              if (bottomController.currentRole == "Customer") ...[
+              if (bottomController.currentRole.toString() == "Customer") ...[
                 Obx(() {
                   if (controller.selectedIndex.value == 0) {
                     return ListView.separated(

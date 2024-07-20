@@ -156,21 +156,23 @@ class RequestFormBottomSheet extends StatelessWidget {
                       title: showPicture ? "Continue" : "Send",
                       onTap: () {
                         if (showPicture) {
-                          if(_formKey.currentState!.validate()){
-                            _formKey.currentState!.save();
-                            Get.back();
-                            Get.bottomSheet(UploadDeviceBottomSheet(
-                              title: controller.titleController.text.toString(),
-                              price: controller.priceController.text.toString(),
-                              tax: controller.taxController.text.toString(),
-                              fees: controller.selectedOption.value.toString(),
-                              total: controller.totalController.text.toString(),
-                              details: controller.detailsController.text.toString(),
-                              customerID: model!.userUID.toString(),
-                              requestID: model!.id.toString(),
-                            ),
-                                isScrollControlled: true);
-                          }
+                          Get.back();
+                          Get.bottomSheet(UploadDeviceBottomSheet(
+                            title: controller.titleController.text.toString(),
+                            price: controller.priceController.text.toString(),
+                            tax: controller.taxController.text.toString(),
+                            fees: controller.selectedOption.value.toString(),
+                            total: controller.totalController.text.toString(),
+                            details: controller.detailsController.text.toString(),
+                            customerID: model!.userUID.toString(),
+                            requestID: model!.id.toString(),
+                          ),
+                              isScrollControlled: true);
+                          // if(_formKey.currentState!.validate()){
+                          //
+                          //   _formKey.currentState!.save();
+                          //
+                          // }
 
                         } else {
                           Get.back();

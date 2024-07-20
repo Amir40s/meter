@@ -127,6 +127,7 @@ class UploadDeviceBottomSheet extends StatelessWidget {
                               total: total,
                               details: details,
                               profileImage: profileController.user.value.profilePicture.toString(),
+                              ownerName: profileController.user.value.ownerName.toString(),
                               documentUrl: fileUrl);
                           await Provider.of<DbProvider>(context,listen: false).sendRequestDB(model);
                           Get.back();

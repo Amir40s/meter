@@ -17,6 +17,7 @@ class SendRequestModel {
   String details;
   String documentUrl;
   String profileImage;
+  String ownerName;
 
   SendRequestModel({
     required this.id,
@@ -26,6 +27,7 @@ class SendRequestModel {
     required this.title,
     required this.price,
     required this.profileImage,
+    required this.ownerName,
     DateTime? timestamp,
     String? currentDate,
     String? currentTime,
@@ -47,6 +49,7 @@ class SendRequestModel {
       'requestID': requestID,
       'userUID': userUID,
       'customerID': customerID,
+      'ownerName': ownerName,
       'profileImage': profileImage,
       'status': status,
       'title': title,
@@ -69,6 +72,7 @@ class SendRequestModel {
       userUID: map['userUID'] ?? '',
       profileImage: map['profileImage'] ?? '',
       customerID: map['customerID'] ?? '',
+      ownerName: map['ownerName'] ?? '',
       title: map['title'] ?? '',
       status: map['status'] ?? 'new',
       price: map['price'] ?? '',
@@ -94,6 +98,7 @@ class SendRequestModel {
       requestID: data['requestID'] ?? '',
       userUID: data['userUID'] ?? '',
       customerID: data['customerID'] ?? '',
+      ownerName: data['ownerName'] ?? '',
       profileImage: data['profileImage'] ?? '',
       title: data['title'] ?? '',
       status: data['status'] ?? 'new',
