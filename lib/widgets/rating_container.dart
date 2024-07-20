@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/model/requestServices/request_services_model.dart';
+import 'package:meter/widgets/image_loader_widget.dart';
 import 'package:meter/widgets/text_widget.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
@@ -8,7 +10,8 @@ import 'circular_container.dart';
 import 'custom_button.dart';
 
 class RatingContainer extends StatelessWidget {
-  const RatingContainer({super.key});
+  final String ownerName,details,price,url;
+  const RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url,});
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +25,24 @@ class RatingContainer extends StatelessWidget {
             offset: Offset(-12, 3),
             child: Row(
               children: [
-                const CircleAvatar(
+                 CircleAvatar(
                   radius: 20,
-                  backgroundImage: AssetImage(AppImage.profile),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: Container(
+                          width: 50.0,
+                          height: 50.0,
+                          child: ImageLoaderWidget(imageUrl: url,))),
                 ),
                 const SizedBox(
                   width: 5,
                 ),
-                const Column(
+                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWidget(
                         textAlign: TextAlign.start,
-                        title: "David Wayne",
+                        title:ownerName,
                         textColor: AppColor.semiDarkGrey,
                         fontSize: 16),
                     TextWidget(
@@ -59,9 +67,9 @@ class RatingContainer extends StatelessWidget {
                 ),
                 CircularContainer(
                   backgroundColor: AppColor.primaryColor,
-                  widget: const TextWidget(
+                  widget:  TextWidget(
                     textColor: AppColor.whiteColor,
-                    title: "\n50\nSAR\n",
+                    title: "\n$price\nSAR\n",
                     fontSize: 16,
                   ),
                   onTap: () {},
@@ -72,7 +80,7 @@ class RatingContainer extends StatelessWidget {
           TextWidget(
               textAlign: TextAlign.start,
               title:
-                  "Lorem ipsum dolor sit amet consectetur. Dignissim tortor dictum justo lorem suspendisse turpis integer eu. Elementum commodo ultrices sodales sed leo. Sed elit quis nisi laoreet mauris bibendum..",
+                 details,
               textColor: AppColor.semiTransparentDarkGrey,
               fontSize: 12),
           SizedBox(

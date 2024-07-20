@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:meter/model/requestServices/request_services_model.dart';
 import 'package:meter/model/requestServices/send_request_model.dart';
 import 'package:meter/widgets/text_widget.dart';
+import 'package:meter/widgets/timestamp_converter.dart';
 
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
+import '../screens/requests/request_info.dart';
 import '../screens/send_work/send_work_main.dart';
 import 'avatar_list.dart';
 import 'custom_button.dart';
@@ -16,7 +18,8 @@ class ProposalContainer extends StatelessWidget {
   final String status,applicationName,location;
   final String date;
   final List<SendRequestModel> imagePath;
-  final String imageLabel;
+  final RequestServicesModel model;
+  final String imageLabel,role;
 
 
    ProposalContainer(
@@ -26,6 +29,7 @@ class ProposalContainer extends StatelessWidget {
       required this.imageLabel,
         required this.date,
         required this.applicationName, required this.location,
+        required this.model, required this.role,
       });
 
   @override
@@ -45,14 +49,20 @@ class ProposalContainer extends StatelessWidget {
                     textColor: AppColor.primaryColor,
                     fontSize: 14),
                 const Spacer(),
-                TextWidget(
-                    title: status,
-                    textColor: status == "New"
-                        ? AppColor.primaryColor
-                        : status == "Active"
-                            ? AppColor.greenColor
-                            : AppColor.semiDarkGrey,
-                    fontSize: 12)
+
+                if(role == "Customer")...[
+                  TimestampConverter(timestampString: model.timestamp.toString(),)
+                ]else...[
+                  TextWidget(
+                      title: status,
+                      textColor: status == "New"
+                          ? AppColor.primaryColor
+                          : status == "Active"
+                          ? AppColor.greenColor
+                          : AppColor.semiDarkGrey,
+                      fontSize: 12)
+                ]
+
               ],
             ),
             SizedBox(
@@ -129,6 +139,20 @@ class ProposalContainer extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 borderSideColor: AppColor.primaryColor,
                 padding: 12,
+              )
+            ]else...[
+              SizedBox(height: 10.0,),
+              MyCustomButton(
+                padding: 12,
+                title: "View All Proposal",
+                onTap: () {
+                  Get.to(RequestInfo(
+                      model: model
+                  ));
+                },
+                borderSideColor: AppColor.primaryColor,
+                textColor: AppColor.primaryColor,
+                backgroundColor: AppColor.lightGreyShade,
               )
             ]
           ],

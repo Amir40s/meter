@@ -96,39 +96,39 @@ class RequestsMain extends StatelessWidget {
               if (bottomController.currentRole.toString() == "Provider") ...[
                 Obx(() {
                   if (controller.selectedIndex.value == 0) {
-
-                    return RequestServicesWidget(status: "new");
+                    return RequestServicesWidget(status: "new", role: bottomController.currentRole.toString(),);
                   } else if (controller.selectedIndex.value == 1) {
-                    return RequestServicesWidget(status: "active");
+                    return RequestServicesWidget(status: "active", role: bottomController.currentRole.toString(),);
                   } else {
-                    return RequestServicesWidget(status: "complete");
+                    return RequestServicesWidget(status: "complete", role: bottomController.currentRole.toString(),);
                   }
                 }),
               ],
               if (bottomController.currentRole.toString() == "Customer") ...[
                 Obx(() {
                   if (controller.selectedIndex.value == 0) {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const CustomerRequestsContainer(
-                          status: "2m",
-                          imagePath: [
-                            AppImage.profile,
-                            AppImage.profile,
-                            AppImage.profile
-                          ],
-                          imageLabel: '+10 Proposals',
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    // return ListView.separated(
+                    //   itemCount: 5,
+                    //   shrinkWrap: true,
+                    //   physics: const ScrollPhysics(),
+                    //   itemBuilder: (itemBuilder, index) {
+                    //     return const CustomerRequestsContainer(
+                    //       status: "2m",
+                    //       imagePath: [
+                    //         AppImage.profile,
+                    //         AppImage.profile,
+                    //         AppImage.profile
+                    //       ],
+                    //       imageLabel: '+10 Proposals',
+                    //     );
+                    //   },
+                    //   separatorBuilder: (BuildContext context, int index) {
+                    //     return SizedBox(
+                    //       height: Get.height * 0.03,
+                    //     );
+                    //   },
+                    // );
+                    return RequestServicesWidget(status: "new", role: bottomController.currentRole.toString(),);
                   } else if (controller.selectedIndex.value == 1) {
                     return ListView.separated(
                       itemCount: 5,

@@ -9,15 +9,19 @@ import 'package:provider/provider.dart';
 import '../../../constant/res/app_images/app_images.dart';
 import '../../../model/requestServices/request_services_model.dart';
 import '../../../provider/firebase_services.dart';
+import '../../../widgets/custom_button.dart';
 import '../../../widgets/proposal_container.dart';
+import '../request_info.dart';
 class RequestServicesWidget extends StatelessWidget {
-  final String status;
-  const RequestServicesWidget({super.key, required this.status});
+  final String status,role;
+  bool isWorkButton;
+   RequestServicesWidget({super.key, required this.status,
+  this.isWorkButton = false, required this.role
+  });
 
   @override
   Widget build(BuildContext context) {
     return Consumer<FirebaseServicesProvider>(
-
       builder: (context, provider, child){
         return StreamBuilder<List<RequestServicesModel>>(
           stream: provider.getRequestServicesFilter(status: status),
@@ -41,11 +45,12 @@ class RequestServicesWidget extends StatelessWidget {
                 RequestServicesModel model = requestModel[index];
                 log("message ${model.phoneNumber}");
                 return  ProposalContainer(
-                  status: "new",
+                  status: status,
                   imagePath: model.proposalCount > 3 ? model.proposals.toList() : model.proposals.take(3).toList(),
                   imageLabel: ' ${model.proposalCount > 10 ? "+" : ""}${model.proposalCount.toString()} Proposals ',
                   date: model.currentDate,
                   applicationName: model.activityType, location: model.location,
+                  model: model, role: role,
                 );
               },
               separatorBuilder: (BuildContext context, int index) {

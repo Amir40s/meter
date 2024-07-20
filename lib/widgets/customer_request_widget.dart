@@ -130,7 +130,7 @@ class CustomerRequestsContainer extends StatelessWidget {
                         padding: 12,
                         title: "View All Proposal",
                         onTap: () {
-                          Get.to(const RequestInfo());
+                        //  Get.to( RequestInfo());
                         },
                         borderSideColor: AppColor.primaryColor,
                         textColor: AppColor.primaryColor,
