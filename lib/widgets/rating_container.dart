@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/constant.dart';
 import 'package:meter/model/requestServices/request_services_model.dart';
 import 'package:meter/widgets/image_loader_widget.dart';
 import 'package:meter/widgets/text_widget.dart';
@@ -10,8 +13,8 @@ import 'circular_container.dart';
 import 'custom_button.dart';
 
 class RatingContainer extends StatelessWidget {
-  final String ownerName,details,price,url;
-  const RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url,});
+  final String ownerName,details,price,url,status,requestId,proposalId;
+  const RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url, required this.status, required this.requestId, required this.proposalId,});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +94,12 @@ class RatingContainer extends StatelessWidget {
               Expanded(
                   child: MyCustomButton(
                 title: "Decline",
-                onTap: () {},
+                onTap: () {
+                  if(status == "new"){
+                    changeStatus(status: "reject");
+                  }
+
+                },
                 textColor: AppColor.primaryColor,
                 backgroundColor: AppColor.whiteColor,
                 borderSideColor: AppColor.primaryColor,
@@ -100,12 +108,31 @@ class RatingContainer extends StatelessWidget {
                 width: Get.width * 0.02,
               ),
               Expanded(
-                child: CustomButton(title: "Accept", onTap: () {}),
+                child: CustomButton(title: status == "new" ?
+                "Accept" :  status == "reject" ? "Rejected" : "Accepted", onTap: () async{
+                  if(status == "new"){
+                    changeStatus(status: "active");
+                  }
+                }),
               )
             ],
           )
         ],
       ),
     );
+  }
+
+  void changeStatus({required String status}) async{
+    log("Status::$status");
+    await firestore.collection("requestService").doc(requestId).update({
+      "status" : status
+    });
+
+    await firestore.collection("requestService").doc(requestId)
+        .collection("proposals").doc(proposalId)
+        .update({
+      "status" : status
+    });
+    Get.snackbar("Alert", "Status Updated");
   }
 }

@@ -46,8 +46,8 @@ class AvatarModelList extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Container(
-                  width: 45.0,
-                  height: 50.0,
+                  width: 35.0,
+                  height: 35.0,
                   child: ImageLoaderWidget(imageUrl: imagePaths[index].profileImage,)),
             ),
             // child: CircleAvatar(

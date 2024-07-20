@@ -130,43 +130,28 @@ class RequestsMain extends StatelessWidget {
                     // );
                     return RequestServicesWidget(status: "new", role: bottomController.currentRole.toString(),);
                   } else if (controller.selectedIndex.value == 1) {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const CustomerRequestsContainer(
-                          status: "Active",
-                          imagePath: [
-                            AppImage.profile,
-                          ],
-                          imageLabel: 'EltWhid Software Engineering',
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "active", role: bottomController.currentRole.toString(),);
+                    // return ListView.separated(
+                    //   itemCount: 5,
+                    //   shrinkWrap: true,
+                    //   physics: const ScrollPhysics(),
+                    //   itemBuilder: (itemBuilder, index) {
+                    //     return const CustomerRequestsContainer(
+                    //       status: "Active",
+                    //       imagePath: [
+                    //         AppImage.profile,
+                    //       ],
+                    //       imageLabel: 'EltWhid Software Engineering',
+                    //     );
+                    //   },
+                    //   separatorBuilder: (BuildContext context, int index) {
+                    //     return SizedBox(
+                    //       height: Get.height * 0.03,
+                    //     );
+                    //   },
+                    // );
                   } else {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const CustomerRequestsContainer(
-                          status: "Completed",
-                          imagePath: [AppImage.profile],
-                          imageLabel: "EltWhid Software Engineering",
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "complete", role: bottomController.currentRole.toString(),);
                   }
                 }),
               ]

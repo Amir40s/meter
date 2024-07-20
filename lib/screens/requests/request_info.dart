@@ -25,9 +25,9 @@ class RequestInfo extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomerRequestsContainer(
+                     CustomerRequestsContainer(
                       status: "2m",
-                      showAvatar: false,
+                      showAvatar: false, model: model,
                     ),
                     SizedBox(
                       height: Get.height * 0.02,
@@ -59,6 +59,9 @@ class RequestInfo extends StatelessWidget {
                               details: model.proposals[index].details,
                               price: model.proposals[index].price,
                               url: model.proposals[index].profileImage,
+                              status:  model.proposals[index].status,
+                              requestId: model.id,
+                              proposalId: model.proposals[index].id,
 
                             );
                           }),

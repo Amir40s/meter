@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/constant.dart';
+import 'package:meter/model/requestServices/request_services_model.dart';
 import 'package:meter/widgets/text_widget.dart';
 
 import '../constant/res/app_color/app_color.dart';
@@ -15,12 +17,13 @@ class CustomerRequestsContainer extends StatelessWidget {
   final List<String>? imagePath;
   final String? imageLabel;
   final bool showAvatar;
+  final RequestServicesModel model;
   const CustomerRequestsContainer(
       {super.key,
       required this.status,
       this.imagePath,
       this.imageLabel,
-      this.showAvatar = true});
+      this.showAvatar = true, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +43,14 @@ class CustomerRequestsContainer extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const TextWidget(
-                      title: "Survey Report",
+                   TextWidget(
+                      title: model.activityType,
                       textColor: AppColor.primaryColor,
                       fontSize: 14),
                   const Spacer(),
                   TextWidget(
-                      title: status,
-                      textColor: status == "2m"
+                      title: status == "New" ? convertTimestamp(model.timestamp.toString()).toString() : status,
+                      textColor: status == "new"
                           ? AppColor.primaryColor
                           : status == "Active"
                               ? AppColor.greenColor
@@ -71,8 +74,8 @@ class CustomerRequestsContainer extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TextWidget(
-                        title: "Construction Estimation",
+                       TextWidget(
+                        title: model.applicationName,
                         textColor: AppColor.semiDarkGrey,
                         fontSize: 18,
                       ),
@@ -85,10 +88,10 @@ class CustomerRequestsContainer extends StatelessWidget {
                           const SizedBox(
                             width: 7,
                           ),
-                          const TextWidget(
+                           TextWidget(
                             textColor: AppColor.semiTransparentDarkGrey,
                             fontSize: 14,
-                            title: "Makka,Saudi Arabia",
+                            title: model.location,
                           ),
                         ],
                       )
@@ -99,9 +102,9 @@ class CustomerRequestsContainer extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.01,
               ),
-              const TextWidget(
+               TextWidget(
                 title:
-                    "Lorem ipsum dolor sit amet consectetur. Dignissim tortor dictum justo lorem suspendisse turpis integer eu. Elementum commodo ultrices sodales sed leo. Sed elit quis nisi laoreet mauris bibendum..",
+                model.details,
                 textColor: AppColor.semiTransparentDarkGrey,
                 fontSize: 12,
                 textAlign: TextAlign.start,

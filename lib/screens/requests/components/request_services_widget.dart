@@ -46,10 +46,12 @@ class RequestServicesWidget extends StatelessWidget {
                 log("message ${model.phoneNumber}");
                 return  ProposalContainer(
                   status: status,
+                  details: model.details,
                   imagePath: model.proposalCount > 3 ? model.proposals.toList() : model.proposals.take(3).toList(),
                   imageLabel: ' ${model.proposalCount > 10 ? "+" : ""}${model.proposalCount.toString()} Proposals ',
-                  date: model.currentDate,
-                  applicationName: model.activityType, location: model.location,
+                  date: role == "Customer" ? model.activityType : model.currentDate,
+                  applicationName: role == "Customer" ? model.applicationName : model.activityType,
+                  location: model.location,
                   model: model, role: role,
                 );
               },
