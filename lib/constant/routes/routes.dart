@@ -7,6 +7,7 @@ import 'package:meter/screens/mainLoginSignup/main_login_signup_screen.dart';
 import 'package:meter/screens/onboard/onboard_screen.dart';
 import 'package:meter/screens/onboard/onboard_welcome_screen.dart';
 import 'package:meter/screens/otpVerificatio/otp_verification_screen.dart';
+import 'package:meter/screens/payment/payment_screen.dart';
 import 'package:meter/screens/requestServices/request_services_screen.dart';
 import 'package:meter/screens/signup/face.dart';
 import 'package:meter/screens/signup/finger.dart';
@@ -94,6 +95,10 @@ class Routes {
     GetPage(
       name: RoutesName.providerSecondGeneralInfo,
       page: () => const ProviderSecondGeneralInfo(),
+    ),
+    GetPage(
+      name: RoutesName.paymentScreen,
+      page: () => PaymentScreen(),
     ),
     // GetPage(
     //   name: RoutesName.publishFirstDevice,

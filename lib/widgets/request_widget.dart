@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/bottomSheet/requestForm/request_form_bottom_sheet.dart';
+import 'package:meter/model/requestServices/request_services_model.dart';
+import 'package:meter/widgets/image_loader_widget.dart';
 import 'package:meter/widgets/text_widget.dart';
+import 'package:meter/widgets/timestamp_converter.dart';
 
 import '../constant/language/language_utils.dart';
 import '../constant/res/app_color/app_color.dart';
@@ -9,8 +12,14 @@ import '../constant/res/app_images/app_images.dart';
 import 'custom_button.dart';
 
 class RequestWidget extends StatelessWidget {
-  final String buttonText;
-  const RequestWidget({super.key, required this.buttonText});
+  final String buttonText,activityType;
+  final RequestServicesModel model;
+  const RequestWidget({
+    super.key,
+    required this.buttonText,
+    required this.activityType,
+    required this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +30,17 @@ class RequestWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(14.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+             Row(
               children: [
                 TextWidget(
-                    title: "Survey Report",
+                    title: activityType,
                     textColor: AppColor.primaryColor,
                     fontSize: 14),
                 Spacer(),
-                TextWidget(
-                    title: "2m", textColor: AppColor.primaryColor, fontSize: 12)
+                TimestampConverter(timestampString: model.timestamp.toString(),)
               ],
             ),
             SizedBox(
@@ -45,11 +55,15 @@ class RequestWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CircleAvatar(
-                      radius: 30,
-                      backgroundColor: AppColor.primaryColor,
-                      backgroundImage: AssetImage(AppImage.dummySketch),
+                    Container(
+                      width: 50.0,
+                      height: 50.0,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: ImageLoaderWidget(imageUrl: model.userProfileImage,),
+                      ),
                     ),
+
                     SizedBox(
                       width: Get.width * 0.02,
                     ),
@@ -57,8 +71,8 @@ class RequestWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const TextWidget(
-                          title: "Construction Estimation",
+                         TextWidget(
+                          title: model.specializations,
                           textColor: AppColor.semiDarkGrey,
                           fontSize: 18,
                         ),
@@ -72,10 +86,10 @@ class RequestWidget extends StatelessWidget {
                             const SizedBox(
                               width: 7,
                             ),
-                            const TextWidget(
+                             TextWidget(
                               textColor: AppColor.semiTransparentDarkGrey,
                               fontSize: 14,
-                              title: "Makka,Saudi Arabia",
+                              title: model.location,
                             ),
                           ],
                         ),
@@ -88,10 +102,10 @@ class RequestWidget extends StatelessWidget {
             SizedBox(
               height: Get.height * 0.01,
             ),
-            const TextWidget(
+             TextWidget(
                 textAlign: TextAlign.start,
                 title:
-                "Lorem ipsum dolor sit amet consectetur. Dignissim tortor dictum justo lorem suspendisse turpis integer eu. Elementum commodo ultrices sodales sed leo. Sed elit quis nisi laoreet mauris bibendum..",
+                model.details,
                 textColor: AppColor.semiTransparentDarkGrey,
                 fontSize: 12),
             SizedBox(
@@ -101,7 +115,7 @@ class RequestWidget extends StatelessWidget {
                 title: buttonText,
                 onTap: () {
                   Get.bottomSheet(
-                    const RequestFormBottomSheet(),
+                     RequestFormBottomSheet(model: model,),
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(

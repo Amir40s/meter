@@ -9,10 +9,13 @@ import 'package:meter/widgets/categoriesWidget.dart';
 import 'package:meter/widgets/custom_rich_text.dart';
 import 'package:meter/widgets/request_widget.dart';
 import 'package:meter/widgets/servicesWidget.dart';
+import 'package:provider/provider.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../controller/bottomNav/bottom_nav_controller_main.dart';
 import '../../controller/home/home_controller.dart';
+import '../../model/requestServices/request_services_model.dart';
+import '../../provider/firebase_services.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
@@ -179,21 +182,44 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          itemCount: 5,
-                          itemBuilder: (itemBuilder, index) {
-                            return const RequestWidget(
-                              buttonText: "Apply Now",
+                        Consumer<FirebaseServicesProvider>(
+
+                          builder: (context, provider, child){
+                            return StreamBuilder<List<RequestServicesModel>>(
+                              stream: provider.getRequestServices(),
+                              builder: (context, snapshot){
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator(color: AppColor.primaryColor,));
+                                }
+                                if (snapshot.hasError) {
+                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                }
+                                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                  return const Center(child: Text('No request found'));
+                                }
+
+                                List<RequestServicesModel> requestModel = snapshot.data!;
+                                return ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(),
+                                  itemCount: requestModel.length,
+                                  itemBuilder: (itemBuilder, index) {
+                                    RequestServicesModel model = requestModel[index];
+                                    return  RequestWidget(
+                                      buttonText: "Apply Now", activityType: model.activityType, model: model,
+                                    );
+                                  },
+                                  separatorBuilder: (BuildContext context, int index) {
+                                    return SizedBox(
+                                      height: Get.height * 0.02,
+                                    );
+                                  },
+                                );
+                              },
                             );
                           },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              height: Get.height * 0.02,
-                            );
-                          },
-                        )
+                        ),
+
                       ],
                     );
                   } else {

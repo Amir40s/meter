@@ -2,6 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/binding/bindings.dart';
+import 'package:meter/provider/db_provider.dart';
+import 'package:meter/provider/firebase_services.dart';
+import 'package:meter/provider/payment/payment_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'constant/language/language_keys.dart';
 import 'constant/prefUtils/pref_utils.dart';
@@ -23,19 +27,26 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      locale: Get.locale,
-      fallbackLocale: const Locale('en', 'US'),
-      translations: LanguageKey(),
-      debugShowCheckedModeBanner: false,
-      title: 'Meter',
-      initialBinding: InitialBindings(),
-      theme: ThemeData(
-        primaryColor: AppColor.primaryColor,
-        useMaterial3: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FirebaseServicesProvider()),
+        ChangeNotifierProvider(create: (_) => DbProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
+      ],
+      child: GetMaterialApp(
+        locale: Get.locale,
+        fallbackLocale: const Locale('en', 'US'),
+        translations: LanguageKey(),
+        debugShowCheckedModeBanner: false,
+        title: 'Meter',
+        initialBinding: InitialBindings(),
+        theme: ThemeData(
+          primaryColor: AppColor.primaryColor,
+          useMaterial3: false,
+        ),
+        initialRoute: RoutesName.splashScreen,
+        getPages: Routes.routes,
       ),
-      initialRoute: RoutesName.splashScreen,
-      getPages: Routes.routes,
     );
   }
 }

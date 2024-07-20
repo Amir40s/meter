@@ -34,7 +34,7 @@ class ProviderGeneralInfo extends StatelessWidget {
               onTap: () {
                 if (_formKey.currentState!.validate() &&
                         controller.filePath.isNotEmpty &&
-                        controller.verifyMessage.value ==
+                        controller.verifyMessage.value !=
                             "Success" //Change to =="Success"
                     ) {
                   Get.toNamed(RoutesName.providerFirstGeneralInfo);

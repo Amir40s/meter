@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'send_request_model.dart';
+
 class RequestServicesModel {
   String id;
   String activityType;
@@ -32,6 +35,9 @@ class RequestServicesModel {
   String preferredCityWork;
   String email;
   String name;
+  String userProfileImage;
+  int proposalCount;
+  List<SendRequestModel> proposals;
 
   RequestServicesModel({
     required this.id,
@@ -39,6 +45,7 @@ class RequestServicesModel {
     this.activityType = '',
     this.agencyNumber = "",
     this.experience = "",
+    this.proposalCount = 0,
     this.pricingPurpose = '',
     this.surveyReport = '',
     required this.userUID,
@@ -64,19 +71,64 @@ class RequestServicesModel {
     this.preferredCityWork = '',
     this.email = '',
     this.name = '',
+    this.userProfileImage = '',
     DateTime? timestamp,
     String? currentDate,
     String? currentTime,
+    this.proposals = const [],
   })  : this.timestamp = timestamp ?? DateTime.now(),
         this.currentDate = currentDate ??
             '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
         this.currentTime = currentTime ??
             '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}';
 
+  RequestServicesModel copyWith({int? proposalCount, List<SendRequestModel>? proposals}) {
+    return RequestServicesModel(
+      id: this.id,
+      role: this.role,
+      activityType: this.activityType,
+      agencyNumber: this.agencyNumber,
+      experience: this.experience,
+      proposalCount: proposalCount ?? this.proposalCount,
+      pricingPurpose: this.pricingPurpose,
+      surveyReport: this.surveyReport,
+      userUID: this.userUID,
+      reportNumber: this.reportNumber,
+      instrumentNumber: this.instrumentNumber,
+      certificateType: this.certificateType,
+      region: this.region,
+      city: this.city,
+      neighborhood: this.neighborhood,
+      location: this.location,
+      pieceNumber: this.pieceNumber,
+      chartNumber: this.chartNumber,
+      applicationType: this.applicationType,
+      applicationName: this.applicationName,
+      phoneNumber: this.phoneNumber,
+      idNumber: this.idNumber,
+      documentImage: this.documentImage,
+      consolationType: this.consolationType,
+      consolationTitle: this.consolationTitle,
+      details: this.details,
+      specializations: this.specializations,
+      haveExperience: this.haveExperience,
+      preferredCityWork: this.preferredCityWork,
+      email: this.email,
+      name: this.name,
+      userProfileImage: this.userProfileImage,
+      timestamp: this.timestamp,
+      currentDate: this.currentDate,
+      currentTime: this.currentTime,
+      proposals: proposals ?? this.proposals,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'role': role,
+      'userProfileImage': userProfileImage,
+      'proposalCount': proposalCount,
       'activityType': activityType,
       'pricingPurpose': pricingPurpose,
       'surveyReport': surveyReport,
@@ -98,7 +150,7 @@ class RequestServicesModel {
       'consolationType': consolationType,
       'consolationTitle': consolationTitle,
       'details': details,
-      "agencyNumber": agencyNumber,
+      'agencyNumber': agencyNumber,
       'specializations': specializations,
       'haveExperience': haveExperience,
       'preferredCityWork': preferredCityWork,
@@ -107,48 +159,14 @@ class RequestServicesModel {
       'timestamp': timestamp.toIso8601String(),
       'currentDate': currentDate,
       'currentTime': currentTime,
+      'proposals': proposals.map((p) => p.toMap()).toList(),
     };
   }
 
-  factory RequestServicesModel.fromMap(Map<String, dynamic>? map) {
-    if (map == null) {
-      return RequestServicesModel(
-        id: '',
-        role: '',
-        activityType: '',
-        experience: '',
-        pricingPurpose: '',
-        surveyReport: '',
-        userUID: '',
-        reportNumber: '',
-        instrumentNumber: '',
-        certificateType: '',
-        region: '',
-        city: '',
-        neighborhood: '',
-        location: '',
-        pieceNumber: '',
-        chartNumber: '',
-        applicationType: '',
-        applicationName: '',
-        phoneNumber: '',
-        idNumber: '',
-        documentImage: '',
-        consolationType: '',
-        consolationTitle: '',
-        details: '',
-        agencyNumber: "",
-        specializations: '',
-        haveExperience: '',
-        preferredCityWork: '',
-        email: '',
-        name: '',
-      );
-    }
+  factory RequestServicesModel.fromMap(Map<String, dynamic> map) {
     return RequestServicesModel(
       id: map['id'] ?? '',
-      role: map['requestServiceType'] ?? '',
-      experience: map['experience'] ?? '',
+      role: map['role'] ?? '',
       activityType: map['activityType'] ?? '',
       pricingPurpose: map['pricingPurpose'] ?? '',
       surveyReport: map['surveyReport'] ?? '',
@@ -160,7 +178,6 @@ class RequestServicesModel {
       city: map['city'] ?? '',
       neighborhood: map['neighborhood'] ?? '',
       location: map['location'] ?? '',
-      agencyNumber: map["agencyNumber"] ?? '',
       pieceNumber: map['pieceNumber'] ?? '',
       chartNumber: map['chartNumber'] ?? '',
       applicationType: map['applicationType'] ?? '',
@@ -171,11 +188,14 @@ class RequestServicesModel {
       consolationType: map['consolationType'] ?? '',
       consolationTitle: map['consolationTitle'] ?? '',
       details: map['details'] ?? '',
+      agencyNumber: map['agencyNumber'] ?? '',
       specializations: map['specializations'] ?? '',
       haveExperience: map['haveExperience'] ?? '',
       preferredCityWork: map['preferredCityWork'] ?? '',
       email: map['email'] ?? '',
       name: map['name'] ?? '',
+      userProfileImage: map['userProfileImage'] ?? '',
+      proposalCount: map['proposalCount'] ?? 0,
       timestamp: map['timestamp'] != null
           ? DateTime.parse(map['timestamp'])
           : DateTime.now(),
@@ -183,6 +203,55 @@ class RequestServicesModel {
           '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
       currentTime: map['currentTime'] ??
           '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}',
+      proposals: map['proposals'] != null
+          ? List<SendRequestModel>.from(
+          map['proposals'].map((p) => SendRequestModel.fromMap(p)))
+          : [],
+    );
+  }
+
+  factory RequestServicesModel.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return RequestServicesModel(
+      id: doc.id,
+      role: data['role'] ?? '',
+      activityType: data['activityType'] ?? '',
+      pricingPurpose: data['pricingPurpose'] ?? '',
+      surveyReport: data['surveyReport'] ?? '',
+      userUID: data['userUID'] ?? '',
+      reportNumber: data['reportNumber'] ?? '',
+      instrumentNumber: data['instrumentNumber'] ?? '',
+      certificateType: data['certificateType'] ?? '',
+      region: data['region'] ?? '',
+      city: data['city'] ?? '',
+      neighborhood: data['neighborhood'] ?? '',
+      location: data['location'] ?? '',
+      pieceNumber: data['pieceNumber'] ?? '',
+      chartNumber: data['chartNumber'] ?? '',
+      applicationType: data['applicationType'] ?? '',
+      applicationName: data['applicationName'] ?? '',
+      phoneNumber: data['phoneNumber'] ?? '',
+      idNumber: data['idNumber'] ?? '',
+      documentImage: data['documentImage'] ?? '',
+      consolationType: data['consolationType'] ?? '',
+      consolationTitle: data['consolationTitle'] ?? '',
+      details: data['details'] ?? '',
+      agencyNumber: data['agencyNumber'] ?? '',
+      specializations: data['specializations'] ?? '',
+      haveExperience: data['haveExperience'] ?? '',
+      preferredCityWork: data['preferredCityWork'] ?? '',
+      email: data['email'] ?? '',
+      name: data['name'] ?? '',
+      userProfileImage: data['userProfileImage'] ?? '',
+      proposalCount: 0, // This will be updated later
+      timestamp: data['timestamp'] != null
+          ? DateTime.parse(data['timestamp'])
+          : DateTime.now(),
+      currentDate: data['currentDate'] ??
+          '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+      currentTime: data['currentTime'] ??
+          '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}',
+      proposals: [], // This will be updated later
     );
   }
 }
