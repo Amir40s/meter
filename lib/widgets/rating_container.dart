@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/constant.dart';
+import 'package:meter/constant/routes/routes_name.dart';
 import 'package:meter/model/requestServices/request_services_model.dart';
 import 'package:meter/widgets/image_loader_widget.dart';
 import 'package:meter/widgets/text_widget.dart';
@@ -134,5 +135,9 @@ class RatingContainer extends StatelessWidget {
       "status" : status
     });
     Get.snackbar("Alert", "Status Updated");
+
+    if(status == "active"){
+      Get.toNamed(RoutesName.paymentScreen);
+    }
   }
 }

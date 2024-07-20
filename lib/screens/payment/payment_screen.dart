@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meter/constant/res/app_color/app_color.dart';
+import 'package:meter/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 import '../../model/payment/payment_model.dart';
 import '../../provider/payment/payment_provider.dart';
@@ -21,6 +23,7 @@ class PaymentScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColor.primaryColor,
         title: Text('Moyasar Credit Card Payment'),
       ),
       body: Padding(
@@ -129,8 +132,8 @@ class PaymentScreen extends StatelessWidget {
                 if (paymentProvider.isLoading)
                   CircularProgressIndicator()
                 else
-                  ElevatedButton(
-                    onPressed: () {
+                  CustomButton(
+                    onTap: () {
                       if (_formKey.currentState!.validate()) {
                         PaymentModel paymentModel = PaymentModel(
                           type: 'creditcard',
@@ -148,7 +151,7 @@ class PaymentScreen extends StatelessWidget {
                         paymentProvider.makePayment(paymentModel);
                       }
                     },
-                    child: Text('Make Payment'),
+                    title: "Make Payment",
                   ),
                 SizedBox(height: 20),
                 if (paymentProvider.paymentResponse != null)
