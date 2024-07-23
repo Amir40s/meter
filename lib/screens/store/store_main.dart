@@ -64,26 +64,26 @@ class StoreMain extends StatelessWidget {
                         filteredDevices = devices!;
                       } else {
                         final lowerCaseSearch =
-                            controller.deviceSearch.value.toLowerCase();
+                        controller.deviceSearch.value.toLowerCase();
 
                         filteredDevices = devices!.where((device) {
                           final lowerCaseDeviceName =
-                              device.deviceName.toLowerCase();
+                          device.deviceName.toLowerCase();
                           final lowerCaseModel =
-                              device.deviceModel.toLowerCase();
+                          device.deviceModel.toLowerCase();
                           int relevanceScore = 0;
 
                           // Condition 1: Exact match
                           if (lowerCaseDeviceName == lowerCaseSearch) {
                             relevanceScore +=
-                                3; // Assign a higher score for an exact match
+                            3; // Assign a higher score for an exact match
                           }
 
                           // Condition 2: Contains the search term
                           if (lowerCaseDeviceName.contains(lowerCaseSearch) ||
                               lowerCaseModel.contains(lowerCaseSearch)) {
                             relevanceScore +=
-                                1; // Assign a lower score for partial match
+                            1; // Assign a lower score for partial match
                           }
 
                           return relevanceScore > 0;
@@ -93,7 +93,7 @@ class StoreMain extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, // Number of columns
                             crossAxisSpacing: 8.0,
                             mainAxisSpacing: 8.0,
@@ -121,7 +121,7 @@ class StoreMain extends StatelessWidget {
                                           title: DateTimeUtil.reformatDate(
                                               data.timestamp.toString()),
                                           textColor:
-                                              AppColor.semiTransparentDarkGrey,
+                                          AppColor.semiTransparentDarkGrey,
                                           fontSize: 12),
                                     ],
                                   ),
@@ -140,15 +140,15 @@ class StoreMain extends StatelessWidget {
                                     children: [
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 14.0),
+                                        const EdgeInsets.only(left: 14.0),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             TextWidget(
                                                 title: data.deviceName,
                                                 textColor:
-                                                    AppColor.semiDarkGrey,
+                                                AppColor.semiDarkGrey,
                                                 fontSize: 12),
                                             TextWidget(
                                                 title: data.deviceModel,
@@ -169,7 +169,7 @@ class StoreMain extends StatelessWidget {
                                         imageSize: 24,
                                         imagePath: AppImage.chatActive,
                                         backgroundColor:
-                                            AppColor.lightGreyShade,
+                                        AppColor.lightGreyShade,
                                       )
                                     ],
                                   )

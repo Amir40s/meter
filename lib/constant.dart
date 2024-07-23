@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -33,6 +34,9 @@ const String engineeringJob = "Engineering Job";
 
 ///////////////////API////////////////////
 
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+
 const String mapAPIKEY = "AIzaSyCog7RsE7QqPGoGhJePgBaaXqNbuO8fDAE";
 
 const String messageUserNameKey = "metersms";
@@ -57,6 +61,30 @@ String? getAutoUid() {
 void changeLanguage(var languageCode, var countryCode) {
   var locale = Locale(languageCode, countryCode);
   Get.updateLocale(locale);
+}
+
+String convertTimestamp(String timestampString) {
+  DateTime parsedTimestamp = parseTimestamp(timestampString);
+  final now = DateTime.now();
+  final difference = now.difference(parsedTimestamp);
+
+  if (difference.inMinutes < 60) {
+    return '${difference.inMinutes}m';
+  } else if (difference.inHours < 24) {
+    return '${difference.inHours}h';
+  } else if (difference.inDays < 30) {
+    return '${difference.inDays}d';
+  } else if (difference.inDays < 365) {
+    final months = difference.inDays ~/ 30;
+    return '${months}mm';
+  } else {
+    final years = difference.inDays ~/ 365;
+    return '${years}y';
+  }
+}
+
+DateTime parseTimestamp(String timestampString) {
+  return DateTime.parse(timestampString);
 }
 
 String getGreeting() {

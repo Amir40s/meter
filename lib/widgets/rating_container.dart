@@ -1,5 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/constant.dart';
+import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/model/requestServices/request_services_model.dart';
+import 'package:meter/widgets/image_loader_widget.dart';
 import 'package:meter/widgets/text_widget.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
@@ -8,7 +14,8 @@ import 'circular_container.dart';
 import 'custom_button.dart';
 
 class RatingContainer extends StatelessWidget {
-  const RatingContainer({super.key});
+  final String ownerName,details,price,url,status,requestId,proposalId;
+  const RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url, required this.status, required this.requestId, required this.proposalId,});
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +29,24 @@ class RatingContainer extends StatelessWidget {
             offset: Offset(-12, 3),
             child: Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 20,
-                  backgroundImage: AssetImage(AppImage.profile),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: Container(
+                          width: 50.0,
+                          height: 50.0,
+                          child: ImageLoaderWidget(imageUrl: url,))),
                 ),
                 const SizedBox(
                   width: 5,
                 ),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWidget(
                         textAlign: TextAlign.start,
-                        title: "David Wayne",
+                        title:ownerName,
                         textColor: AppColor.semiDarkGrey,
                         fontSize: 16),
                     TextWidget(
@@ -59,9 +71,9 @@ class RatingContainer extends StatelessWidget {
                 ),
                 CircularContainer(
                   backgroundColor: AppColor.primaryColor,
-                  widget: const TextWidget(
+                  widget:  TextWidget(
                     textColor: AppColor.whiteColor,
-                    title: "\n50\nSAR\n",
+                    title: "\n$price\nSAR\n",
                     fontSize: 16,
                   ),
                   onTap: () {},
@@ -72,7 +84,7 @@ class RatingContainer extends StatelessWidget {
           TextWidget(
               textAlign: TextAlign.start,
               title:
-                  "Lorem ipsum dolor sit amet consectetur. Dignissim tortor dictum justo lorem suspendisse turpis integer eu. Elementum commodo ultrices sodales sed leo. Sed elit quis nisi laoreet mauris bibendum..",
+              details,
               textColor: AppColor.semiTransparentDarkGrey,
               fontSize: 12),
           SizedBox(
@@ -82,22 +94,50 @@ class RatingContainer extends StatelessWidget {
             children: [
               Expanded(
                   child: MyCustomButton(
-                title: "Decline",
-                onTap: () {},
-                textColor: AppColor.primaryColor,
-                backgroundColor: AppColor.whiteColor,
-                borderSideColor: AppColor.primaryColor,
-              )),
+                    title: "Decline",
+                    onTap: () {
+                      if(status == "new"){
+                        changeStatus(status: "reject");
+                      }
+
+                    },
+                    textColor: AppColor.primaryColor,
+                    backgroundColor: AppColor.whiteColor,
+                    borderSideColor: AppColor.primaryColor,
+                  )),
               SizedBox(
                 width: Get.width * 0.02,
               ),
               Expanded(
-                child: CustomButton(title: "Accept", onTap: () {}),
+                child: CustomButton(title: status == "new" ?
+                "Accept" :  status == "reject" ? "Rejected" : "Accepted", onTap: () async{
+                  if(status == "new"){
+                    changeStatus(status: "active");
+                  }
+                }),
               )
             ],
           )
         ],
       ),
     );
+  }
+
+  void changeStatus({required String status}) async{
+    log("Status::$status");
+    await firestore.collection("requestService").doc(requestId).update({
+      "status" : status
+    });
+
+    await firestore.collection("requestService").doc(requestId)
+        .collection("proposals").doc(proposalId)
+        .update({
+      "status" : status
+    });
+    Get.snackbar("Alert", "Status Updated");
+
+    if(status == "active"){
+      Get.toNamed(RoutesName.paymentScreen);
+    }
   }
 }

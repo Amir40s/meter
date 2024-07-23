@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/model/requestServices/request_services_model.dart';
 
 import '../../constant.dart';
 import '../../constant/res/app_color/app_color.dart';
@@ -8,7 +9,8 @@ import '../../widgets/customer_request_widget.dart';
 import '../../widgets/rating_container.dart';
 
 class RequestInfo extends StatelessWidget {
-  const RequestInfo({super.key});
+  final RequestServicesModel model;
+  const RequestInfo({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,9 @@ class RequestInfo extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomerRequestsContainer(
+                    CustomerRequestsContainer(
                       status: "2m",
-                      showAvatar: false,
+                      showAvatar: false, model: model,
                     ),
                     SizedBox(
                       height: Get.height * 0.02,
@@ -37,7 +39,7 @@ class RequestInfo extends StatelessWidget {
                         children: [
                           TextSpan(text: 'Proposals'.tr),
                           TextSpan(
-                            text: ' (11)'.tr,
+                            text:" (${ model.proposalCount.toString()})".tr,
                             style: AppTextStyle.dark14.copyWith(
                                 color: AppColor.primaryColor, fontSize: 16),
                           ),
@@ -48,11 +50,20 @@ class RequestInfo extends StatelessWidget {
                       offset: Offset(0, -18),
                       child: ListView.builder(
                           padding: EdgeInsets.zero,
-                          itemCount: 11,
+                          itemCount: model.proposals.length,
                           physics: ScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (itemBuilder, index) {
-                            return RatingContainer();
+                            return RatingContainer(
+                              ownerName: model.proposals[index].ownerName,
+                              details: model.proposals[index].details,
+                              price: model.proposals[index].price,
+                              url: model.proposals[index].profileImage,
+                              status:  model.proposals[index].status,
+                              requestId: model.id,
+                              proposalId: model.proposals[index].id,
+
+                            );
                           }),
                     )
                   ],

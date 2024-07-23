@@ -10,6 +10,7 @@ import '../../widgets/custom_textfield.dart';
 import '../../widgets/customer_request_widget.dart';
 import '../../widgets/proposal_container.dart';
 import '../../widgets/text_widget.dart';
+import 'components/request_services_widget.dart';
 
 class RequestsMain extends StatelessWidget {
   const RequestsMain({super.key});
@@ -87,133 +88,25 @@ class RequestsMain extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.03,
               ),
-              if (bottomController.currentRole == "Provider") ...[
+              if (bottomController.currentRole.toString() == "Provider") ...[
                 Obx(() {
                   if (controller.selectedIndex.value == 0) {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const ProposalContainer(
-                          status: "New",
-                          imagePath: [
-                            AppImage.profile,
-                            AppImage.profile,
-                            AppImage.profile
-                          ],
-                          imageLabel: '+10 Proposals',
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "new", role: bottomController.currentRole.toString(),);
                   } else if (controller.selectedIndex.value == 1) {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const ProposalContainer(
-                          status: "Active",
-                          imagePath: [
-                            AppImage.profile,
-                          ],
-                          imageLabel: 'EltWhid Software Engineering',
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "active", role: bottomController.currentRole.toString(),);
                   } else {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const ProposalContainer(
-                          status: "Completed",
-                          imagePath: [AppImage.profile],
-                          imageLabel: "EltWhid Software Engineering",
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "complete", role: bottomController.currentRole.toString(),);
                   }
                 }),
               ],
-              if (bottomController.currentRole == "Customer") ...[
+              if (bottomController.currentRole.toString() == "Customer") ...[
                 Obx(() {
                   if (controller.selectedIndex.value == 0) {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const CustomerRequestsContainer(
-                          status: "2m",
-                          imagePath: [
-                            AppImage.profile,
-                            AppImage.profile,
-                            AppImage.profile
-                          ],
-                          imageLabel: '+10 Proposals',
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "new", role: bottomController.currentRole.toString(),);
                   } else if (controller.selectedIndex.value == 1) {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const CustomerRequestsContainer(
-                          status: "Active",
-                          imagePath: [
-                            AppImage.profile,
-                          ],
-                          imageLabel: 'EltWhid Software Engineering',
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "active", role: bottomController.currentRole.toString(),);
                   } else {
-                    return ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (itemBuilder, index) {
-                        return const CustomerRequestsContainer(
-                          status: "Completed",
-                          imagePath: [AppImage.profile],
-                          imageLabel: "EltWhid Software Engineering",
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: Get.height * 0.03,
-                        );
-                      },
-                    );
+                    return RequestServicesWidget(status: "complete", role: bottomController.currentRole.toString(),);
                   }
                 }),
               ]

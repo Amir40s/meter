@@ -15,6 +15,7 @@ import 'package:meter/screens/signup/seller/general_info_1.dart';
 import 'package:meter/screens/signup/seller/general_info_2.dart';
 import 'package:meter/screens/signup/signup_screen.dart';
 
+import '../../screens/payment/payment_screen.dart';
 import '../../screens/signup/customer/customer_general_info.dart';
 import '../../screens/signup/provider/provider_general_info_1.dart';
 import '../../screens/signup/provider/provider_general_info_2.dart';
@@ -99,6 +100,10 @@ class Routes {
     GetPage(
       name: RoutesName.providerSecondGeneralInfo,
       page: () => const ProviderSecondGeneralInfo(),
+    ),
+    GetPage(
+      name: RoutesName.paymentScreen,
+      page: () => PaymentScreen(),
     ),
     // GetPage(
     //   name: RoutesName.publishFirstDevice,
