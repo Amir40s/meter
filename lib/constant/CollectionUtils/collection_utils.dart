@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meter/model/requestServices/request_services_model.dart';
 
 import '../../constant.dart';
 import '../../model/devices/devices_model.dart';
@@ -39,6 +40,14 @@ class QueryUtil {
         .map((snapshot) => snapshot.docs
             .map((doc) =>
                 DeviceModel.fromMap(doc.data() as Map<String, dynamic>))
+            .toList());
+  }
+
+  static Stream<List<RequestServicesModel>> fetchRequestServices() {
+    return CollectionUtils.requestServiceCollection.snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => RequestServicesModel.fromMap(
+                doc.data() as Map<String, dynamic>))
             .toList());
   }
 }

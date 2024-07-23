@@ -13,9 +13,11 @@ class DeviceModel {
   String deviceDetails;
   String deviceImage;
   String isDeviceApprove;
+  double rating;
 
   DeviceModel({
     required this.id,
+    required this.rating,
     required this.deviceType,
     required this.deviceName,
     required this.deviceCategory,
@@ -35,7 +37,7 @@ class DeviceModel {
         currentTime = currentTime ??
             '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}',
         isDeviceApprove = "false" //
-      ;
+  ;
 
   Map<String, dynamic> toMap() {
     return {
@@ -52,7 +54,8 @@ class DeviceModel {
       'devicePrice': devicePrice,
       'deviceDetails': deviceDetails,
       'deviceImage': deviceImage,
-      'deviceApprove': isDeviceApprove
+      'deviceApprove': isDeviceApprove,
+      'rating': rating
     };
   }
 
@@ -64,11 +67,12 @@ class DeviceModel {
         deviceName: '',
         deviceCategory: '',
         userUID: '',
+        rating: 0.0,
         timestamp: DateTime.now(),
         currentDate:
-        '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
         currentTime:
-        '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}',
+            '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}',
         deviceModel: '',
         deviceManufacturingYear: '',
         devicePrice: '',
@@ -79,12 +83,13 @@ class DeviceModel {
     }
     return DeviceModel(
       id: map['id'] ?? '',
+      rating: map['rating'] ?? '',
       deviceType: map['deviceType'] ?? '',
       deviceName: map['deviceName'] ?? '',
       deviceCategory: map['deviceCategory'] ?? '',
       userUID: map['userUID'] ?? '',
       timestamp:
-      map['timestamp'] != null ? DateTime.parse(map['timestamp']) : null,
+          map['timestamp'] != null ? DateTime.parse(map['timestamp']) : null,
       currentDate: map['currentDate'] ??
           '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
       currentTime: map['currentTime'] ??

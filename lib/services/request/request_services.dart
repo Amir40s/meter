@@ -1,4 +1,3 @@
-
 import 'package:meter/model/user/user_model.dart';
 
 import '../../constant/CollectionUtils/collection_utils.dart';
@@ -7,7 +6,6 @@ import '../../model/devices/devices_model.dart';
 import '../../model/requestServices/request_services_model.dart';
 
 class RequestServices {
-
   static Future<void> addDevice(DeviceModel models) async {
     await CollectionUtils.deviceCollection
         .doc(models.id)
@@ -31,8 +29,8 @@ class RequestServices {
     });
   }
 
-  static Future<void> updateDevice(String deviceId,
-      Map<String, dynamic> data) async {
+  static Future<void> updateDevice(
+      String deviceId, Map<String, dynamic> data) async {
     await CollectionUtils.deviceCollection
         .doc(deviceId)
         .update(data)

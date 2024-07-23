@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/constant/language/language_utils.dart';
+import 'package:meter/constant/prefUtils/pref_utils.dart';
 import 'package:meter/widgets/text_widget.dart';
 
 import '../constant.dart';
@@ -43,6 +47,8 @@ class TextFieldCountryPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? isEnglish = PrefUtil.getBool(PrefUtil.language);
+    log("IsEnglish $isEnglish");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,114 +63,130 @@ class TextFieldCountryPicker extends StatelessWidget {
         SizedBox(
           height: Get.height * 0.01,
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: AppColor.greyColor, // Border color
-              width: 1.0, // Border width
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: AppColor.greyColor, // Border color
+                width: 1.0, // Border width
+              ),
             ),
-          ),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 13.0, right: 0.0),
-                child: Image.asset(
-                  flagPath,
-                  width: 30,
-                  package: 'country_code_picker',
-                ),
-              ),
-              Expanded(
-                child: TextFormField(
-                  cursorColor: AppColor.primaryColor,
-                  keyboardType: TextInputType.number,
-                  controller: controller,
-                  readOnly: isVerifySucces,
-                  decoration: InputDecoration(
-                      hintText: hintText,
-                      contentPadding: const EdgeInsets.only(
-                        top: 14,
-                        bottom: 10,
-                      ),
-                      border: InputBorder.none,
-                      prefixIcon: isVerifySucces
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                top: 14,
-                                bottom: 10,
-                              ),
-                              child: TextWidget(
-                                title: countryShortCode!,
-                                textColor: AppColor.primaryColor,
-                              ),
-                            )
-                          : CountryCodePicker(
-                              searchDecoration: InputDecoration(
-                                prefixIconColor:
-                                    AppColor.semiTransparentDarkGrey,
-                                hintText: "Search".tr,
-                                isDense: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                      color: AppColor.semiTransparentDarkGrey),
+            child: Row(
+              children: [
+                isEnglish == null || isEnglish == true
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 13.0, right: 0.0),
+                        child: Image.asset(
+                          flagPath,
+                          width: 30,
+                          package: 'country_code_picker',
+                        ),
+                      )
+                    : Container(),
+                Expanded(
+                  child: TextFormField(
+                    cursorColor: AppColor.primaryColor,
+                    keyboardType: TextInputType.number,
+                    controller: controller,
+                    readOnly: isVerifySucces,
+                    decoration: InputDecoration(
+                        hintText: hintText,
+                        contentPadding: const EdgeInsets.only(
+                          top: 14,
+                          bottom: 10,
+                        ),
+                        border: InputBorder.none,
+                        prefixIcon: isVerifySucces
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 14,
+                                  bottom: 10,
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                    color: AppColor.semiTransparentDarkGrey,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                    color: AppColor
-                                        .primaryColor, // Use your desired color for the focused border
-                                    width:
-                                        2.0, // You can customize the width of the focused border
-                                  ),
-                                ),
-                              ),
-                              initialSelection: countryShortCode ?? 'SA',
-                              textStyle: AppTextStyle.dark14
-                                  .copyWith(color: AppColor.primaryColor),
-                              favorite: [
-                                countryDialingCode ?? '+966',
-                                countryShortCode ?? 'SA'
-                              ],
-                              showFlagMain: false,
-                              showDropDownButton: false,
-                              padding: EdgeInsets.zero,
-                              onChanged: countryCode,
-                              dialogTextStyle: AppTextStyle.dark14,
-                              dialogSize: Size(Get.width, Get.height * 0.6),
-                              showFlag: true,
-                              showFlagDialog: true,
-                              showCountryOnly: false,
-                              showOnlyCountryWhenClosed: false,
-                              boxDecoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: AppColor.whiteColor),
-                            ),
-                      suffixIcon: onTapSuffix != null
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 14, bottom: 10, right: 10),
-                              child: InkWell(
-                                onTap: onTapSuffix,
                                 child: TextWidget(
-                                  title: verifyText,
-                                  textColor: verifyColor,
-                                  fontWeight: FontWeight.bold,
+                                  title: countryShortCode!,
+                                  textColor: AppColor.primaryColor,
                                 ),
+                              )
+                            : CountryCodePicker(
+                                searchDecoration: InputDecoration(
+                                  prefixIconColor:
+                                      AppColor.semiTransparentDarkGrey,
+                                  hintText: "Search".tr,
+                                  isDense: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color:
+                                            AppColor.semiTransparentDarkGrey),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: AppColor.semiTransparentDarkGrey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: AppColor
+                                          .primaryColor, // Use your desired color for the focused border
+                                      width:
+                                          2.0, // You can customize the width of the focused border
+                                    ),
+                                  ),
+                                ),
+                                initialSelection: countryShortCode ?? 'SA',
+                                textStyle: AppTextStyle.dark14
+                                    .copyWith(color: AppColor.primaryColor),
+                                favorite: [
+                                  countryDialingCode ?? '+966',
+                                  countryShortCode ?? 'SA'
+                                ],
+                                showFlagMain: false,
+                                showDropDownButton: false,
+                                padding: EdgeInsets.zero,
+                                onChanged: countryCode,
+                                dialogTextStyle: AppTextStyle.dark14,
+                                dialogSize: Size(Get.width, Get.height * 0.6),
+                                showFlag: true,
+                                showFlagDialog: true,
+                                showCountryOnly: false,
+                                showOnlyCountryWhenClosed: false,
+                                boxDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: AppColor.whiteColor),
                               ),
-                            )
-                          : null),
+                        suffixIcon: onTapSuffix != null
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 14, bottom: 10, right: 10),
+                                child: InkWell(
+                                  onTap: onTapSuffix,
+                                  child: TextWidget(
+                                    title: verifyText,
+                                    textColor: verifyColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            : null),
+                  ),
                 ),
-              ),
-            ],
+                isEnglish == null || isEnglish == false
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 13.0, right: 13.0),
+                        child: Image.asset(
+                          flagPath,
+                          width: 30,
+                          package: 'country_code_picker',
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
           ),
         ),
       ],

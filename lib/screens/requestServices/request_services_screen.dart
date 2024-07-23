@@ -48,7 +48,7 @@ class RequestServicesScreen extends StatelessWidget {
                   if (consolationController.consolationFormKey.currentState!
                           .validate() &&
                       consolationController.validatePhoneNumber()) {
-                    Get.to(ConsolationRequestService());
+                    Get.to(const ConsolationRequestService());
                   } else if (!controller.validatePhoneNumber()) {
                     ShortMessageUtils.showError(
                         "Please enter valid phone number");
@@ -68,7 +68,7 @@ class RequestServicesScreen extends StatelessWidget {
                   if (engineeringJobController
                       .engineeringJobFormKey.currentState!
                       .validate()) {
-                    Get.to(EngineeringRequestService());
+                    Get.to(const EngineeringRequestService());
                   } else {
                     ShortMessageUtils.showError("Please fill all fields");
                   }
@@ -176,7 +176,7 @@ class RequestServicesScreen extends StatelessWidget {
                             onChangeDropDown: (newValue) {},
                             dropDownItems: [],
                             onTap: () {
-                              Get.bottomSheet(PurposePricingBottomSheet(),
+                              Get.bottomSheet(const PurposePricingBottomSheet(),
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20),

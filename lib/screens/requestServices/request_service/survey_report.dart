@@ -33,28 +33,34 @@ class SurveyReport extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Flexible(
-                          child: TextWidget(
-                            textAlign: TextAlign.start,
-                            title:
-                                "What is your purpose for issuing a survey report?",
-                            textColor: AppColor.semiDarkGrey,
-                            fontSize: 22,
+                        Expanded(
+                          flex: 9,
+                          child: const Flexible(
+                            child: TextWidget(
+                              textAlign: TextAlign.start,
+                              title:
+                                  "What is your purpose for issuing a survey report?",
+                              textColor: AppColor.semiDarkGrey,
+                              fontSize: 22,
+                            ),
                           ),
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        Transform.translate(
-                          offset: Offset(0, -Get.height * 0.015),
-                          child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: Image.asset(
-                              AppImage.cancel,
-                              width: 40,
-                              color: AppColor.semiDarkGrey,
+                        Expanded(
+                          flex: 1,
+                          child: Transform.translate(
+                            offset: Offset(0, -Get.height * 0.015),
+                            child: IconButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              icon: Image.asset(
+                                AppImage.cancel,
+                                width: 40,
+                                color: AppColor.semiDarkGrey,
+                              ),
                             ),
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/screens/requestServices/request_service/request_service2.dart';
+import 'package:meter/widgets/location/google_map.dart';
 
 import '../../../constant/prefUtils/message_utills.dart';
 import '../../../constant/validationUtils/validation_utils.dart';
@@ -81,6 +82,10 @@ class RequestFirstService extends StatelessWidget {
                         richText: "(Optional)",
                         controller: controller.neighborhoodController),
                     CustomTextField(
+                        readOnly: true,
+                        onTap: () {
+                          Get.to(GoogleMapScreen());
+                        },
                         validator: ValidationUtils.validateRequired("Location"),
                         hintText: "Location",
                         title: "Location",

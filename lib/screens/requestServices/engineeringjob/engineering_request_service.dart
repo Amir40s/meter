@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/widgets/image_pick_widget.dart';
+import 'package:meter/widgets/location/google_map.dart';
 import 'package:meter/widgets/text_field_country_picker.dart';
 
 import '../../../constant.dart';
@@ -45,6 +46,10 @@ class EngineeringRequestService extends StatelessWidget {
                       CustomTextField(
                           validator: ValidationUtils.validateRequired(
                               "Preferred city work in"),
+                          onTap: () {
+                            Get.to(GoogleMapScreen());
+                          },
+                          readOnly: true,
                           hintText: "Enter city Name",
                           title: "Preferred city work in",
                           controller: controller.cityController),
@@ -140,7 +145,6 @@ class EngineeringRequestService extends StatelessWidget {
                               title: "Submit Request",
                               onTap: () {
                                 controller.completeEngineeringJob(_formKey);
-
                                 // Get.to(const EngineeringSpecialization());
                               }))
                     ],

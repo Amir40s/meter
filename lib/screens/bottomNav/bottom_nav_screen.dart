@@ -27,7 +27,7 @@ class BottomNav extends StatelessWidget {
         bool isSeller = role == "Seller";
         log("why role is $role");
         List<Widget> children = [
-          const HomeScreen(),
+          HomeScreen(),
           if (!isSeller) const StoreMain(),
           if (isSeller) const AllDevices(),
           if (!isSeller) const RequestsMain(),

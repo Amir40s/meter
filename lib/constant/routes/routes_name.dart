@@ -19,5 +19,4 @@ class RoutesName {
   static const providerFirstGeneralInfo = "/providerFirstGeneralInfo";
   static const providerSecondGeneralInfo = "/providerSecondGeneralInfo";
   static const requestServicesScreen = "/requestServicesScreen";
-  static const paymentScreen = "/paymentScreen";
 }

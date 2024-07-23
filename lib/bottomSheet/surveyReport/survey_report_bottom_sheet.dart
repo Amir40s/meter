@@ -33,56 +33,60 @@ class SurveyReportBottomSheet extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Flexible(
-                          child: TextWidget(
-                            textAlign: TextAlign.start,
-                            title:
-                            "What is your purpose for issuing a survey report?",
-                            textColor: AppColor.semiDarkGrey,
-                            fontSize: 22,
+                        const Expanded(
+                          flex: 9,
+                          child: Flexible(
+                            child: TextWidget(
+                              textAlign: TextAlign.start,
+                              title:
+                                  "What is your purpose for issuing a survey report?",
+                              textColor: AppColor.semiDarkGrey,
+                              fontSize: 22,
+                            ),
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Transform.translate(
-                          offset: Offset(0, -Get.height * 0.015),
-                          child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: Image.asset(
-                              AppImage.cancel,
-                              width: 40,
-                              color: AppColor.semiDarkGrey,
+                        const Spacer(),
+                        Expanded(
+                          flex: 2,
+                          child: Transform.translate(
+                            offset: Offset(0, -Get.height * 0.015),
+                            child: IconButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              icon: Image.asset(
+                                AppImage.cancel,
+                                width: 40,
+                                color: AppColor.semiDarkGrey,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    CustomTextField(
-                      hintText: "Search",
-                      title: "",
-                      onChanged: (newValue) {},
-                      prefixImagePath: AppImage.search,
-                      fillColor: AppColor.greyColor,
-                      showSpace: true,
-                      controller: TextEditingController(),
-                    ),
+                    // CustomTextField(
+                    //   hintText: "Search",
+                    //   title: "",
+                    //   onChanged: (newValue) {},
+                    //   prefixImagePath: AppImage.search,
+                    //   fillColor: AppColor.greyColor,
+                    //   showSpace: true,
+                    //   controller: TextEditingController(),
+                    // ),
                     SizedBox(
                       height: Get.height * 0.04,
                     ),
                     ListView.separated(
                       itemCount: 6,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (itemBuilder, index) {
                         return Obx(
-                              () => filledContainerWithRadio(
+                          () => filledContainerWithRadio(
                             controller.purposeOfSurveyReportList[index],
                             controller.selectedSurveyReport.value,
                             controller.purposeOfSurveyReportList[index],
-                                (newValue) {
+                            (newValue) {
                               controller.selectPurposeOfSurveyReport(newValue!);
                             },
                             controller.selectedSurveyReport ==

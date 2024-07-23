@@ -32,7 +32,7 @@ class ChatAddBottomSheet extends StatelessWidget {
                   imagePath: AppImage.offer,
                   onTap: () {
                     Get.bottomSheet(
-                       RequestFormBottomSheet(
+                      const RequestFormBottomSheet(
                         showPicture: false,
                       ),
                       isScrollControlled: false,

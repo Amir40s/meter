@@ -12,6 +12,17 @@ class HomeController extends GetxController {
   }
 
   final TextEditingController searchController = TextEditingController();
+
+  RxString deviceSearch = "".obs;
+  void onChangeSearch(String newValue) {
+    deviceSearch.value = newValue;
+  }
+
+  RxString requestSearch = "".obs;
+  void onChangeRequestSearch(String newValue) {
+    requestSearch.value = newValue;
+  }
+
   List imaPath = [
     AppImage.surveyReport,
     AppImage.completionCertificate,

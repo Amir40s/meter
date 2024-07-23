@@ -12,6 +12,7 @@ import '../../constant/errorUtills/error_utils.dart';
 import '../../constant/errorUtills/image_utils.dart';
 import '../../constant/prefUtils/message_utills.dart';
 import '../../model/requestServices/request_services_model.dart';
+import '../account/profile_controller.dart';
 
 class EngineeringRequestServiceController extends GetxController {
   final TextEditingController otherController =
@@ -23,7 +24,8 @@ class EngineeringRequestServiceController extends GetxController {
   final TextEditingController emailController =
       TextEditingController(); // Added
   final TextEditingController nameController = TextEditingController(); // Added
-
+  final TextEditingController longitude = TextEditingController();
+  final TextEditingController latitude = TextEditingController();
   final engineeringJobFormKey = GlobalKey<FormState>();
 
   void clearAllFields() {
@@ -67,11 +69,17 @@ class EngineeringRequestServiceController extends GetxController {
           areAllChecked &&
           filePath.isNotEmpty) {
         String fileUrl = await ImageUtil.uploadToDatabase(filePath.value);
+        final controller = Get.find<ProfileController>();
+        final user = controller.user.value;
         RequestServicesModel requestServicesModel = RequestServicesModel(
             id: getAutoUid()!,
             role: customer,
+            long: longitude.text,
+            lat: latitude.text,
+            userName: user.ownerName,
+            userProfileImage: user.profilePicture,
             userUID: getCurrentUid()!,
-            activityType:  engineeringJob,
+            activityType: engineeringJob,
             certificateType: selectedTypeOfCertificate.value,
             specializations: specialistController.text,
             haveExperience: selectedExperience.value,

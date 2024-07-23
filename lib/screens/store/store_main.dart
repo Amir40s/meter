@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/screens/store/store_detail.dart';
@@ -44,6 +46,10 @@ class StoreMain extends StatelessWidget {
                     prefixImagePath: AppImage.search,
                     hintText: "Search",
                     title: "",
+                    onChanged: (newValue) {
+                      controller.onChangeSearch(newValue);
+                      log("New Value is $newValue");
+                    },
                     controller: controller.searchController),
                 SizedBox(
                   height: Get.height * 0.02,

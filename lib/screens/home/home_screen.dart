@@ -1,25 +1,35 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/constant.dart';
+import 'package:meter/constant/location/location_utils.dart';
 import 'package:meter/controller/account/profile_controller.dart';
 import 'package:meter/controller/onboard/onboard_controller.dart';
+import 'package:meter/model/requestServices/request_services_model.dart';
 import 'package:meter/screens/cServices/services_screen.dart';
 import 'package:meter/screens/requestServices/request_services_screen.dart';
+import 'package:meter/services/request/request_services.dart';
 import 'package:meter/widgets/categoriesWidget.dart';
 import 'package:meter/widgets/custom_rich_text.dart';
+import 'package:meter/widgets/device_widget.dart';
+import 'package:meter/widgets/dialog_widget.dart';
 import 'package:meter/widgets/request_widget.dart';
 import 'package:meter/widgets/servicesWidget.dart';
-import 'package:provider/provider.dart';
+import '../../constant/CollectionUtils/collection_utils.dart';
+import '../../constant/datetime/date_time_util.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../controller/bottomNav/bottom_nav_controller_main.dart';
 import '../../controller/home/home_controller.dart';
-import '../../model/requestServices/request_services_model.dart';
-import '../../provider/firebase_services.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/custom_loading.dart';
+import '../../widgets/custom_stream_builder.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/text_widget.dart';
+import '../device/publish_device.dart';
+import '../store/store_detail.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -29,6 +39,7 @@ class HomeScreen extends StatelessWidget {
     final onBoardController = Get.find<OnBoardController>();
     final controller = Get.find<HomeController>();
     final profileController = Get.find<ProfileController>();
+    log("Rebuild again");
     return SafeArea(
       child: Scaffold(
         appBar: CustomHomeAppBar(
@@ -77,9 +88,9 @@ class HomeScreen extends StatelessWidget {
                             title: "Publish a device".tr,
                             backgroundColor: Colors.transparent,
                             onTap: () {
-                              // Get.to(const PublishDevice(
-                              //   isUpdate: false,
-                              // ));
+                              Get.to(const PublishDevice(
+                                isUpdate: false,
+                              ));
                             }),
                         SizedBox(
                           height: Get.height * 0.02,
@@ -93,64 +104,64 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
-                        // CustomStreamBuilder(
-                        //   stream: QueryUtil.fetchDevices(),
-                        //   builder: (context, devices) {
-                        //     log("Devices length is ${devices!.length}");
-                        //     return GridView.builder(
-                        //         shrinkWrap: true,
-                        //         physics: const ScrollPhysics(),
-                        //         gridDelegate:
-                        //         const SliverGridDelegateWithFixedCrossAxisCount(
-                        //           crossAxisCount: 2, // Number of columns
-                        //           crossAxisSpacing: 8.0,
-                        //           mainAxisSpacing: 8.0,
-                        //           childAspectRatio: 0.4,
-                        //         ),
-                        //         itemCount: devices.length,
-                        //         itemBuilder: (itemBuilder, index) {
-                        //           final data = devices[index];
-                        //           return EditDeviceWidget(
-                        //               date: DateTimeUtil.reformatDate(
-                        //                   data.timestamp.toString()),
-                        //               onClick: () {
-                        //                 // Get.to(StoreDetail(
-                        //                 //   showChatIcon: false,
-                        //                 //   deviceModel: data,
-                        //                 // ));
-                        //               },
-                        //               deviceName: data.deviceName,
-                        //               deviceModel: data.deviceModel,
-                        //               onDeleteTap: () {
-                        //                 // Get.dialog(LogoutDialogue(
-                        //                 //     title: "Delete Device",
-                        //                 //     description:
-                        //                 //     "Are you sure you want to delete device?",
-                        //                 //     mainButtonText: "Delete",
-                        //                 //     mainButtonTap: () async {
-                        //                 //       await DbServices.deleteDevice(
-                        //                 //           data.id);
-                        //                 //       Get.back();
-                        //                 //     }));
-                        //               },
-                        //               onEditTap: () {
-                        //                 // Get.to(PublishDevice(
-                        //                 //   isUpdate: true,
-                        //                 //   deviceModel: data,
-                        //                 // ));
-                        //               },
-                        //               imageUrl: data.deviceImage);
-                        //         });
-                        //   },
-                        //   loadingWidget: Column(
-                        //     children: [
-                        //       SizedBox(
-                        //         height: Get.height * 0.2,
-                        //       ),
-                        //       const CustomLoading(),
-                        //     ],
-                        //   ),
-                        // )
+                        CustomStreamBuilder(
+                          stream: QueryUtil.fetchDevices(),
+                          builder: (context, devices) {
+                            log("Devices length is ${devices!.length}");
+                            return GridView.builder(
+                                shrinkWrap: true,
+                                physics: const ScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, // Number of columns
+                                  crossAxisSpacing: 8.0,
+                                  mainAxisSpacing: 8.0,
+                                  childAspectRatio: 0.4,
+                                ),
+                                itemCount: devices.length,
+                                itemBuilder: (itemBuilder, index) {
+                                  final data = devices[index];
+                                  return DeviceWidget(
+                                      date: DateTimeUtil.reformatDate(
+                                          data.timestamp.toString()),
+                                      onClick: () {
+                                        Get.to(StoreDetail(
+                                          showChatIcon: false,
+                                          deviceModel: data,
+                                        ));
+                                      },
+                                      deviceName: data.deviceName,
+                                      deviceModel: data.deviceModel,
+                                      onDeleteTap: () {
+                                        Get.dialog(DialogWidget(
+                                            title: "Delete Device",
+                                            description:
+                                                "Are you sure you want to delete device?",
+                                            mainButtonText: "Delete",
+                                            mainButtonTap: () async {
+                                              await RequestServices
+                                                  .deleteDevice(data.id);
+                                              Get.back();
+                                            }));
+                                      },
+                                      onEditTap: () {
+                                        // Get.to(PublishDevice(
+                                        //   isUpdate: true,
+                                        //   deviceModel: data,
+                                        // ));
+                                      },
+                                      imageUrl: data.deviceImage);
+                                });
+                          },
+                          loadingWidget: Column(
+                            children: [
+                              SizedBox(
+                                height: Get.height * 0.2,
+                              ),
+                              const CustomLoading(),
+                            ],
+                          ),
+                        )
                       ],
                     );
                   } else if (controller.currentRole.value == "Provider") {
@@ -166,6 +177,10 @@ class HomeScreen extends StatelessWidget {
                         CustomTextField(
                           controller: controller.searchController,
                           hintText: "Search",
+                          onChanged: (newValue) {
+                            controller.onChangeRequestSearch(newValue);
+                            log("New Value is $newValue");
+                          },
                           title: "",
                           showSpace: true,
                           prefixImagePath: AppImage.search,
@@ -182,44 +197,103 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
-                        Consumer<FirebaseServicesProvider>(
+                        CustomStreamBuilder(
+                          stream: QueryUtil.fetchRequestServices(),
+                          builder: (context, requests) {
+                            return Obx(() {
+                              List<RequestServicesModel> filteredRequests = [];
+                              if (controller.requestSearch.value.isEmpty ||
+                                  controller.requestSearch.value == "") {
+                                filteredRequests = requests!;
+                              } else {
+                                final lowerCaseSearch = controller
+                                    .requestSearch.value
+                                    .toLowerCase();
 
-                          builder: (context, provider, child){
-                            return StreamBuilder<List<RequestServicesModel>>(
-                              stream: provider.getRequestServices(),
-                              builder: (context, snapshot){
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return const Center(child: CircularProgressIndicator(color: AppColor.primaryColor,));
-                                }
-                                if (snapshot.hasError) {
-                                  return Center(child: Text('Error: ${snapshot.error}'));
-                                }
-                                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return const Center(child: Text('No request found'));
-                                }
+                                filteredRequests = requests!.where((request) {
+                                  final lowerCaseActivityType =
+                                      request.activityType.toLowerCase();
+                                  final lowerCaseDetails =
+                                      request.details.toLowerCase();
 
-                                List<RequestServicesModel> requestModel = snapshot.data!;
-                                return ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const ScrollPhysics(),
-                                  itemCount: requestModel.length,
-                                  itemBuilder: (itemBuilder, index) {
-                                    RequestServicesModel model = requestModel[index];
-                                    return  RequestWidget(
-                                      buttonText: "Apply Now", activityType: model.activityType, model: model,
-                                    );
-                                  },
-                                  separatorBuilder: (BuildContext context, int index) {
-                                    return SizedBox(
-                                      height: Get.height * 0.02,
-                                    );
-                                  },
+                                  int relevanceScore = 0;
+
+                                  // Condition 1: Exact match
+                                  if (lowerCaseActivityType ==
+                                      lowerCaseSearch) {
+                                    relevanceScore +=
+                                        3; // Assign a higher score for an exact match
+                                  }
+
+                                  // Condition 2: Contains the search term
+                                  if (lowerCaseActivityType
+                                          .contains(lowerCaseSearch) ||
+                                      lowerCaseDetails
+                                          .contains(lowerCaseSearch)) {
+                                    relevanceScore +=
+                                        1; // Assign a lower score for partial match
+                                  }
+
+                                  return relevanceScore > 0;
+                                }).toList();
+                              }
+                              if (filteredRequests.isEmpty) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: Get.height * 0.2,
+                                    ),
+                                    const Center(
+                                      child: TextWidget(
+                                        title: "No data found",
+                                        fontWeight: FontWeight.bold,
+                                        textColor: AppColor.semiDarkGrey,
+                                        fontSize: 16,
+                                      ),
+                                    )
+                                  ],
                                 );
-                              },
-                            );
+                              }
+                              return ListView.separated(
+                                shrinkWrap: true,
+                                physics: const ScrollPhysics(),
+                                itemCount: filteredRequests.length,
+                                itemBuilder: (itemBuilder, index) {
+                                  final data = filteredRequests[index];
+                                  String longitude = data.long;
+                                  String latitude = data.lat;
+                                  double distance = LocationUtils.getDistance(
+                                      latitude, longitude);
+                                  log("Distance is $distance");
+                                  return RequestWidget(
+                                    buttonText: "Apply Now",
+                                    time: LocationUtils.getDistanceFormatted(
+                                        latitude, longitude),
+                                    profileImage: data.userProfileImage,
+                                    location: data.location,
+                                    description: data.details,
+                                    title: data.activityType,
+                                    onTap: () {},
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return SizedBox(
+                                    height: Get.height * 0.02,
+                                  );
+                                },
+                              );
+                            });
                           },
+                          loadingWidget: Column(
+                            children: [
+                              SizedBox(
+                                height: Get.height * 0.2,
+                              ),
+                              const CustomLoading(),
+                            ],
+                          ),
                         ),
-
                       ],
                     );
                   } else {
@@ -348,80 +422,184 @@ class HomeScreen extends StatelessWidget {
                           SizedBox(
                             height: Get.height * 0.03,
                           ),
-                          GridView.builder(
-                              shrinkWrap: true,
-                              physics: const ScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2, // Number of columns
-                                crossAxisSpacing: 12.0,
-                                mainAxisSpacing: 12.0,
-                                childAspectRatio: 0.7,
-                              ),
-                              itemCount: 10,
-                              itemBuilder: (itemBuilder, index) {
-                                return Stack(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            AppImage.productImage,
-                                          ),
-                                          SizedBox(
-                                            height: Get.height * 0.01,
-                                          ),
-                                          const TextWidget(
-                                            title: "Electrical Machine",
-                                            textColor: AppColor.semiDarkGrey,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w800,
-                                          ),
-                                          SizedBox(
-                                            height: Get.height * 0.01,
-                                          ),
-                                          const Row(
-                                            children: [
-                                              TextWidget(
-                                                title: "3.4",
-                                                textColor:
-                                                    AppColor.semiDarkGrey,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w800,
-                                              ),
-                                              Spacer(),
-                                              TextWidget(
-                                                  title: "302 SAR",
+                          CustomStreamBuilder(
+                            stream: QueryUtil.fetchDevices(),
+                            builder: (context, devices) {
+                              log("Devices length is ${devices!.length}");
+                              return GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, // Number of columns
+                                    crossAxisSpacing: 8.0,
+                                    mainAxisSpacing: 8.0,
+                                    childAspectRatio: 0.4,
+                                  ),
+                                  itemCount: devices.length,
+                                  itemBuilder: (itemBuilder, index) {
+                                    final data = devices[index];
+                                    return Stack(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.to(StoreDetail(
+                                              showChatIcon: true,
+                                              deviceModel: data,
+                                            ));
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                            child: Column(
+                                              children: [
+                                                Image.network(
+                                                  data.deviceImage,
+                                                  fit: BoxFit.contain,
+                                                  width: Get.width,
+                                                  height: Get.height * 0.3,
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.01,
+                                                ),
+                                                TextWidget(
+                                                  title: data.deviceName,
                                                   textColor:
-                                                      AppColor.primaryColor,
-                                                  fontSize: 14)
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.all(4),
-                                      decoration: const BoxDecoration(
-                                        color: AppColor.primaryColor,
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(12),
-                                          bottomLeft: Radius.circular(12),
+                                                      AppColor.semiDarkGrey,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w800,
+                                                ),
+                                                SizedBox(
+                                                  height: Get.height * 0.01,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    TextWidget(
+                                                      title: data.rating
+                                                          .toStringAsFixed(2),
+                                                      textColor:
+                                                          AppColor.semiDarkGrey,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                    const Spacer(),
+                                                    TextWidget(
+                                                        title:
+                                                            "${data.devicePrice} SAR",
+                                                        textColor: AppColor
+                                                            .primaryColor,
+                                                        fontSize: 14)
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      child: const TextWidget(
-                                        textColor: AppColor.whiteColor,
-                                        title: "25 %",
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }),
+                                        Container(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: const BoxDecoration(
+                                            color: AppColor.primaryColor,
+                                            borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(12),
+                                              bottomLeft: Radius.circular(12),
+                                            ),
+                                          ),
+                                          child: const TextWidget(
+                                            textColor: AppColor.whiteColor,
+                                            title: "25 %",
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                            loadingWidget: Column(
+                              children: [
+                                SizedBox(
+                                  height: Get.height * 0.2,
+                                ),
+                                const CustomLoading(),
+                              ],
+                            ),
+                          ),
+                          // GridView.builder(
+                          //     shrinkWrap: true,
+                          //     physics: const ScrollPhysics(),
+                          //     gridDelegate:
+                          //         const SliverGridDelegateWithFixedCrossAxisCount(
+                          //       crossAxisCount: 2, // Number of columns
+                          //       crossAxisSpacing: 12.0,
+                          //       mainAxisSpacing: 12.0,
+                          //       childAspectRatio: 0.7,
+                          //     ),
+                          //     itemCount: 10,
+                          //     itemBuilder: (itemBuilder, index) {
+                          //       return Stack(
+                          //         children: [
+                          //           Container(
+                          //             decoration: BoxDecoration(
+                          //                 color: Colors.transparent,
+                          //                 borderRadius:
+                          //                     BorderRadius.circular(12)),
+                          //             child: Column(
+                          //               children: [
+                          //                 Image.asset(
+                          //                   AppImage.productImage,
+                          //                 ),
+                          //                 SizedBox(
+                          //                   height: Get.height * 0.01,
+                          //                 ),
+                          //                 const TextWidget(
+                          //                   title: "Electrical Machine",
+                          //                   textColor: AppColor.semiDarkGrey,
+                          //                   fontSize: 14,
+                          //                   fontWeight: FontWeight.w800,
+                          //                 ),
+                          //                 SizedBox(
+                          //                   height: Get.height * 0.01,
+                          //                 ),
+                          //                 const Row(
+                          //                   children: [
+                          //                     TextWidget(
+                          //                       title: "3.4",
+                          //                       textColor:
+                          //                           AppColor.semiDarkGrey,
+                          //                       fontSize: 12,
+                          //                       fontWeight: FontWeight.w800,
+                          //                     ),
+                          //                     Spacer(),
+                          //                     TextWidget(
+                          //                         title: "302 SAR",
+                          //                         textColor:
+                          //                             AppColor.primaryColor,
+                          //                         fontSize: 14)
+                          //                   ],
+                          //                 )
+                          //               ],
+                          //             ),
+                          //           ),
+                          //           Container(
+                          //             padding: const EdgeInsets.all(4),
+                          //             decoration: const BoxDecoration(
+                          //               color: AppColor.primaryColor,
+                          //               borderRadius: BorderRadius.only(
+                          //                 topRight: Radius.circular(12),
+                          //                 bottomLeft: Radius.circular(12),
+                          //               ),
+                          //             ),
+                          //             child: const TextWidget(
+                          //               textColor: AppColor.whiteColor,
+                          //               title: "25 %",
+                          //               fontSize: 14,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       );
+                          //     }),
                         ],
                       ],
                     );

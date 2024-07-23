@@ -109,7 +109,7 @@ class VerificationBottomSheet extends StatelessWidget {
               CustomRichText(
                 firstSize: 16,
                 secondSize: 16,
-                firstText: "Haven’t got the code yet?",
+                firstText: "Haven’t got the code yet? ",
                 secondText: showResend ? "Resend Code" : "",
                 press: onResendCodeTap,
               ),

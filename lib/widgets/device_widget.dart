@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/widgets/edit_popup.dart';
 import 'package:meter/widgets/text_widget.dart';
 
 import '../constant/res/app_color/app_color.dart';
@@ -32,10 +33,10 @@ class DeviceWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              // EditPopUp(
-              //   onEditTap: onEditTap,
-              //   onDeleteTap: onDeleteTap,
-              // ),
+              EditPopUpWidget(
+                onEditTap: onEditTap,
+                onDeleteTap: onDeleteTap,
+              ),
               const Spacer(),
               Row(
                 children: [

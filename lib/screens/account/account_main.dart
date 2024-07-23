@@ -55,8 +55,10 @@ class AccountMain extends StatelessWidget {
                                     .value = 0;
                               },
                             ),
-                           const Spacer(),
-
+                            const Spacer(),
+                            // SizedBox(
+                            //   width: Get.width * 0.04,
+                            // ),
                             TextWidget(
                               title: "Profile".tr,
                               textColor: AppColor.semiDarkGrey,
@@ -69,12 +71,10 @@ class AccountMain extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
-
-                        // code got error of getx controller
-                        // ProfileHeader(
-                        //   showPersonalInfo: currentRole == "Seller" ||
-                        //       currentRole == "Customer",
-                        // ),
+                        ProfileHeader(
+                          showPersonalInfo: currentRole == "Seller" ||
+                              currentRole == "Customer",
+                        ),
                         if (currentRole == "Provider") ...[
                           SizedBox(
                             height: Get.height * 0.03,
@@ -84,7 +84,7 @@ class AccountMain extends StatelessWidget {
                               textColor: AppColor.primaryColor,
                               iconPath: AppImage.autoCard,
                               title: "Go To AutoCard".tr,
-                              onTap: () {}),
+                              onTap: () {})
                         ],
                         SizedBox(
                           height: Get.height * 0.05,
@@ -142,8 +142,7 @@ class AccountMain extends StatelessWidget {
                           textColor: AppColor.primaryColor,
                           title: "Delete account".tr,
                           onTap: () {
-                            Get.dialog(
-                                Obx(() => controller
+                            Get.dialog(Obx(() => controller
                                     .deleteAccountLoading.value
                                 ? const CustomLoading()
                                 : DialogWidget(

@@ -14,7 +14,6 @@ class TextWidget extends StatelessWidget {
   final Color underLineColor;
   final TextAlign textAlign;
   final TextOverflow? textOverflow;
-
   const TextWidget(
       {super.key,
       required this.title,
@@ -34,7 +33,6 @@ class TextWidget extends StatelessWidget {
       title.tr,
       textAlign: textAlign,
       overflow: textOverflow,
-      softWrap: true,
       style: GoogleFonts.poppins(
           color: textColor,
           fontSize: fontSize,

@@ -1,12 +1,10 @@
 import 'dart:developer';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/widgets/image_pick_widget.dart';
 import 'package:meter/widgets/text_field_country_picker.dart';
-
 import '../../../constant.dart';
 import '../../../constant/errorUtills/image_utils.dart';
 import '../../../constant/res/app_color/app_color.dart';
@@ -129,7 +127,7 @@ class RequestSecondService extends StatelessWidget {
                           hintText: "Enter id number",
                           textInputType: TextInputType.number,
                           title: "ID Number",
-                          controller: controller.agencyNumberController),
+                          controller: controller.idNumberController),
                       SizedBox(
                         height: Get.height * 0.04,
                       ),

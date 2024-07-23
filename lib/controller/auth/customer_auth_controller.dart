@@ -212,9 +212,9 @@ class CustomerAuthController extends GetxController {
           Get.back();
           ShortMessageUtils.showSuccess(jsonResponse["message"]);
         } else {
-          verifyMessage.value = jsonResponse["message"];
-          // Get.back();
-          // verifyMessage.value = "Success";
+          // verifyMessage.value = jsonResponse["message"];
+          Get.back();
+          verifyMessage.value = "Success";
           ShortMessageUtils.showError(jsonResponse["message"]);
         }
       } else {

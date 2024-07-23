@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/widgets/image_pick_widget.dart';
+import 'package:meter/widgets/location/google_map.dart';
 
 import '../../../constant.dart';
 import '../../../constant/errorUtills/image_utils.dart';
@@ -17,7 +18,6 @@ import '../../../widgets/custom_loading.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/text_widget.dart';
 import '../../signup/seller/general_info_2.dart';
-
 
 class ConsolationRequestService extends StatelessWidget {
   const ConsolationRequestService({super.key});
@@ -78,6 +78,10 @@ class ConsolationRequestService extends StatelessWidget {
                         height: Get.height * 0.02,
                       ),
                       CustomTextField(
+                          readOnly: true,
+                          onTap: () {
+                            Get.to(GoogleMapScreen());
+                          },
                           validator:
                               ValidationUtils.validateRequired("Location"),
                           hintText: "Location",

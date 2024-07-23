@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/constant/errorUtills/image_utils.dart';
 import 'package:meter/constant/phoneUtils/phone_utils.dart';
 import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/controller/account/profile_controller.dart';
 import 'package:meter/services/request/request_services.dart';
 
 import '../../bottomSheet/success/success_bottom_sheet.dart';
@@ -92,6 +95,14 @@ class RequestServiceController extends GetxController {
     purposeOfSurveyReportController.text = value.tr;
   }
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    purposeOfSurveyReportController.text = selectedSurveyReport.value.tr;
+    purposeOfPricingController.text = selectedPurpose.value.tr;
+  }
+
   RxString flagUri = "flags/sa.png".obs;
   RxString countryCode = "+966".obs;
   RxString countryShortCode = "SA".obs;
@@ -125,6 +136,8 @@ class RequestServiceController extends GetxController {
   final TextEditingController applicantsNameController =
       TextEditingController();
   final TextEditingController idNumberController = TextEditingController();
+  final TextEditingController longitude = TextEditingController();
+  final TextEditingController latitude = TextEditingController();
 
   RxBool loading = false.obs;
   RxString filePath = "".obs;
@@ -145,28 +158,34 @@ class RequestServiceController extends GetxController {
           validatePhoneNumber() &&
           filePath.value != "") {
         String fileUrl = await ImageUtil.uploadToDatabase(filePath.value);
+        final controller = Get.find<ProfileController>();
+        final user = controller.user.value;
+        log("Long is ${longitude.text} ${latitude.text} ");
         RequestServicesModel requestServicesModel = RequestServicesModel(
-          id: getAutoUid()!,
-          role: customer,
-          userUID: getCurrentUid()!,
-          pricingPurpose: purposeOfPricingController.text,
-          surveyReport: purposeOfSurveyReportController.text,
-          reportNumber: surveyReportNumberController.text,
-          instrumentNumber: instrumentNumberController.text,
-          region: regionController.text,
-          city: cityController.text,
-          neighborhood: neighborhoodController.text,
-          location: locationController.text,
-          pieceNumber: pieceNumberController.text,
-          chartNumber: chartNumberController.text,
-          applicationType: selectedTypeOfApplicant.value,
-          applicationName: applicantsNameController.text,
-          phoneNumber: fullPhoneNumber(),
-          activityType: requestService,
-          idNumber: idNumberController.text,
-          agencyNumber: agencyNumberController.text,
-          documentImage: fileUrl,
-        );
+            id: getAutoUid()!,
+            long: longitude.text,
+            lat: latitude.text,
+            role: customer,
+            userName: user.ownerName,
+            userUID: getCurrentUid()!,
+            pricingPurpose: purposeOfPricingController.text,
+            surveyReport: purposeOfSurveyReportController.text,
+            reportNumber: surveyReportNumberController.text,
+            instrumentNumber: instrumentNumberController.text,
+            region: regionController.text,
+            city: cityController.text,
+            neighborhood: neighborhoodController.text,
+            location: locationController.text,
+            pieceNumber: pieceNumberController.text,
+            chartNumber: chartNumberController.text,
+            applicationType: selectedTypeOfApplicant.value,
+            applicationName: applicantsNameController.text,
+            phoneNumber: fullPhoneNumber(),
+            activityType: requestService,
+            idNumber: idNumberController.text,
+            agencyNumber: agencyNumberController.text,
+            documentImage: fileUrl,
+            userProfileImage: user.profilePicture);
         await RequestServices.addRequestService(requestServicesModel);
         Get.bottomSheet(
           isDismissible: false,

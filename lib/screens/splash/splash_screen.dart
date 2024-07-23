@@ -21,6 +21,7 @@ class SplashScreen extends StatelessWidget {
       bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
       if (isEnglish) {
         changeLanguage("en", "US");
+        // changeLanguage("ar", "Ar");
       } else {
         changeLanguage("ar", "Ar");
       }

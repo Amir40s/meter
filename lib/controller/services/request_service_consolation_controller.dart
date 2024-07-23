@@ -6,14 +6,13 @@ import 'package:meter/bottomSheet/success/success_bottom_sheet.dart';
 import 'package:meter/constant/phoneUtils/phone_utils.dart';
 import 'package:meter/constant/prefUtils/message_utills.dart';
 import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/controller/account/profile_controller.dart';
 import 'package:meter/services/request/request_services.dart';
 
 import '../../constant.dart';
 import '../../constant/errorUtills/error_utils.dart';
 import '../../constant/errorUtills/image_utils.dart';
 import '../../model/requestServices/request_services_model.dart';
-
-
 
 class RequestServiceConsolationController extends GetxController {
   final TextEditingController titleController = TextEditingController();
@@ -24,7 +23,8 @@ class RequestServiceConsolationController extends GetxController {
   final TextEditingController neighborhoodController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-
+  final TextEditingController longitude = TextEditingController();
+  final TextEditingController latitude = TextEditingController();
   final consolationFormKey = GlobalKey<FormState>();
 
   var selectedTypeOfConsolation = "Real estate".obs;
@@ -39,8 +39,6 @@ class RequestServiceConsolationController extends GetxController {
     countryShortCode.value = country; // Update the country's short code.
     log("$code $country");
   }
-
-
 
   String fullPhoneNumber() {
     return "${countryCode.value}${phoneNumberController.text}";
@@ -84,10 +82,16 @@ class RequestServiceConsolationController extends GetxController {
           isAllChecked &&
           filePath.value != "") {
         String fileUrl = await ImageUtil.uploadToDatabase(filePath.value);
+        final controller = Get.find<ProfileController>();
+        final user = controller.user.value;
         RequestServicesModel requestServicesModel = RequestServicesModel(
+            userProfileImage: user.profilePicture,
+            long: longitude.text,
+            lat: latitude.text,
+            userName: user.ownerName,
             id: getAutoUid()!,
             role: customer,
-            userUID:getCurrentUid()!,
+            userUID: getCurrentUid()!,
             consolationTitle: titleController.text,
             consolationType: selectedTypeOfConsolation.value,
             details: detailsController.text,
