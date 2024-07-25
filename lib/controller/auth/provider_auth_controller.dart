@@ -323,6 +323,8 @@ class ProviderAuthController extends GetxController {
             .doc(userId)
             .set(authModel.toJson());
         PrefUtil.setString(PrefUtil.userId, userId);
+        PrefUtil.setString(PrefUtil.role, provider);
+
         Get.offAllNamed(RoutesName.faceAuth);
 
         // You need to save authModel to your database here

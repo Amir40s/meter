@@ -15,6 +15,8 @@ import '../../constant/errorUtills/image_utils.dart';
 import '../../constant/prefUtils/message_utills.dart';
 import '../../constant/prefUtils/pref_utils.dart';
 import '../../constant/routes/routes_name.dart';
+import '../bottomNav/bottom_nav_controller_main.dart';
+import '../home/home_controller.dart';
 
 class CustomerAuthController extends GetxController {
   final TextEditingController nameController = TextEditingController();
@@ -265,9 +267,16 @@ class CustomerAuthController extends GetxController {
           email: emailController.text);
       log("Auth model ${authModel.toJson()}");
       await CollectionUtils.userCollection.doc(userId).set(authModel.toJson());
+
+      final bottomNavController =  Get.find<BottomNavController>();
+      final homeController =  Get.find<HomeController>();
+      log("message::${bottomNavController.currentRole.value.toString()}");
+      await bottomNavController.getCurrentRole();
+      await homeController.getCurrentRole();
       PrefUtil.setString(PrefUtil.userId, userId);
-      Get.offAllNamed(RoutesName.faceAuth);
       PrefUtil.setString(PrefUtil.role, "Customer");
+
+      Get.offAllNamed(RoutesName.faceAuth);
     } else {
       if (!areBothPasswordEqual) {
         ShortMessageUtils.showError("Both password must be equal");

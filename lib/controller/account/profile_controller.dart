@@ -64,18 +64,20 @@ If you encounter any issues during the sign-up process, feel free to reach out t
 
   var user = UserModel.fromJson({}).obs;
 
-  Future<void> fetchUserData() async {
+  Future<void> fetchUserData(String userUID) async {
     try {
       var snapshot = await CollectionUtils.userCollection
-          .where("userId", isEqualTo: getCurrentUid())
+          .where("userId", isEqualTo: userUID)
           .get();
 
       if (snapshot.docs.isNotEmpty) {
+        log("User Found:: ${snapshot.docs.first.data() as Map<String, dynamic>}");
         var userData = snapshot.docs.first.data() as Map<String, dynamic>;
 
         user.value = UserModel.fromJson(userData);
       } else {
         log("User is empty");
+        Get.offAllNamed(RoutesName.onBoardScreen);
       }
     } catch (e) {
       log("Error is $e");

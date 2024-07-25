@@ -90,7 +90,7 @@ class Routes {
       page: () => const SellerSecondGeneralInfo(),
     ),
     GetPage(
-      name: RoutesName.sellerSecondGeneralInfo,
+      name: RoutesName.onboardScreen,
       page: () => const OnboardScreen(),
     ),
     GetPage(

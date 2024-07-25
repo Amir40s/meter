@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:meter/screens/chat/chat_detail.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constant/CollectionUtils/collection_utils.dart';
@@ -236,7 +237,8 @@ class CustomerHomeWidget extends StatelessWidget {
                           ),
                           Image.network(
                             data.deviceImage,
-                            fit: BoxFit.contain,
+                            fit: BoxFit.cover,
+                            width: Get.width,
                             height: Get.height * 0.3,
                           ),
                           SizedBox(
@@ -267,13 +269,13 @@ class CustomerHomeWidget extends StatelessWidget {
                               const Spacer(),
                               CircularContainer(
                                 onTap: () async{
-                                  final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(data.id,"");
+                                  final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(data.userUID,"");
                                   log("Id in home screen::${data.id} and ${data.userUID}");
-                                  Get.to(ChatScreen(
+                                  Get.to(ChatDetail(
                                     userUID: data.userUID,
                                     name: data.deviceName,
                                     image: data.deviceImage,
-                                    otherEmail: data.id,
+                                    otherEmail: data.userUID,
                                     chatRoomId: chatRoomId,
                                   ));
                                   // Get.to(ChatDetail());

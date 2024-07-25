@@ -22,7 +22,7 @@ class UserServices {
   static Future<String> getRoleByUid() async {
     try {
       DocumentSnapshot userDoc =
-          await CollectionUtils.userCollection.doc(getCurrentUid()).get();
+          await CollectionUtils.userCollection.doc(getCurrentUid().toString()).get();
       if (userDoc.exists) {
         final data = userDoc.data() as Map<String, dynamic>?;
         log("Role is ${data?["role"]}");

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meter/controller/account/profile_controller.dart';
 import 'package:meter/screens/home/home_screen.dart';
 
 import '../../constant/res/app_color/app_color.dart';
@@ -20,25 +21,46 @@ class BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomNavController = Get.find<BottomNavController>();
+    final profileController = Get.find<ProfileController>();
     return SafeArea(
         child: Scaffold(
       body: Obx(() {
-        String role = bottomNavController.currentRole.value;
+        String role = profileController.user.value.role.toString();
         bool isSeller = role == "Seller";
-        log("why role is $role");
-        List<Widget> children = [
-          HomeScreen(),
-          if (!isSeller) const StoreMain(),
-          if (isSeller) const AllDevices(),
-          if (!isSeller) const RequestsMain(),
-          // HomeScreen(),
-          // HomeScreen(),
-          // HomeScreen()
-          const ChatMain(),
-          AccountMain(),
-        ];
+        log("why role is $role and isRole = $isSeller");
 
-        return children[bottomNavController.currentIndex.value];
+        List<Widget> childerns = [];
+
+        if (isSeller) {
+          childerns.add(HomeScreen());
+          childerns.add(AllDevices());
+          childerns.add(ChatMain());
+          childerns.add(AccountMain());
+        } else {
+          childerns.add(HomeScreen());
+          childerns.add(StoreMain());
+          childerns.add(RequestsMain());
+          childerns.add(ChatMain());
+          childerns.add(AccountMain());
+        }
+
+
+        // List<Widget> children = [
+        //   HomeScreen(),
+        //   if (!isSeller) const StoreMain(),
+        //   if (isSeller) const AllDevices(),
+        //   if (!isSeller) const RequestsMain(),
+        //   // HomeScreen(),
+        //   // HomeScreen(),
+        //   // HomeScreen()
+        //   const ChatMain(),
+        //  const AccountMain(),
+        // ];
+
+        if (bottomNavController.currentIndex.value >= childerns.length) {
+          bottomNavController.currentIndex.value = 0; // Reset to 0 or any other valid index
+        }
+        return childerns[bottomNavController.currentIndex.value];
       }),
       bottomNavigationBar: Obx(() {
         String role = bottomNavController.currentRole.value;
@@ -70,7 +92,7 @@ class BottomNav extends StatelessWidget {
               width: 24,
               height: 24,
             ),
-            label: !isSeller ? "Store".tr : "My devices",
+            label: !isSeller ? "Store".tr : "My devices".tr,
           ),
           if (!isSeller)
             BottomNavigationBarItem(

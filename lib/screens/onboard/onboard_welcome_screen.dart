@@ -3,13 +3,23 @@ import 'package:get/get.dart';
 import 'package:meter/constant/routes/routes_name.dart';
 import 'package:meter/screens/cServices/services_screen.dart';
 import 'package:meter/widgets/servicesWidget.dart';
+import 'package:provider/provider.dart';
 
+import '../../constant/CollectionUtils/collection_utils.dart';
+import '../../constant/datetime/date_time_util.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../controller/onboard/onboard_controller.dart';
+import '../../controller/store_controller/store_controller.dart';
+import '../../model/devices/devices_model.dart';
+import '../../provider/chat/chat_provider.dart';
+import '../../widgets/circular_container.dart';
+import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_rich_text.dart';
+import '../../widgets/custom_stream_builder.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/text_widget.dart';
+import '../store/store_detail.dart';
 
 class OnboardWelcomeScreen extends StatelessWidget {
   const OnboardWelcomeScreen({super.key});
@@ -17,6 +27,7 @@ class OnboardWelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<OnBoardController>();
+    final storeController = Get.put(StoreController());
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -233,82 +244,127 @@ class OnboardWelcomeScreen extends StatelessWidget {
               // ),
               Padding(
                 padding: const EdgeInsets.all(14.0),
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Number of columns
-                      crossAxisSpacing: 12.0,
-                      mainAxisSpacing: 12.0,
-                      childAspectRatio: 0.7,
-                    ),
-                    itemCount: 10,
-                    itemBuilder: (itemBuilder, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Get.offAllNamed(RoutesName.mainLoginSignupScreen);
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(12)),
+                child: CustomStreamBuilder(
+                  stream: QueryUtil.fetchDevicesForStore(),
+                  builder: (context, devices) {
+                    return Obx(() {
+                      List<DeviceModel> filteredDevices = [];
+                      if (storeController.deviceSearch.value.isEmpty ||
+                          storeController.deviceSearch.value == "") {
+                        filteredDevices = devices!;
+                      } else {
+                        final lowerCaseSearch =
+                        storeController.deviceSearch.value.toLowerCase();
+
+                        filteredDevices = devices!.where((device) {
+                          final lowerCaseDeviceName =
+                          device.deviceName.toLowerCase();
+                          final lowerCaseModel =
+                          device.deviceModel.toLowerCase();
+                          int relevanceScore = 0;
+
+                          // Condition 1: Exact match
+                          if (lowerCaseDeviceName == lowerCaseSearch) {
+                            relevanceScore +=
+                            3; // Assign a higher score for an exact match
+                          }
+
+                          // Condition 2: Contains the search term
+                          if (lowerCaseDeviceName.contains(lowerCaseSearch) ||
+                              lowerCaseModel.contains(lowerCaseSearch)) {
+                            relevanceScore +=
+                            1; // Assign a lower score for partial match
+                          }
+
+                          return relevanceScore > 0;
+                        }).toList();
+                      }
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // Number of columns
+                            crossAxisSpacing: 8.0,
+                            mainAxisSpacing: 8.0,
+                            childAspectRatio: 0.4,
+                          ),
+                          itemCount: filteredDevices.length,
+                          itemBuilder: (itemBuilder, index) {
+                            final data = filteredDevices[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Get.offAllNamed(RoutesName.mainLoginSignupScreen);
+                              },
                               child: Column(
                                 children: [
-                                  Image.asset(
-                                    AppImage.productImage,
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
-                                  ),
-                                  const TextWidget(
-                                    title: "Electrical Machine",
-                                    textColor: AppColor.semiDarkGrey,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                  SizedBox(
-                                    height: Get.height * 0.01,
-                                  ),
-                                  const Row(
+                                  Row(
                                     children: [
-                                      TextWidget(
-                                        title: "3.4",
-                                        textColor: AppColor.semiDarkGrey,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w800,
+                                      Image.asset(
+                                        AppImage.person,
+                                        width: 30,
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       TextWidget(
-                                          title: "302 SAR",
-                                          textColor: AppColor.primaryColor,
-                                          fontSize: 14)
+                                          title: DateTimeUtil.reformatDate(
+                                              data.timestamp.toString()),
+                                          textColor:
+                                          AppColor.semiTransparentDarkGrey,
+                                          fontSize: 12),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                  Image.network(
+                                    data.deviceImage,
+                                    fit: BoxFit.contain,
+                                    height: Get.height * 0.3,
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                        const EdgeInsets.only(left: 14.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            TextWidget(
+                                                title: data.deviceName,
+                                                textColor:
+                                                AppColor.semiDarkGrey,
+                                                fontSize: 12),
+                                            TextWidget(
+                                                title: data.deviceModel,
+                                                textColor: AppColor
+                                                    .semiTransparentDarkGrey,
+                                                fontSize: 8),
+                                          ],
+                                        ),
+                                      ),
+                                      const Spacer(),
+
                                     ],
                                   )
                                 ],
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: const BoxDecoration(
-                                color: AppColor.primaryColor,
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12),
-                                ),
-                              ),
-                              child: const TextWidget(
-                                textColor: AppColor.whiteColor,
-                                title: "25 %",
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                            );
+                          });
+                    });
+                  },
+                  loadingWidget: Column(
+                    children: [
+                      SizedBox(
+                        height: Get.height * 0.2,
+                      ),
+                      const CustomLoading(),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

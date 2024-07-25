@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefUtil {
@@ -32,6 +34,7 @@ class PrefUtil {
   static String getString(String key) => _prefs?.getString(key) ?? "";
 
   static Future<bool> remove(String key) async {
+    log('message::remove  $key');
     final prefs = await _instance;
     return await prefs.remove(key);
   }

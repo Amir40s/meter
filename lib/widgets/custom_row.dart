@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/widgets/text_widget.dart';
 
+import '../constant/prefUtils/pref_utils.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
 import '../controller/account/profile_controller.dart';
@@ -28,6 +29,7 @@ class CustomRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<ProfileController>();
+    bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
     return Column(
       children: [
         GestureDetector(
@@ -49,6 +51,7 @@ class CustomRow extends StatelessWidget {
                 TextWidget(
                     title: title,
                     textColor: textColor ?? AppColor.semiDarkGrey,
+                    fontWeight: isEnglish ? FontWeight.w500 : FontWeight.bold,
                     fontSize: 16),
                 const Spacer(),
                 dropDownItems == null

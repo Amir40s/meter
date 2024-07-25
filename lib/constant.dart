@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 
 import 'constant/CollectionUtils/collection_utils.dart';
 import 'constant/prefUtils/pref_utils.dart';
@@ -48,9 +49,12 @@ const String sendOtpApiRequest = "$BASE_URL/sendOTPCode.php";
 const String verifyOtpApiRequest = "$BASE_URL/verifyOTPCode.php";
 
 String? getCurrentUid() {
-  PrefUtil.setString(PrefUtil.userId, "85aqKUgX1OW1dhHC3DCK");
   String userId = PrefUtil.getString(PrefUtil.userId);
   return userId;
+}
+
+void setUserUID(String value){
+  PrefUtil.setString(PrefUtil.userId, value);
 }
 
 String? getAutoUid() {
@@ -87,15 +91,37 @@ DateTime parseTimestamp(String timestampString) {
   return DateTime.parse(timestampString);
 }
 
+String formatTimestamp(String timestamp) {
+  // Clean the timestamp string by removing any non-breaking spaces or special characters
+  timestamp = timestamp.replaceAll('\u200E', '');
+
+  // Define the input format of the timestamp string
+  DateFormat inputFormat = DateFormat("MMMM d, y 'at' h:mm:ss a 'UTC'x");
+
+  // Parse the input timestamp string to a DateTime object
+  DateTime dateTime;
+  try {
+    dateTime = inputFormat.parse(timestamp, true).toLocal();
+  } catch (e) {
+    return 'Invalid date format';
+  }
+
+  // Define the desired output format
+  DateFormat outputFormat = DateFormat('HH:mm dd/MM/yyyy');
+
+  // Format the DateTime object to the desired format
+  return outputFormat.format(dateTime);
+}
+
 String getGreeting() {
   DateTime now = DateTime.now();
   int hour = now.hour;
 
   if (hour >= 6 && hour < 12) {
-    return "Good Morning";
+    return "Good Morning".tr ;
   } else if (hour >= 12 && hour < 18) {
-    return "Good Afternoon";
+    return "Good Afternoon".tr;
   } else {
-    return "Good Evening";
+    return "Good Evening".tr;
   }
 }

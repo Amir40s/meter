@@ -57,7 +57,7 @@ class DeviceWidget extends StatelessWidget {
           ),
           Image.network(
             imageUrl,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             width: Get.width,
             height: Get.height * 0.3,
           ),

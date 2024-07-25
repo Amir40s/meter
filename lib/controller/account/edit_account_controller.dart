@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:meter/constant.dart';
 import 'package:meter/constant/CollectionUtils/collection_utils.dart';
 import 'package:meter/constant/errorUtills/error_utils.dart';
 import 'package:meter/constant/errorUtills/image_utils.dart';
@@ -70,7 +71,7 @@ class EditAccountController extends GetxController {
         await CollectionUtils.userCollection
             .doc(id.value)
             .update(fieldsToUpdate);
-        await controller.fetchUserData();
+        await controller.fetchUserData(getCurrentUid().toString());
         imagePath.value = "";
         isLoading.value = false;
         Get.back();

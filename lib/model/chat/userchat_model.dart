@@ -3,14 +3,14 @@ class UserchatModel {
   final String ownerName;
   final String email;
   final String profilePicture;
-  final String userUID;
+  final String userId;
 
   UserchatModel({
     required this.id,
     required this.ownerName,
     required this.email,
     required this.profilePicture,
-    required this.userUID,
+    required this.userId,
   });
 
   factory UserchatModel.fromMap(Map<String, dynamic> map) {
@@ -19,7 +19,7 @@ class UserchatModel {
       ownerName: map['ownerName'] ?? "",
       email: map['email'] ?? "",
       profilePicture: map['profilePicture'] ?? "",
-      userUID: map['userUID'] ?? "",
+      userId: map['userId'] ?? "",
     );
   }
 

@@ -5,8 +5,8 @@ import '../constant/res/app_color/app_color.dart';
 
 class ChatTextField extends StatelessWidget {
   final String hintText;
-
-  const ChatTextField({super.key, required this.hintText});
+  final TextEditingController controller;
+  const ChatTextField({super.key, required this.hintText, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,7 @@ class ChatTextField extends StatelessWidget {
           color: AppColor.whiteShade, borderRadius: BorderRadius.circular(12)),
       child: TextField(
         maxLines: 2,
+        controller: controller,
         cursorColor: AppColor.primaryColor,
         decoration: InputDecoration(
           hintText: hintText,

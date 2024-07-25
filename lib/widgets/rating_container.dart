@@ -15,8 +15,10 @@ import 'custom_button.dart';
 
 class RatingContainer extends StatelessWidget {
   final String ownerName,details,price,url,status,requestId,proposalId;
-  const RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url, required this.status, required this.requestId, required this.proposalId,});
+   RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url, required this.status, required this.requestId, required this.proposalId,});
 
+
+  final TextEditingController controller  = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,7 +68,7 @@ class RatingContainer extends StatelessWidget {
                   backgroundColor: AppColor.success10,
                   imagePath: AppImage.chatActive,
                   onTap: () {
-                    Get.to(ChatDetail());
+                  //  Get.to(ChatDetail());
                   },
                 ),
                 CircularContainer(

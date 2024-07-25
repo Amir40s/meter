@@ -35,10 +35,10 @@ class AllDevices extends StatelessWidget {
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                const Align(
+                 Align(
                   alignment: Alignment.topCenter,
                   child: TextWidget(
-                      title: "My Devices",
+                      title: "My devices".tr,
                       textColor: AppColor.semiDarkGrey,
                       fontSize: 16),
                 ),

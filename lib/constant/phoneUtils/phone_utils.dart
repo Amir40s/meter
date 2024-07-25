@@ -26,7 +26,10 @@ class PhoneUtil {
           .where('phoneNumber', isEqualTo: phoneNumber)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        log("PhoneNumber is $phoneNumber");
+        final userDoc = querySnapshot.docs.first;
+        final userUID = userDoc.id;
+
+        log("PhoneNumber is $phoneNumber and UID is $userUID");
         return true;
       } else {
         return false;
@@ -34,6 +37,27 @@ class PhoneUtil {
     } catch (error) {
       ErrorUtil.handleDatabaseErrors(error);
       return false;
+    }
+  }
+
+  static Future<Map<String, dynamic>> checkPhoneNumberExists({
+    required String phoneNumber,
+  }) async {
+    try {
+      final querySnapshot = await CollectionUtils.userCollection
+          .where('phoneNumber', isEqualTo: phoneNumber)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        final userDoc = querySnapshot.docs.first;
+        final userUID = userDoc.id;
+        log("PhoneNumber is $phoneNumber, UID is $userUID");
+        return {'exists': true, 'uid': userUID};
+      } else {
+        return {'exists': false};
+      }
+    } catch (error) {
+      ErrorUtil.handleDatabaseErrors(error);
+      return {'exists': false};
     }
   }
 

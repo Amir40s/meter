@@ -1,14 +1,27 @@
 
 import 'dart:developer';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:meter/constant.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../model/chat/chatroom_model.dart';
 import '../../model/chat/message_model.dart';
 import '../../model/chat/userchat_model.dart';
+import 'package:http/http.dart' as http;
+
+
 
 class ChatProvider with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
+
   List<MessageModel> _messages = [];
   List<UserchatModel> _users = [];
   List<ChatRoomModel> _chatRooms = [];
@@ -18,7 +31,6 @@ class ChatProvider with ChangeNotifier {
 
   List<MessageModel> get messages => _messages;
   List<UserchatModel> get users => _users;
-
   List<ChatRoomModel> get chatRooms => _chatRooms;
   Map<String, int> get unreadMessageCounts => _unreadMessageCounts;
 
@@ -27,6 +39,12 @@ class ChatProvider with ChangeNotifier {
     _loadUsers();
     _loadMessages();
     loadChatRooms();
+  }
+
+  UploadTask uploadAudio(var audioFile, String fileName) {
+    Reference reference = _storage.ref().child(fileName);
+    UploadTask uploadTask = reference.putFile(audioFile);
+    return uploadTask;
   }
 
   // Future<void> _loadChatRooms() async {
@@ -78,6 +96,8 @@ class ChatProvider with ChangeNotifier {
         chatRoom.unreadMessageCount = _unreadMessageCounts[chatRoom.id] ?? 0;
         return chatRoom;
       }).toList();
+      // Sort chat rooms by the timestamp of the latest message in descending order
+      chatRooms.sort((a, b) => b.lastTimestamp.compareTo(a.lastTimestamp));
       return chatRooms;
     });
   }
@@ -118,14 +138,15 @@ class ChatProvider with ChangeNotifier {
       ownerName: doc['ownerName'] ?? "",
       email: doc['email'] ?? "",
       profilePicture: doc['profilePicture'] ?? "",
-      userUID: doc['userUID'] ?? "",
+      userId: doc['userId'] ?? "",
     ))
         .toList();
     notifyListeners();
   }
 
   Future<void> _loadMessages() async {
-    QuerySnapshot snapshot = await _firestore.collection('messages').orderBy('timestamp').get();
+    QuerySnapshot snapshot = await _firestore.collection('messages')
+        .orderBy('timestamp').get();
     _messages = snapshot.docs.map((doc) => MessageModel.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
     notifyListeners();
   }
@@ -145,7 +166,8 @@ class ChatProvider with ChangeNotifier {
   //   });
   // }
 
-  Future<void> sendMessage({required String chatRoomId,required String message, required String otherEmail}) async {
+  Future<void> sendMessage({required String chatRoomId,required String message,
+    required String otherEmail,required String type}) async {
     final currentUserEmail = getCurrentUid().toString();
     final newMessage = {
       'text': message,
@@ -153,6 +175,7 @@ class ChatProvider with ChangeNotifier {
       'timestamp': FieldValue.serverTimestamp(),
       'read': false,
       'delivered': false,
+      'type': type, // Include type in the message data
     };
     await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add(newMessage);
     await _firestore.collection('chatRooms').doc(chatRoomId).update({
@@ -161,6 +184,155 @@ class ChatProvider with ChangeNotifier {
       'lastTimestamp': FieldValue.serverTimestamp(),
     });
   }
+
+
+  Future<void> sendFileMessage({required String chatRoomId, required String filePath, required String type, required String otherEmail}) async {
+    final currentUserEmail = getCurrentUid();
+    final file = File(filePath);
+    final fileName = file.uri.pathSegments.last;
+
+    // Upload file to Firebase Storage
+    final ref = _storage.ref().child('chatFiles/$chatRoomId/$fileName');
+    await ref.putFile(file);
+
+    final fileUrl = await ref.getDownloadURL();
+
+    final newMessage = {
+      'text': fileName,
+      'sender': currentUserEmail,
+      'timestamp': FieldValue.serverTimestamp(),
+      'read': false,
+      'delivered': false,
+      'type': type,
+      'url': fileUrl,
+    };
+    await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add(newMessage);
+    await _firestore.collection('chatRooms').doc(chatRoomId).update({
+      'lastMessage': fileName,
+      'isMessage': otherEmail,
+      'lastTimestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+
+
+
+  // Future<void> sendVoiceMessage({
+  //   required String chatRoomId,
+  //   required File voiceFile,
+  //   required String otherEmail,
+  // }) async {
+  //   log("Enter Voice Server Message");
+  //   final currentUserEmail = getCurrentUid().toString();
+  //   final fileName = voiceFile.uri.pathSegments.last;
+  //   final filePath = 'voiceMessages/$fileName';
+  //
+  //   // Upload file to Firebase Storage
+  //   final storageRef = FirebaseStorage.instance.ref().child(filePath);
+  //   await storageRef.putFile(voiceFile);
+  //   final fileUrl = await storageRef.getDownloadURL();
+  //
+  //   final newMessage = {
+  //     'text': fileUrl, // Store file URL in 'text'
+  //     'sender': currentUserEmail,
+  //     'timestamp': FieldValue.serverTimestamp(),
+  //     'read': false,
+  //     'delivered': false,
+  //     'type': 'voice', // Indicate message type
+  //   };
+  //
+  //   await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add(newMessage);
+  //   await _firestore.collection('chatRooms').doc(chatRoomId).update({
+  //     'lastMessage': 'Voice message',
+  //     'isMessage': otherEmail,
+  //     'lastTimestamp': FieldValue.serverTimestamp(),
+  //   });
+  // }
+
+
+
+  Future<void> downloadFile(String url, String fileName, {String? fallbackUrl}) async {
+    PermissionStatus status = await Permission.storage.request();
+
+    if (status.isGranted) {
+      try {
+        log("Downloading File: $url");
+
+        // Get the application documents directory
+        final dir = await getApplicationDocumentsDirectory();
+        final file = File('${dir.path}/$fileName');
+
+        // Make an HTTP GET request to download the file
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // Write the file to the local filesystem
+          await file.writeAsBytes(response.bodyBytes);
+          log("File downloaded: ${file.path}");
+          showToast("File downloaded: ${file.path}");
+        } else {
+          log("Failed to download file: ${response.statusCode}");
+          showToast("Failed to download file: ${response.statusCode}");
+          if (fallbackUrl != null) {
+            openWebPage(fallbackUrl);
+          }
+        }
+      } catch (e) {
+        log("Error downloading file: $e");
+        showToast("Error downloading file: $e");
+        if (fallbackUrl != null) {
+          openWebPage(fallbackUrl);
+        }
+      }
+    } else if (status.isDenied) {
+      log("Storage permission denied.");
+      showToast("Storage permission denied. Please grant storage permission to download the file.");
+      if (fallbackUrl != null) {
+        openWebPage(fallbackUrl);
+      }
+    } else if (status.isPermanentlyDenied) {
+      log("Storage permission is permanently denied, opening app settings.");
+      showToast("Storage permission is permanently denied. Please enable it in settings.");
+      bool opened = await openAppSettings();
+      log("Opened app settings: $opened");
+    } else if (status.isRestricted) {
+      log("Storage permission is restricted, cannot request permission.");
+      showToast("Storage permission is restricted, cannot request permission.");
+      if (fallbackUrl != null) {
+        openWebPage(fallbackUrl);
+      }
+    }
+  }
+
+
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+
+  Future<void> openWebPage(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> launchWebUrl({required String url}) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
 
   Future<void> updateDeliveryStatus(String chatRoomId) async {
     final currentUserEmail = getCurrentUid().toString();
@@ -225,6 +397,7 @@ class ChatProvider with ChangeNotifier {
       'users': [getCurrentUid().toString(), otherUserEmail],
       'lastMessage': lastMessage,
       'lastTimestamp': FieldValue.serverTimestamp(),
+      'isMessage': getCurrentUid().toString(),
     });
     return chatRoom.id;
   }

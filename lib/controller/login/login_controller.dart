@@ -5,11 +5,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/bottomSheet/success/success_bottom_sheet.dart';
+import 'package:meter/constant.dart';
 import 'package:meter/constant/phoneUtils/phone_utils.dart';
 import 'package:meter/constant/routes/routes_name.dart';
+import 'package:meter/controller/home/home_controller.dart';
 import 'package:meter/http/api/otp_api_services.dart';
 
 import '../../constant/prefUtils/message_utills.dart';
+import '../account/profile_controller.dart';
+import '../bottomNav/bottom_nav_controller_main.dart';
 
 class LoginController extends GetxController {
 
@@ -31,6 +35,7 @@ class LoginController extends GetxController {
   RxBool showResendValue = true.obs;
   RxString message = "".obs;
   RxString verifyMessage = "".obs;
+  RxString userUID = "".obs;
 
 
   void toggleCheckbox(bool? value) {
@@ -93,7 +98,7 @@ class LoginController extends GetxController {
   }
 
 
-  Future verifyOtp() async {
+  Future<void> verifyOtp() async {
     try {
       verifyOtpLoading.value = true;
       final verifyResponse =
@@ -108,8 +113,20 @@ class LoginController extends GetxController {
           Get.bottomSheet(
             SuccessBottomSheet(
               title: "You have been logged in".tr,
-              onDoneTap: () {
-                Get.offAllNamed(RoutesName.bottomNavMain);
+              onDoneTap: () async{
+                if(userUID.isNotEmpty) {
+                  setUserUID(userUID.toString());
+                  Get.put(ProfileController(), permanent: true);
+                  final controller = Get.find<ProfileController>();
+                  await controller.fetchUserData(userUID.toString());
+                  final bottomNavController =  Get.find<BottomNavController>();
+                  final homeController =  Get.find<HomeController>();
+                  log("message::${bottomNavController.currentRole.value.toString()}");
+                  await bottomNavController.getCurrentRole();
+                  await homeController.getCurrentRole();
+                  Get.offAllNamed(RoutesName.bottomNavMain);
+                }
+
               },
               desc:
               "Congratulations! Your phone number has been verified. Click continue to start"
@@ -138,11 +155,26 @@ class LoginController extends GetxController {
     try {
       sendCodeLoading.value = true;
       if (validatePhoneNumber()) {
-        bool isPhonePresent = await PhoneUtil.checkPhoneNumberExist(
-            phoneNumber: fullPhoneNumber());
+      //  bool isPhonePresent = await PhoneUtil.checkPhoneNumberExist(phoneNumber: fullPhoneNumber());
 
-        if (isPhonePresent) {
-          await sendOtp();
+        final result = await PhoneUtil.checkPhoneNumberExists(phoneNumber: fullPhoneNumber());
+
+        if (result['exists'] == true) {
+          userUID.value = result['uid'].toString();
+          log("message::$userUID");
+          // if(userUID.isNotEmpty){
+          //   setUserUID(userUID.toString());
+          //   Get.put(ProfileController(), permanent: true);
+          //   final controller = Get.find<ProfileController>();
+          //   await controller.fetchUserData(userUID.toString());
+          //   final bottomNavController =  Get.find<BottomNavController>();
+          //   final homeController =  Get.find<HomeController>();
+          //   log("message::${bottomNavController.currentRole.value.toString()}");
+          //   await bottomNavController.getCurrentRole();
+          //   await homeController.getCurrentRole();
+          //   Get.offAllNamed(RoutesName.bottomNavMain);
+          // }
+       await sendOtp();
         } else {
           ShortMessageUtils.showError("Entered phone number is not present");
           sendCodeLoading.value = false;

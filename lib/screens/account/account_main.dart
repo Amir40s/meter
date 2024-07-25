@@ -47,6 +47,7 @@ class AccountMain extends StatelessWidget {
                           height: Get.height * 0.02,
                         ),
                         Row(
+                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             CustomBackButton(
                               onTap: () {
@@ -73,7 +74,8 @@ class AccountMain extends StatelessWidget {
                         ),
                         ProfileHeader(
                           showPersonalInfo: currentRole == "Seller" ||
-                              currentRole == "Customer",
+                              currentRole == "Customer" || currentRole == "Provider",
+                          currentRole: currentRole,
                         ),
                         if (currentRole == "Provider") ...[
                           SizedBox(
@@ -172,8 +174,8 @@ class AccountMain extends StatelessWidget {
                                 title: "Logout".tr,
                                 description: "Are you sure to logout?".tr,
                                 mainButtonText: "Logout".tr,
-                                mainButtonTap: () {
-                                  PrefUtil.remove(PrefUtil.userId);
+                                mainButtonTap: () async{
+                                 await PrefUtil.remove(PrefUtil.userId);
                                   Get.offAllNamed(
                                       RoutesName.mainLoginSignupScreen);
                                 }));

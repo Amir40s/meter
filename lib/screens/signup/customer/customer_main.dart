@@ -75,7 +75,7 @@ class CustomerLoginMain extends StatelessWidget {
                 title: "Register".tr,
                 onTap: () {
                   if (_formKey.currentState!.validate() &&
-                          controller.verifyMessage.value ==
+                          controller.verifyMessage.value !=
                               "Success" //Change to Success
                       ) {
                     Get.toNamed(RoutesName.customerGeneralInfoScreen);

@@ -5,6 +5,7 @@ import 'package:meter/controller/account/profile_controller.dart';
 import 'package:meter/model/user/user_model.dart';
 import 'package:meter/widgets/text_widget.dart';
 
+import '../constant/prefUtils/pref_utils.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
 import '../screens/account/edit_user_info.dart';
@@ -12,16 +13,18 @@ import 'circular_container.dart';
 
 class ProfileHeader extends StatelessWidget {
   final bool showPersonalInfo;
-  const ProfileHeader({super.key, this.showPersonalInfo = true});
+  final String currentRole;
+  const ProfileHeader({super.key, this.showPersonalInfo = true, required this.currentRole});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<ProfileController>();
     final userModel = controller.user;
+    bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
     return Row(
       children: [
         Obx(() => Container(
-              margin: EdgeInsets.only(right: 5.0),
+              margin: EdgeInsets.only(right: 5.0,left: isEnglish ? 0 :  8),
               child: CircleAvatar(
                 radius: 35,
                 backgroundImage: NetworkImage(userModel.value.profilePicture),
@@ -29,7 +32,7 @@ class ProfileHeader extends StatelessWidget {
             )),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: currentRole == "Provider" ?  CrossAxisAlignment.center :  CrossAxisAlignment.start,
           children: [
             Obx(
               () => TextWidget(
@@ -37,21 +40,25 @@ class ProfileHeader extends StatelessWidget {
                   textColor: AppColor.primaryColor,
                   fontSize: 16),
             ),
-            const SizedBox(
-              height: 2,
-            ),
-            Obx(() => showPersonalInfo
-                ? twoWidget(
-                    imagePath: AppImage.call, text: userModel.value.phoneNumber)
-                : Container()),
-            Obx(
-              () => showPersonalInfo
+            if(currentRole != "Provider")...[
+              const SizedBox(
+                height: 2,
+              ),
+              Obx(() => showPersonalInfo
                   ? twoWidget(
-                      imagePath: AppImage.mail, text: userModel.value.email)
-                  : Container(),
-            )
+                  imagePath: AppImage.call, text: userModel.value.phoneNumber)
+                  : Container()),
+              Obx(
+                    () => showPersonalInfo
+                    ? twoWidget(
+                    imagePath: AppImage.mail, text: userModel.value.email)
+                    : Container(),
+              ),
+            ]
+
           ],
         ),
+
         const Spacer(),
         CircularContainer(
             imageSize: 24,

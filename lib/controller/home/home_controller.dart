@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:meter/services/user/user_services.dart';
 
 import '../../constant/res/app_images/app_images.dart';
+import '../account/profile_controller.dart';
 
 class HomeController extends GetxController {
   RxString currentRole = "".obs;

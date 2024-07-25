@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../constant/prefUtils/pref_utils.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
 
@@ -11,6 +12,7 @@ class CustomBackButton extends StatelessWidget {
   const CustomBackButton({super.key, this.backgroundColor, this.onTap});
   @override
   Widget build(BuildContext context) {
+    bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
     return GestureDetector(
       onTap: onTap ??
               () {
@@ -25,7 +27,7 @@ class CustomBackButton extends StatelessWidget {
             Border.all(color: AppColor.semiTransparentDarkGrey, width: 1)),
         child: Center(
             child: Image.asset(
-              AppImage.back,
+             isEnglish ? AppImage.back : AppImage.arabicBack,
               width: 24,
             )),
       ),

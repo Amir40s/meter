@@ -47,8 +47,8 @@ class SellerHomeWidget extends StatelessWidget {
         SizedBox(
           height: Get.height * 0.02,
         ),
-        const TextWidget(
-          title: "My Devices",
+         TextWidget(
+          title: "My devices".tr,
           fontWeight: FontWeight.bold,
           fontSize: 16,
           textColor: AppColor.semiDarkGrey,

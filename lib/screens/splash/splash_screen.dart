@@ -25,7 +25,7 @@ class SplashScreen extends StatelessWidget {
       } else {
         changeLanguage("ar", "Ar");
       }
-      await controller.fetchUserData();
+      await controller.fetchUserData(getCurrentUid().toString());
       navigate();
     });
     return SafeArea(
@@ -57,10 +57,10 @@ class SplashScreen extends StatelessWidget {
   }
 
   void navigate() {
-    final auth = getCurrentUid();
+    final auth = getCurrentUid() ?? "";
     log("Auth is----> $auth");
 
-    if (auth != "" && auth != null) {
+    if (auth != "") {
       Get.offAllNamed(RoutesName.bottomNavMain);
     } else {
       Get.offAllNamed(RoutesName.onBoardScreen);

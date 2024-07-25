@@ -140,7 +140,7 @@ class ChatScreen extends StatelessWidget {
 
 
                 provider.sendMessage(
-                    chatRoomId: chatRoomId, message: text,otherEmail: otherEmail
+                    chatRoomId: chatRoomId, message: text,otherEmail: otherEmail, type: 'text'
                 );
                 _controller.clear();
               }

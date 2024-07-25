@@ -107,6 +107,7 @@ class AppImage {
   static const String threedot = "${mainImage}three_dot.webp";
   static const String loading = "${mainImage}loading.webp";
   static const String downArrow = "${mainImage}downArrow.webp";
+  static const String docImage = "${mainImage}doc_image.webp";
   static const String sellerPersonActive =
       "${mainImage}seller_person_active.webp";
   static const String customerPersonActive =

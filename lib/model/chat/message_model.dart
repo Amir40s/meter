@@ -7,6 +7,8 @@ class MessageModel {
   final DateTime timestamp;
   final bool read;
   final bool delivered;
+  final String type; // 'text', 'image', 'document', 'voice'
+  final String? url;
 
   MessageModel({
     required this.id,
@@ -15,6 +17,8 @@ class MessageModel {
     required this.timestamp,
     required this.read,
     required this.delivered,
+    required this.type,
+    this.url,
   });
 
   factory MessageModel.fromMap(Map<String, dynamic> data, String id) {
@@ -25,6 +29,8 @@ class MessageModel {
       timestamp: (data['timestamp'] as Timestamp).toDate(),
       read: data['read'] ?? false,
       delivered: data['delivered'] ?? false,
+      type: data['type'] ?? 'text',
+      url: data['url'],
     );
   }
 
@@ -32,9 +38,11 @@ class MessageModel {
     return {
       'text': text,
       'sender': sender,
-      'timestamp': timestamp,
+      'timestamp': Timestamp.fromDate(timestamp),
       'read': read,
       'delivered': delivered,
+      'type': type,
+      'url': url,
     };
   }
 }

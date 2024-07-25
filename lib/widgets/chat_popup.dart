@@ -1,20 +1,28 @@
 import 'dart:developer';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/bottomSheet/requestForm/request_form_bottom_sheet.dart';
 import 'package:meter/widgets/request_widget.dart';
 import 'package:meter/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
+import '../provider/chat/chat_provider.dart';
 import 'circular_container.dart';
 
 class ChatAddBottomSheet extends StatelessWidget {
-  const ChatAddBottomSheet({super.key});
+  String chatRoomId,otherEmail;
+   ChatAddBottomSheet({super.key,
+   this.chatRoomId = '',
+   this.otherEmail = '',
+   });
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ChatProvider>(context,listen: false);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -67,7 +75,28 @@ class ChatAddBottomSheet extends StatelessWidget {
                 offset: Offset(Get.width * 0.05, 0),
                 child: twoWidgets(
                   imagePath: AppImage.gallery,
-                  onTap: () {},
+                  onTap: () async {
+                    final result = await FilePicker.platform.pickFiles();
+                    if (result != null) {
+                      final file = result.files.single;
+                      final filePath = file.path!;
+                      final fileType = file.extension;
+                      String messageType;
+                      if (fileType == 'mp3' || fileType == 'wav') {
+                        messageType = 'voice';
+                      } else if (fileType == 'jpg' || fileType == 'png') {
+                        messageType = 'image';
+                      } else {
+                        messageType = 'document';
+                      }
+                      await provider.sendFileMessage(
+                        chatRoomId: chatRoomId,
+                        filePath: filePath,
+                        type: messageType,
+                        otherEmail: otherEmail,
+                      );
+                    }
+                  },
                   iconSize: 25.0,
                   title: "Gallery".tr,
                 ),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/screens/store/store_detail.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/CollectionUtils/collection_utils.dart';
 import '../../constant/datetime/date_time_util.dart';
@@ -10,12 +11,14 @@ import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../controller/store_controller/store_controller.dart';
 import '../../model/devices/devices_model.dart';
+import '../../provider/chat/chat_provider.dart';
 import '../../widgets/circular_container.dart';
 import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_stream_builder.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/text_widget.dart';
 import '../chat/chat_detail.dart';
+import '../chat/chat_screen.dart';
 
 class StoreMain extends StatelessWidget {
   const StoreMain({super.key});
@@ -130,7 +133,8 @@ class StoreMain extends StatelessWidget {
                                   ),
                                   Image.network(
                                     data.deviceImage,
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.cover,
+                                    width: Get.width,
                                     height: Get.height * 0.3,
                                   ),
                                   SizedBox(
@@ -160,8 +164,16 @@ class StoreMain extends StatelessWidget {
                                       ),
                                       const Spacer(),
                                       CircularContainer(
-                                        onTap: () {
-                                          Get.to(ChatDetail());
+                                        onTap: () async{
+                                          final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(data.userUID,"");
+                                          log("Id in home screen::${data.id} and ${data.userUID}");
+                                          Get.to(ChatScreen(
+                                            userUID: data.userUID,
+                                            name: data.deviceName,
+                                            image: data.deviceImage,
+                                            otherEmail: data.userUID,
+                                            chatRoomId: chatRoomId,
+                                          ));
                                           // Get.find<BottomNavController>()
                                           //     .currentIndex
                                           //     .value = 3;

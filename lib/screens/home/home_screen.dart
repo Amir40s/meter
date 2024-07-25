@@ -48,11 +48,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
     final profileController = Get.find<ProfileController>();
+    final userModel = profileController.user;
+
+    // Ensuring the role is correctly set before building the UI
+    String role = profileController.user.value.role ?? '';
+    log("Role on HomeScreen: $role");
     log("Rebuild again");
     return SafeArea(
       child: Scaffold(
         appBar: CustomHomeAppBar(
           title: profileController.user.value.city,
+          imageUrl: userModel.value.profilePicture.toString(),
         ),
         body: Padding(
           padding: const EdgeInsets.all(14.0),
@@ -78,12 +84,13 @@ class HomeScreen extends StatelessWidget {
                   height: Get.height * 0.01,
                 ),
                 Obx(() {
-                  if (controller.currentRole.value == "Seller") {
-                    return const SellerHomeWidget();
-                  } else if (controller.currentRole.value == "Provider") {
-                    return const ProviderHomeWidget();
-                  } else {
-                    return const CustomerHomeWidget();
+                  switch (controller.currentRole.value) {
+                    case "Seller":
+                      return const SellerHomeWidget();
+                    case "Provider":
+                      return const ProviderHomeWidget();
+                    default:
+                      return const CustomerHomeWidget();
                   }
                 })
               ],
