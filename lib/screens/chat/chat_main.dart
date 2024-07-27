@@ -65,8 +65,8 @@ class ChatMain extends StatelessWidget {
                               );
                             }
                             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                              return const  Center(
-                                child: Text('No chats available'),
+                              return   Center(
+                                child: Text('No chats available'.tr),
                               );
                             }
                        //     var chatRooms = snapshot.data!;

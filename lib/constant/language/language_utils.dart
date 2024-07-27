@@ -411,6 +411,8 @@ class LanguageUtils {
       ///////////////////////////////////////////New//////////
       "Enter Description": "Enter Description",
       "Meter Store": "Meter Store",
+      "No request found": "No request found",
+      "No chats available": "No chats available",
 
       "Error": "Error",
       "Request Info": "Request Info",
@@ -603,6 +605,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "Delete Account": "حول التطبيق",
       "Record": "تسجيل",
       "Gallery": "صالة عرض",
+      "No request found": "لم يتم العثور على أي طلب",
       "Create an offer": "قم بإنشاء عرض",
       "Code has been send": "تم إرسال الرمز إلى",
       "Haven’t got the code yet?": "لم تحصل على الرمز بعد؟",
@@ -826,6 +829,7 @@ If you encounter any issues during the sign-up process, feel free to reach out t
       "South Direction": "اتجاه الجنوب",
       "West Direction": "اتجاه الغرب",
       "Title": "عنوان",
+      "No chats available": "لا توجد محادثات متاحة",
 
       "Enter title": "أدخل العنوان",
       "Choose Service Type": "اختر نوع الخدمة",

@@ -8,9 +8,11 @@ import 'package:meter/constant/validationUtils/validation_utils.dart';
 import 'package:meter/widgets/custom_loading.dart';
 import 'package:meter/widgets/text_field_country_picker.dart';
 
+import '../../constant/prefUtils/message_utills.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../controller/account/edit_account_controller.dart';
+import '../../controller/auth/seller_auth_controller.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/text_widget.dart';
@@ -21,6 +23,8 @@ class EditProfileBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<EditAccountController>();
+    // final authController = Get.find<SellerAuthController>();
+    final authController = Get.put(SellerAuthController());
     final formKey = GlobalKey<FormState>();
     controller.fetchAllValue();
     return Container(
@@ -94,6 +98,42 @@ class EditProfileBottomSheet extends StatelessWidget {
                     title: "Email".tr),
                 SizedBox(
                   height: Get.height * 0.02,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 14.0, right: 14),
+                  child: Obx(
+                        () => TextFieldCountryPicker(
+                      isVerifySucces: authController.verifyMessage.value ==
+                          "Success", //change to == "Success"
+                      hintText: "115203867",
+                      controller: authController.phoneNumberController,
+                      flagPath: authController.phoneNumberFlagUri.value,
+                      countryShortCode: authController.phoneNumberCountryCode.value,
+                      countryCode: (CountryCode countryCode) {
+                        authController.onChangePhoneNumberFlag(
+                            countryCode.flagUri ?? "",
+                            countryCode.dialCode ?? "",
+                            countryCode.code ?? "");
+                      },
+                      onTapSuffix: () {
+                        if (authController.verifyMessage.value == "Success") {
+                          ShortMessageUtils.showSuccess("Already verified");
+                        } else if (authController.sendOtpLoading.value) {
+                        } else {
+                          authController.sendOtp();
+                        }
+                      },
+                      verifyColor: authController.verifyMessage.value == "Success"
+                          ? AppColor.semiTransparentDarkGrey
+                          : AppColor.primaryColor,
+                      verifyText: authController.sendOtpLoading.value
+                          ? "Loading..."
+                          : (authController.verifyMessage.value == "Success"
+                          ? authController.verifyMessage.value
+                          : "Verify"),
+                      title: "Phone Number".tr,
+                    ),
+                  ),
                 ),
                 // Obx(
                 //   () => TextFieldCountryPicker(
