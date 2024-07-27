@@ -162,19 +162,19 @@ class LoginController extends GetxController {
         if (result['exists'] == true) {
           userUID.value = result['uid'].toString();
           log("message::$userUID");
-          // if(userUID.isNotEmpty){
-          //   setUserUID(userUID.toString());
-          //   Get.put(ProfileController(), permanent: true);
-          //   final controller = Get.find<ProfileController>();
-          //   await controller.fetchUserData(userUID.toString());
-          //   final bottomNavController =  Get.find<BottomNavController>();
-          //   final homeController =  Get.find<HomeController>();
-          //   log("message::${bottomNavController.currentRole.value.toString()}");
-          //   await bottomNavController.getCurrentRole();
-          //   await homeController.getCurrentRole();
-          //   Get.offAllNamed(RoutesName.bottomNavMain);
-          // }
-       await sendOtp();
+          if(userUID.isNotEmpty){
+            setUserUID(userUID.toString());
+            Get.put(ProfileController(), permanent: true);
+            final controller = Get.find<ProfileController>();
+            await controller.fetchUserData(userUID.toString());
+            final bottomNavController =  Get.find<BottomNavController>();
+            final homeController =  Get.find<HomeController>();
+            log("message::${bottomNavController.currentRole.value.toString()}");
+            await bottomNavController.getCurrentRole();
+            await homeController.getCurrentRole();
+            Get.offAllNamed(RoutesName.bottomNavMain);
+          }
+     //  await sendOtp();
         } else {
           ShortMessageUtils.showError("Entered phone number is not present");
           sendCodeLoading.value = false;

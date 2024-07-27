@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:meter/constant.dart';
 import 'package:path_provider/path_provider.dart';
@@ -166,6 +167,47 @@ class ChatProvider with ChangeNotifier {
   //   });
   // }
 
+  // Send location message
+  Future<void> sendLocationMessage({
+    required String chatRoomId,
+    required String otherEmail,
+  }) async {
+    final currentUserEmail = getCurrentUid().toString();
+    PermissionStatus status = await Permission.locationWhenInUse.request();
+
+    if (status.isGranted) {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      final locationMessage = {
+        'text': 'Location: (${position.latitude}, ${position.longitude})',
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+        'sender': currentUserEmail,
+        'timestamp': FieldValue.serverTimestamp(),
+        'read': false,
+        'delivered': false,
+        'type': 'location',
+      };
+
+      await _firestore
+          .collection('chatRooms')
+          .doc(chatRoomId)
+          .collection('messages')
+          .add(locationMessage);
+      await _firestore.collection('chatRooms').doc(chatRoomId).update({
+        'lastMessage': 'Location message',
+        'isMessage': otherEmail,
+        'lastTimestamp': FieldValue.serverTimestamp(),
+      });
+
+      showToast("Location sent successfully!");
+    } else {
+      showToast("Location permission denied.");
+    }
+  }
+
+
   Future<void> sendMessage({required String chatRoomId,required String message,
     required String otherEmail,required String type}) async {
     final currentUserEmail = getCurrentUid().toString();
@@ -217,38 +259,86 @@ class ChatProvider with ChangeNotifier {
 
 
 
-  // Future<void> sendVoiceMessage({
-  //   required String chatRoomId,
-  //   required File voiceFile,
-  //   required String otherEmail,
-  // }) async {
-  //   log("Enter Voice Server Message");
-  //   final currentUserEmail = getCurrentUid().toString();
-  //   final fileName = voiceFile.uri.pathSegments.last;
-  //   final filePath = 'voiceMessages/$fileName';
-  //
-  //   // Upload file to Firebase Storage
-  //   final storageRef = FirebaseStorage.instance.ref().child(filePath);
-  //   await storageRef.putFile(voiceFile);
-  //   final fileUrl = await storageRef.getDownloadURL();
-  //
-  //   final newMessage = {
-  //     'text': fileUrl, // Store file URL in 'text'
-  //     'sender': currentUserEmail,
-  //     'timestamp': FieldValue.serverTimestamp(),
-  //     'read': false,
-  //     'delivered': false,
-  //     'type': 'voice', // Indicate message type
-  //   };
-  //
-  //   await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add(newMessage);
-  //   await _firestore.collection('chatRooms').doc(chatRoomId).update({
-  //     'lastMessage': 'Voice message',
-  //     'isMessage': otherEmail,
-  //     'lastTimestamp': FieldValue.serverTimestamp(),
-  //   });
-  // }
+  Future<void> sendVoiceMessage({
+    required String chatRoomId,
+    required String text,
+    required String otherEmail,
+  }) async {
+    log("Enter Voice Server Message");
+    final currentUserEmail = getCurrentUid().toString();
 
+
+    final newMessage = {
+      'text': text, // Store file URL in 'text'
+      'sender': currentUserEmail,
+      'timestamp': FieldValue.serverTimestamp(),
+      'read': false,
+      'delivered': false,
+      'type': 'voice', // Indicate message type
+    };
+
+    await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add(newMessage);
+    await _firestore.collection('chatRooms').doc(chatRoomId).update({
+      'lastMessage': 'Voice message',
+      'isMessage': otherEmail,
+      'lastTimestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> sendOfferMessage({
+    required String price,
+    required String tax,
+    required String fees,
+    required String total,
+    required String details,
+    required String chatRoomId,
+    required String otherEmail,
+  }) async {
+    log("Enter Voice Server Message");
+    final currentUserEmail = getCurrentUid().toString();
+
+
+    final newMessage = {
+      'text': price, // Store file URL in 'text'
+      'tax': tax, // Store file URL in 'text'
+      'fees': fees, // Store file URL in 'text'
+      'total': total, // Store file URL in 'text'
+      'details': details, // Store file URL in 'text'
+      'offerStatus': "pending", // Store file URL in 'text'
+      'sender': currentUserEmail,
+      'timestamp': FieldValue.serverTimestamp(),
+      'read': false,
+      'delivered': false,
+      'type': 'offer', // Indicate message type
+    };
+
+    await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add(newMessage);
+    await _firestore.collection('chatRooms').doc(chatRoomId).update({
+      'lastMessage': 'Offer message',
+      'isMessage': otherEmail,
+      'lastTimestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> updateOfferMessage({
+    required String status,
+    required String messageID,
+    required String chatRoomId,
+    required String otherEmail,
+  }) async {
+    log("Enter Offer Server Message");
+    final newMessage = {
+      'offerStatus': status, // Store file URL in 'text'
+    };
+
+    await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages')
+        .doc(messageID).update(newMessage);
+    await _firestore.collection('chatRooms').doc(chatRoomId).update({
+      'lastMessage': 'Offer has been $status',
+      'isMessage': otherEmail,
+      'lastTimestamp': FieldValue.serverTimestamp(),
+    });
+  }
 
 
   Future<void> downloadFile(String url, String fileName, {String? fallbackUrl}) async {
@@ -304,8 +394,6 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
-
-
   void showToast(String message) {
     Fluttertoast.showToast(
       msg: message,
@@ -332,7 +420,6 @@ class ChatProvider with ChangeNotifier {
       throw 'Could not launch $url';
     }
   }
-
 
   Future<void> updateDeliveryStatus(String chatRoomId) async {
     final currentUserEmail = getCurrentUid().toString();

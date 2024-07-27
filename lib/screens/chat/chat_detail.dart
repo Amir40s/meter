@@ -5,16 +5,20 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:meter/widgets/chat_offer_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:record_mp3/record_mp3.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:url_launcher/url_launcher.dart';
 import '../../chat/audio_controller.dart';
 import '../../constant.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../provider/chat/chat_provider.dart';
+import '../../provider/player/audio_player_provider.dart';
 import '../../widgets/chat_popup.dart';
 import '../../widgets/chat_text_field.dart';
 import '../../widgets/circular_container.dart';
@@ -22,15 +26,10 @@ import '../../widgets/custom_back_button.dart';
 import '../../widgets/pop_up_manu_widget.dart';
 import '../../widgets/text_widget.dart';
 
-class ChatDetail extends StatefulWidget {
+class ChatDetail extends StatelessWidget {
   final String userUID, name,image,otherEmail,chatRoomId;
-   ChatDetail({super.key, required this.userUID, required this.name, required this.image, required this.otherEmail, required this.chatRoomId});
+  ChatDetail({super.key, required this.userUID, required this.name, required this.image, required this.otherEmail, required this.chatRoomId});
 
-  @override
-  State<ChatDetail> createState() => _ChatDetailState();
-}
-
-class _ChatDetailState extends State<ChatDetail> {
   final TextEditingController _controller = TextEditingController();
 
   late String recordFilePath;
@@ -39,30 +38,9 @@ class _ChatDetailState extends State<ChatDetail> {
 
   AudioPlayer audioPlayer = AudioPlayer();
 
-  String audioURL = "";
-
-  int i=0;
 
 
 
-  // uploadAudio() async {
-  //   UploadTask uploadTask = Provider.of<ChatProvider>(context,listen: false).uploadAudio(File(recordFilePath),
-  //       "audio/${DateTime.now().millisecondsSinceEpoch.toString()}");
-  //   try {
-  //     TaskSnapshot snapshot = await uploadTask;
-  //     audioURL = await snapshot.ref.getDownloadURL();
-  //     String strVal = audioURL.toString();
-  //
-  //     log("Audio Message Url: $strVal");
-  //   } on FirebaseException catch (e) {
-  //     setState(() {
-  //       audioController.isSending.value = false;
-  //     });
-  //     Fluttertoast.showToast(msg: e.message ?? e.toString());
-  //   }
-  // }
-
-  // @override
   @override
   Widget build(BuildContext context) {
     requestMicrophonePermission();
@@ -78,7 +56,7 @@ class _ChatDetailState extends State<ChatDetail> {
               SizedBox(
                 height: Get.height * 0.04,
               ),
-             const Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const CustomBackButton(),
@@ -94,15 +72,15 @@ class _ChatDetailState extends State<ChatDetail> {
               ),
               Row(
                 children: [
-                   CircleAvatar(
+                  CircleAvatar(
                     radius: 30,
-                    backgroundImage: NetworkImage(widget.image),
+                    backgroundImage: NetworkImage(image),
                   ),
                   SizedBox(
                     width: Get.width * 0.05,
                   ),
                   TextWidget(
-                      title: widget.name,
+                      title: name,
                       textColor: AppColor.semiDarkGrey,
                       fontSize: 16)
                 ],
@@ -110,13 +88,13 @@ class _ChatDetailState extends State<ChatDetail> {
               Expanded(
                 flex: 8,
                 child: StreamBuilder(
-                  stream: context.read<ChatProvider>().getMessages(widget.chatRoomId),
+                  stream: context.read<ChatProvider>().getMessages(chatRoomId),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
                     }
-                    provider.markMessageAsRead(widget.chatRoomId);
-                    provider.updateDeliveryStatus(widget.chatRoomId);
+                    provider.markMessageAsRead(chatRoomId);
+                    provider.updateDeliveryStatus(chatRoomId);
                     final messages = snapshot.data!.docs;
                     List<Widget> messageWidgets = [];
                     for (var message in messages) {
@@ -125,6 +103,7 @@ class _ChatDetailState extends State<ChatDetail> {
                       final messageTimestamp = message["timestamp"];
                       final isDelivered = message["delivered"];
                       final type = message["type"];
+                      final documentId = message.id.toString();
 
                       final relativeTime = messageTimestamp != null
                           ? timeago.format(messageTimestamp.toDate())
@@ -141,7 +120,7 @@ class _ChatDetailState extends State<ChatDetail> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: isCurrentUser ? AppColor.primaryColor : Colors.white,
+                                color: isCurrentUser  ? AppColor.primaryColor : Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               padding: EdgeInsets.all(10),
@@ -151,14 +130,14 @@ class _ChatDetailState extends State<ChatDetail> {
                                     ? CrossAxisAlignment.end
                                     : CrossAxisAlignment.start,
                                 children: [
-                                 type == "text" ?
-                                 Text(
-                                   messageText,
+                                  type == "text" ?
+                                  Text(
+                                    messageText,
                                     style: TextStyle(color:  isCurrentUser ? Colors.white : Colors.black),
                                   ) :
-                                 type == "image"  ?
-                                 Image.network(message['url']!.toString(),width: 200.0,height: 200.0,)
-                                  :
+                                  type == "image"  ?
+                                  Image.network(message['url']!.toString(),width: 200.0,height: 200.0,)
+                                      :
                                   type == "document" ?
                                   Container(
                                     width: 180.0,
@@ -167,53 +146,89 @@ class _ChatDetailState extends State<ChatDetail> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Stack(children: [
-                                          Image.asset(AppImage.docImage),
-                                          Positioned(
-                                              top: 0,
-                                              right: 0,
-                                              child: IconButton(
-                                                icon: Icon(Icons.save_alt_outlined,color: Colors.white,),
-                                                onPressed: () async{
-                                                  log("message");
-                                                 await provider.downloadFile(message['url'], message['text'],fallbackUrl: message['url']);
-                                                },
-                                              )
-                                          ),
-                                        ]),
+                                        Stack(
+                                            children: [
+                                              Image.asset(AppImage.docImage),
+                                              Positioned(
+                                                  top: 0,
+                                                  right: 0,
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.save_alt_outlined,color: Colors.white,),
+                                                    onPressed: () async{
+                                                      log("message");
+                                                      await provider.downloadFile(message['url'], message['text'],fallbackUrl: message['url']);
+                                                    },
+                                                  )
+                                              ),
+                                            ]),
                                         TextWidget(
-                                            title: "Document: ${message['text']}",
+                                          title: "Document: ${message['text']}",
                                           textColor: isCurrentUser ? Colors.white : Colors.black,
                                           fontSize: 12.0,
                                         )
                                       ],
                                     ),
-                                  ) : type == "voice" ? Row(
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(Icons.play_arrow),
-                                        onPressed: () async {
-                                          // final audioPlayer = FlutterSoundPlayer();
-                                          // await audioPlayer.startPlayer(fromURI: message['url']);
-                                        },
-                                      ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Voice Message',
-                                        style: TextStyle(color: isCurrentUser ? Colors.white : Colors.black),
-                                      )
-                                    ],
+                                  ) : type == "voice" ?
+                                  Container(
+                                    width: Get.width * 0.54,
+                                    child: ListTile(
+                                      title: Text("Voice Message"),
+                                      trailing: PlayButton(audioUrl: message['text']),
+                                    ),
+                                  ) : type == "location"
+                                      ?
+
+                                  Container(
+                                    width: Get.width * 0.54,
+                                    height: 150,
+                                    child: Stack(
+                                      children: [
+                                        GoogleMap(
+                                          initialCameraPosition: CameraPosition(
+                                            target: LatLng(
+                                              double.parse(message['latitude'].toString()),
+                                              double.parse(message['longitude'].toString()),
+                                            ),
+                                            zoom: 15,
+                                          ),
+                                          markers: {
+                                            Marker(
+                                              markerId: MarkerId('location'),
+                                              position: LatLng(
+                                                double.parse(message['latitude'].toString()),
+                                                double.parse(message['longitude'].toString()),
+                                              ),
+                                            ),
+                                          },
+                                          // Optional: Set map type or other properties
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          right: 0,
+                                          child: IconButton(
+                                            icon: Icon(Icons.location_on_sharp, color: Colors.blue),
+                                            onPressed: () {
+                                             // log("Current Message ID ${message.id}");
+                                              _openMap(message['latitude'].toString(), message['longitude'].toString());
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   )
-                                        : SizedBox.shrink(),
-                                 //  message['type'] == 'text'
-                                 //      ? Text(message['text'])
-                                 //      : message['type'] == 'image'
-                                 //      ? Image.network(message['url']!)
-                                 //      : message['type'] == 'document'
-                                 //      ? Text('Document: ${message['text']}')
-                                 //      : message['type'] == 'voice'
-                                 //      ? Icon(Icons.play_arrow)
-                                 //      : SizedBox.shrink(),
+                                      : type == "offer" ?
+                                      ChatOfferWidget(
+                                        price: message['text'],
+                                        tax: message['tax'],
+                                        fees: message['fees'],
+                                        total: message['total'],
+                                        description: message['details'],
+                                        offerStatus: message['offerStatus'],
+                                        messageID: documentId,
+                                        chatRoomId: chatRoomId,
+                                        otherEmail: otherEmail,
+                                      )
+                                      : SizedBox.shrink(),
                                   SizedBox(height: 3),
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -286,8 +301,8 @@ class _ChatDetailState extends State<ChatDetail> {
                             PopupMenuWidget(
                               height: Get.height * 0.4,
                               child: ChatAddBottomSheet(
-                                chatRoomId: widget.chatRoomId,
-                                otherEmail: widget.otherEmail,
+                                chatRoomId: chatRoomId,
+                                otherEmail: otherEmail,
                               ),
                             ),
                           ];
@@ -321,28 +336,22 @@ class _ChatDetailState extends State<ChatDetail> {
                           final text = _controller.text;
                           if (text.isNotEmpty) {
                             provider.sendMessage(
-                                chatRoomId: widget.chatRoomId, message: text,otherEmail: widget.otherEmail, type: 'text'
+                                chatRoomId: chatRoomId, message: text,otherEmail: otherEmail, type: 'text'
                             );
                             _controller.clear();
                           }
                         }),
 
-                        GestureDetector(
-                          child: Icon(Icons.mic, color: AppColor.primaryColor),
-                          onLongPress: () async {
-                            var audioPlayer = AudioPlayer();
-                            await audioPlayer.play(AssetSource("Notification.mp3"));
-                            audioPlayer.onPlayerComplete.listen((a) {
-                              audioController.start.value = DateTime.now();
-                              startRecord();
-                              audioController.isRecording.value = true;
-                            });
-                          },
-                          onLongPressEnd: (details) {
-                            stopRecord();
-                          },
-                        ),
-
+                        // location button
+                        // IconButton(
+                        //   icon: Icon(Icons.location_on),
+                        //   onPressed: () {
+                        //     provider.sendLocationMessage(
+                        //       chatRoomId: chatRoomId,
+                        //       otherEmail: otherEmail,
+                        //     );
+                        //   },
+                        // ),
                       ],
                     ),
                   ],
@@ -353,6 +362,13 @@ class _ChatDetailState extends State<ChatDetail> {
         ),
       ),
     );
+  }
+
+  Future<void> _openMap(String latitude, String longitude) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
   }
 
   Future<void> requestMicrophonePermission() async {
@@ -366,72 +382,42 @@ class _ChatDetailState extends State<ChatDetail> {
       openAppSettings();
     }
   }
-
-  Future<String> getFilePath() async {
-    Directory storageDirectory = await getApplicationDocumentsDirectory();
-    String sdPath =
-        "${storageDirectory.path}/record${DateTime.now().microsecondsSinceEpoch}.acc";
-    var d = Directory(sdPath);
-    if (!d.existsSync()) {
-      d.createSync(recursive: true);
-    }
-    return "$sdPath/test_${i++}.mp3";
-  }
-
-  Future<String?> uploadAudio() async {
-    try {
-      final chatProvider = Provider.of<ChatProvider>(context, listen: false);
-      final uploadTask = chatProvider.uploadAudio(
-        File(recordFilePath),
-        "audio/${DateTime.now().millisecondsSinceEpoch.toString()}",
-      );
-
-      final snapshot = await uploadTask;
-      final audioURL = await snapshot.ref.getDownloadURL();
-      final strVal = audioURL.toString();
-
-      log("Audio Message Url: $strVal");
-      return strVal;
-    } on FirebaseException catch (e) {
-      setState(() {
-        audioController.isSending.value = false;
-      });
-      Fluttertoast.showToast(msg: e.message ?? e.toString());
-      return null;
-    }
-  }
-
-  Future<bool> checkPermission() async {
-    if (!await Permission.microphone.isGranted) {
-      PermissionStatus status = await Permission.microphone.request();
-      if (status != PermissionStatus.granted) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  void startRecord() async {
-    bool hasPermission = await checkPermission();
-    if (hasPermission) {
-      recordFilePath = await getFilePath();
-      RecordMp3.instance.start(recordFilePath, (type) {
-        setState(() {});
-      });
-    } else {}
-    setState(() {});
-  }
-
-  void stopRecord() async {
-    bool stop = RecordMp3.instance.stop();
-    audioController.end.value = DateTime.now();
-    audioController.calcDuration();
-    var ap = AudioPlayer();
-    await ap.play(AssetSource("Notification.mp3"));
-    ap.onPlayerComplete.listen((a) {});
-    if (stop) {
-      audioController.isRecording.value = false;
-      audioController.isSending.value = true;
-    }
-  }
 }
+
+class PlayButton extends StatelessWidget {
+  final String audioUrl;
+
+  PlayButton({required this.audioUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AudioPlayerProvider>(
+      builder: (context, audioPlayerProvider, child) {
+        bool isPlaying = audioPlayerProvider.currentPlayingUrl == audioUrl &&
+            audioPlayerProvider.audioPlayerState == PlayerState.playing;
+
+        return IconButton(
+          icon: Icon(
+            isPlaying ? Icons.pause : Icons.play_arrow,
+          ),
+          onPressed: () {
+            if (isPlaying) {
+              audioPlayerProvider.pause();
+            } else {
+              audioPlayerProvider.play(audioUrl);
+            }
+          },
+        );
+      },
+    );
+  }
+
+  // Future<void> _deleteSelectedMessages() async {
+  //   final provider = Provider.of<ChatProvider>(context, listen: false);
+  //   for (String messageId in selectedMessages) {
+  //     await provider.deleteMessage(widget.chatRoomId, messageId);
+  //   }
+  //   Fluttertoast.showToast(msg: "Selected messages deleted");
+  // }
+}
+

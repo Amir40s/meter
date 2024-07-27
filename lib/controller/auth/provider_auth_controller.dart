@@ -103,7 +103,10 @@ class ProviderAuthController extends GetxController {
           final sendCodeResponse =
               await OtpApiServices.sendOtp(fullPhoneNumber());
           final jsonResponse = jsonDecode(sendCodeResponse.body);
+          log("Message: ${sendCodeResponse.statusCode}");
           if (sendCodeResponse.statusCode == 200) {
+            log("Message: ${jsonResponse["message"]}");
+            log("Message: ${jsonResponse["code"]}");
             if (jsonResponse['code'] == 1) {
               message.value = jsonResponse["message"];
               codeId.value = jsonResponse["id"];

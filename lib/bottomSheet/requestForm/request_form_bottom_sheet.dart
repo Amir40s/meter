@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/bottomSheet/requestForm/upload_device_bottom_sheet.dart';
+import 'package:meter/constant.dart';
 import 'package:meter/model/requestServices/request_services_model.dart';
+import 'package:meter/provider/chat/chat_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
@@ -16,7 +19,14 @@ import '../../widgets/text_widget.dart';
 class RequestFormBottomSheet extends StatelessWidget {
   final bool showPicture;
   RequestServicesModel? model;
-  RequestFormBottomSheet({super.key, this.showPicture = true,  this.model});
+  String chatRoomID,otherEmail;
+  RequestFormBottomSheet({
+    super.key,
+  this.showPicture = true,
+  this.model,
+  this.chatRoomID = '',
+  this.otherEmail = '',
+  });
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -24,6 +34,7 @@ class RequestFormBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(RequestFormController());
     controller.taxController.text = "15";
+    final chatProvider = Provider.of<ChatProvider>(context,listen: false);
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -177,6 +188,16 @@ class RequestFormBottomSheet extends StatelessWidget {
 
                         } else {
                           Get.back();
+                          chatProvider.sendOfferMessage(
+                              price: controller.priceController.text.toString(),
+                              tax: controller.taxController.text.toString(),
+                              fees: controller.selectedOption.toString(),
+                              total: controller.totalController.text.toString(),
+                              details: controller.detailsController.text.toString(),
+                              chatRoomId: chatRoomID,
+                              otherEmail: otherEmail
+                          );
+
                         }
                       })
                 ],

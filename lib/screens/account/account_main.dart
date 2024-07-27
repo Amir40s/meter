@@ -142,7 +142,7 @@ class AccountMain extends StatelessWidget {
                         ),
                         CustomRow(
                           textColor: AppColor.primaryColor,
-                          title: "Delete account".tr,
+                          title: "Delete Account".tr,
                           onTap: () {
                             Get.dialog(Obx(() => controller
                                     .deleteAccountLoading.value

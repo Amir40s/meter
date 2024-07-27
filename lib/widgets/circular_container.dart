@@ -7,6 +7,7 @@ class CircularContainer extends StatelessWidget {
   final String? imagePath;
   final Color backgroundColor;
   final VoidCallback onTap;
+  final VoidCallback? onSecondTap;
   final Widget? widget;
   final double imageSize;
   const CircularContainer(
@@ -15,6 +16,7 @@ class CircularContainer extends StatelessWidget {
       this.imagePath,
       this.backgroundColor = AppColor.primaryColor,
       required this.onTap,
+       this.onSecondTap,
       this.widget,
       this.imageSize = 30});
 
@@ -22,6 +24,7 @@ class CircularContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onSecondaryTap: onSecondTap,
       child: Container(
         padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(
