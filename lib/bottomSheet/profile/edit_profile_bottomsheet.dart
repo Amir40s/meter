@@ -99,40 +99,37 @@ class EditProfileBottomSheet extends StatelessWidget {
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 14.0, right: 14),
-                  child: Obx(
-                        () => TextFieldCountryPicker(
-                      isVerifySucces: authController.verifyMessage.value ==
-                          "Success", //change to == "Success"
-                      hintText: "115203867",
-                      controller: authController.phoneNumberController,
-                      flagPath: authController.phoneNumberFlagUri.value,
-                      countryShortCode: authController.phoneNumberCountryCode.value,
-                      countryCode: (CountryCode countryCode) {
-                        authController.onChangePhoneNumberFlag(
-                            countryCode.flagUri ?? "",
-                            countryCode.dialCode ?? "",
-                            countryCode.code ?? "");
-                      },
-                      onTapSuffix: () {
-                        if (authController.verifyMessage.value == "Success") {
-                          ShortMessageUtils.showSuccess("Already verified");
-                        } else if (authController.sendOtpLoading.value) {
-                        } else {
-                          authController.sendOtp();
-                        }
-                      },
-                      verifyColor: authController.verifyMessage.value == "Success"
-                          ? AppColor.semiTransparentDarkGrey
-                          : AppColor.primaryColor,
-                      verifyText: authController.sendOtpLoading.value
-                          ? "Loading..."
-                          : (authController.verifyMessage.value == "Success"
-                          ? authController.verifyMessage.value
-                          : "Verify"),
-                      title: "Phone Number".tr,
-                    ),
+                Obx(
+                      () => TextFieldCountryPicker(
+                    isVerifySucces: authController.verifyMessage.value ==
+                        "Success", //change to == "Success"
+                    hintText: "115203867".tr,
+                    controller: authController.phoneNumberController,
+                    flagPath: authController.phoneNumberFlagUri.value,
+                    countryShortCode: authController.phoneNumberCountryCode.value,
+                    countryCode: (CountryCode countryCode) {
+                      authController.onChangePhoneNumberFlag(
+                          countryCode.flagUri ?? "",
+                          countryCode.dialCode ?? "",
+                          countryCode.code ?? "");
+                    },
+                    onTapSuffix: () {
+                      if (authController.verifyMessage.value == "Success") {
+                        ShortMessageUtils.showSuccess("Already verified");
+                      } else if (authController.sendOtpLoading.value) {
+                      } else {
+                        authController.sendOtp();
+                      }
+                    },
+                    verifyColor: authController.verifyMessage.value == "Success"
+                        ? AppColor.semiTransparentDarkGrey
+                        : AppColor.primaryColor,
+                    verifyText: authController.sendOtpLoading.value
+                        ? "Loading..."
+                        : (authController.verifyMessage.value == "Success"
+                        ? authController.verifyMessage.value
+                        : "Verify"),
+                    title: "Phone Number".tr,
                   ),
                 ),
                 // Obx(

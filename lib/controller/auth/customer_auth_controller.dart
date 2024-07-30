@@ -15,6 +15,7 @@ import '../../constant/errorUtills/image_utils.dart';
 import '../../constant/prefUtils/message_utills.dart';
 import '../../constant/prefUtils/pref_utils.dart';
 import '../../constant/routes/routes_name.dart';
+import '../account/profile_controller.dart';
 import '../bottomNav/bottom_nav_controller_main.dart';
 import '../home/home_controller.dart';
 
@@ -268,13 +269,18 @@ class CustomerAuthController extends GetxController {
       log("Auth model ${authModel.toJson()}");
       await CollectionUtils.userCollection.doc(userId).set(authModel.toJson());
 
+      PrefUtil.setString(PrefUtil.userId, userId);
+      PrefUtil.setString(PrefUtil.role, "Customer");
+
+      Get.put(ProfileController(), permanent: true);
+      final controller = Get.find<ProfileController>();
+      await controller.fetchUserData(userId.toString());
       final bottomNavController =  Get.find<BottomNavController>();
       final homeController =  Get.find<HomeController>();
       log("message::${bottomNavController.currentRole.value.toString()}");
       await bottomNavController.getCurrentRole();
       await homeController.getCurrentRole();
-      PrefUtil.setString(PrefUtil.userId, userId);
-      PrefUtil.setString(PrefUtil.role, "Customer");
+      log("CHECK:: Customer Screen Before navigation to face auth");
 
       Get.offAllNamed(RoutesName.faceAuth);
     } else {

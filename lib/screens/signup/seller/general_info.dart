@@ -123,7 +123,7 @@ class SellerGeneralInfo extends StatelessWidget {
                       onTap: () {
                         if (_formKey.currentState!.validate() &&
                                 controller.validateManagerPhoneNumber() &&
-                                controller.verifyMessage.value ==
+                                controller.verifyMessage.value !=
                                     "Success" //Change to =="Success"
                             ) {
                           Get.toNamed(RoutesName.sellerFirstGeneralInfo);

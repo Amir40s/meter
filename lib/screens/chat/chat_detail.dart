@@ -39,8 +39,6 @@ class ChatDetail extends StatelessWidget {
   AudioPlayer audioPlayer = AudioPlayer();
 
 
-
-
   @override
   Widget build(BuildContext context) {
     requestMicrophonePermission();

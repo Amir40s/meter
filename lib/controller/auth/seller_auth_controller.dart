@@ -17,6 +17,9 @@ import 'package:meter/model/user/user_model.dart';
 import '../../bottomSheet/verification/verification_bottom_sheet.dart';
 import '../../constant/CollectionUtils/collection_utils.dart';
 import '../../constant/prefUtils/message_utills.dart';
+import '../account/profile_controller.dart';
+import '../bottomNav/bottom_nav_controller_main.dart';
+import '../home/home_controller.dart';
 
 class SellerAuthController extends GetxController {
   var selectedSellerServiceOption =
@@ -301,9 +304,10 @@ class SellerAuthController extends GetxController {
     formKey,
     uid,
   }) async {
+    log("CHECK:: Seller Complete Register Function");
     try {
       sellerLoading.value = true;
-      print("Is ${isBothPasswordEqual()}");
+      log("Is ${isBothPasswordEqual()}");
       if (formKey.currentState!.validate() &&
           isBothPasswordEqual() &&
           areAllSellerChecked &&
@@ -313,6 +317,8 @@ class SellerAuthController extends GetxController {
         if (!phoneNumberAlreadyExist) {
           String imageUrl = await ImageUtil.uploadToDatabase(imagePath.value);
           String fileUrl = await ImageUtil.uploadToDatabase(pdfFilePath.value);
+          log("CHECK:: Image URL: $imageUrl");
+          log("CHECK:: File URL: $fileUrl");
           String userId = getAutoUid()!;
           UserModel authModel = UserModel(
               isFaceVerify: false,
@@ -342,10 +348,19 @@ class SellerAuthController extends GetxController {
           await CollectionUtils.userCollection
               .doc(userId)
               .set(authModel.toJson());
-          print("UserId is $userId");
-          PrefUtil.setString(PrefUtil.userId, userId);
+          log("UserId is $userId");
 
-          Get.offAll(RoutesName.faceAuth);
+          await PrefUtil.setString(PrefUtil.userId, userId);
+          Get.put(ProfileController(), permanent: true);
+          final controller = Get.find<ProfileController>();
+          await controller.fetchUserData(userId.toString());
+          final bottomNavController =  Get.find<BottomNavController>();
+          final homeController =  Get.find<HomeController>();
+          log("message::${bottomNavController.currentRole.value.toString()}");
+          await bottomNavController.getCurrentRole();
+          await homeController.getCurrentRole();
+          log("CHECK:: Seller Screen Before navigation to face auth");
+          Get.offAllNamed(RoutesName.faceAuth);
           // await authenticatePhoneNumber(context);
         } else {
           sellerLoading.value = false;

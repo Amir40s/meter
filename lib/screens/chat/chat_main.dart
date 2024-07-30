@@ -105,7 +105,7 @@ class ChatMain extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 if (index >= chatRooms.length) {
                                   // Safe guard
-                                  return SizedBox.shrink();
+                                  return const SizedBox.shrink();
                                 }
                                 final chatRoom = chatRooms[index];
                                 final unreadCount =  chatProvider.unreadMessageCounts[chatRoom.id] ?? 0;
@@ -119,7 +119,7 @@ class ChatMain extends StatelessWidget {
                                 //     ? timeago.format(timeStamp.toDate())
                                 //     : '';
 
-                                log("Other Email:: ${otherUserEmail}");
+                                log("Other Email:: $otherUserEmail");
                                 log("message ${chatProvider.users.firstWhere(
                                         (user) => user.userId == otherUserEmail,
                                     orElse: () => UserchatModel(
@@ -174,12 +174,12 @@ class ChatMain extends StatelessWidget {
                                         fontSize: 12.0,
                                         textColor: Colors.black,
                                       ),
-                                      SizedBox(height: 10.0,),
+                                     const SizedBox(height: 10.0,),
                                       chatRoom.isMessage == getCurrentUid().toString() && chatRoom.isMessage !="seen"
                                           ? const CircleAvatar(
                                         radius: 7,
                                         backgroundColor: AppColor.primaryColor,
-                                      ) : SizedBox.shrink()
+                                      ) : const SizedBox.shrink()
                                     ],
                                   ),
                                   onTap: () async{

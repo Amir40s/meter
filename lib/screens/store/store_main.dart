@@ -167,7 +167,7 @@ class StoreMain extends StatelessWidget {
                                         onTap: () async{
                                           final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(data.userUID,"");
                                           log("Id in home screen::${data.id} and ${data.userUID}");
-                                          Get.to(ChatScreen(
+                                          Get.to(ChatDetail(
                                             userUID: data.userUID,
                                             name: data.deviceName,
                                             image: data.deviceImage,

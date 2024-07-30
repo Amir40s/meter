@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meter/screens/device/publish_device.dart';
 import 'package:meter/widgets/device_widget.dart';
 
 import '../../constant/CollectionUtils/collection_utils.dart';
@@ -127,10 +128,10 @@ class AllDevices extends StatelessWidget {
                               ));
                             },
                             onEditTap: () {
-                              // Get.to(PublishDevice(
-                              //   isUpdate: true,
-                              //   deviceModel: data,
-                              // ));
+                              Get.to(PublishDevice(
+                                isUpdate: true,
+                                deviceModel: data,
+                              ));
                             },
                             imageUrl: data.deviceImage,
                           );

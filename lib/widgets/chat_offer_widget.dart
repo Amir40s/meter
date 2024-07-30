@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:meter/constant.dart';
+import 'package:meter/constant/routes/routes_name.dart';
 import 'package:meter/provider/chat/chat_provider.dart';
 import 'package:meter/widgets/custom_button.dart';
 import 'package:meter/widgets/text_widget.dart';
@@ -26,6 +27,7 @@ class ChatOfferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatProvider = Provider.of<ChatProvider>(context,listen: false);
+    final currentUser = getCurrentUid().toString();
     return Container(
       width: Get.width * 0.54,
       padding: const EdgeInsets.all(5.0),
@@ -33,41 +35,43 @@ class ChatOfferWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const TextWidget(title: "Project Offer",textColor: Colors.white,),
+           TextWidget(title: "Project Offer",textColor: currentUser == otherEmail ? Colors.white : Colors.black,),
           const SizedBox(height: 20.0,),
           Row(
             children: [
-              const Icon(Icons.paid,color: Colors.white,),
+               Icon(Icons.paid,color: currentUser == otherEmail ? Colors.white : Colors.black,),
               const SizedBox(width: 5.0,),
-              TextWidget(title: "Price:\$$price",textColor: Colors.white,)
+              TextWidget(title: "Price:\$$price",textColor: currentUser == otherEmail ? Colors.white : Colors.black,)
             ],
           ),
           const SizedBox(height: 10.0,),
           Row(
             children: [
-              const Icon(Icons.paid,color: Colors.white,),
+               Icon(Icons.paid,color: currentUser == otherEmail ? Colors.white : Colors.black,),
               const SizedBox(width: 5.0,),
-              TextWidget(title: "Tax:\$$tax",textColor: Colors.white,)
+              TextWidget(title: "Tax:\$$tax",textColor: currentUser == otherEmail ? Colors.white : Colors.black)
             ],
           ),
           const SizedBox(height: 10.0,),
           Row(
             children: [
-              const Icon(Icons.featured_play_list,color: Colors.white,),
+               Icon(Icons.featured_play_list,color: currentUser == otherEmail ? Colors.white : Colors.black,),
               const SizedBox(width: 5.0,),
-              TextWidget(title: "Fees: $fees",textColor: Colors.white,)
+              TextWidget(title: "Fees: $fees",textColor: currentUser == otherEmail ? Colors.white : Colors.black,)
             ],
           ),
           const SizedBox(height: 10.0,),
           Row(
             children: [
-              const Icon(Icons.paid,color: Colors.white,),
+               Icon(Icons.paid,color: currentUser == otherEmail ? Colors.white : Colors.black,),
               const SizedBox(width: 5.0,),
-              TextWidget(title: "Total:\$$total",textColor: Colors.white,)
+              TextWidget(title: "Total:\$$total",textColor: currentUser == otherEmail ? Colors.white : Colors.black,)
             ],
           ),
           const SizedBox(height: 10.0,),
-          TextWidget(title: "Description: $description",textColor: Colors.white,fontWeight: FontWeight.normal,),
+          TextWidget(title: "Description: $description",
+            textColor: currentUser == otherEmail ? Colors.white : Colors.black,
+            fontWeight: FontWeight.normal,),
 
 
           const SizedBox(height: 25.0,),
@@ -93,13 +97,14 @@ class ChatOfferWidget extends StatelessWidget {
                 const SizedBox(width: 5.0,),
                 Expanded(
                   child: CustomButton(title: "Accept",backgroundColor: Colors.green, onTap: ()async{
-                    await chatProvider.updateOfferMessage(
-                        status: "accept",
-                        messageID: messageID,
-                        chatRoomId: chatRoomId,
-                        otherEmail: otherEmail
-                    );
+                    // await chatProvider.updateOfferMessage(
+                    //     status: "accept",
+                    //     messageID: messageID,
+                    //     chatRoomId: chatRoomId,
+                    //     otherEmail: otherEmail
+                    // );
                     Fluttertoast.showToast(msg: "Offer accepted");
+                    Get.toNamed(RoutesName.paymentScreen);
                   }),
                 ),
               ],

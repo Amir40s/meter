@@ -5,6 +5,7 @@ import 'package:meter/binding/bindings.dart';
 import 'package:meter/provider/chat/chat_provider.dart';
 import 'package:meter/provider/db_provider.dart';
 import 'package:meter/provider/firebase_services.dart';
+import 'package:meter/provider/payment/card_provider.dart';
 import 'package:meter/provider/payment/payment_provider.dart';
 import 'package:meter/provider/player/audio_player_provider.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
            ChangeNotifierProvider(create: (_) => PaymentProvider()),
            ChangeNotifierProvider(create: (_) => ChatProvider()),
            ChangeNotifierProvider(create: (_) => AudioPlayerProvider()),
+           ChangeNotifierProvider(create: (_) => CardProvider()),
          ],
          child: GetMaterialApp(
            locale: Get.locale,

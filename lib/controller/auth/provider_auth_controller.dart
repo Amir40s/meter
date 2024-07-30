@@ -20,6 +20,9 @@ import 'package:meter/model/user/user_model.dart';
 import '../../constant.dart';
 import '../../constant/prefUtils/message_utills.dart';
 import '../../constant/res/app_color/app_color.dart';
+import '../account/profile_controller.dart';
+import '../bottomNav/bottom_nav_controller_main.dart';
+import '../home/home_controller.dart';
 
 class ProviderAuthController extends GetxController {
   final TextEditingController facilityNameController = TextEditingController();
@@ -327,6 +330,16 @@ class ProviderAuthController extends GetxController {
             .set(authModel.toJson());
         PrefUtil.setString(PrefUtil.userId, userId);
         PrefUtil.setString(PrefUtil.role, provider);
+
+        Get.put(ProfileController(), permanent: true);
+        final controller = Get.find<ProfileController>();
+        await controller.fetchUserData(userId.toString());
+        final bottomNavController =  Get.find<BottomNavController>();
+        final homeController =  Get.find<HomeController>();
+        log("message::${bottomNavController.currentRole.value.toString()}");
+        await bottomNavController.getCurrentRole();
+        await homeController.getCurrentRole();
+        log("CHECK:: Customer Screen Before navigation to face auth");
 
         Get.offAllNamed(RoutesName.faceAuth);
 

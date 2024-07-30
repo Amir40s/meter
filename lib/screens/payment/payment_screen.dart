@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meter/constant/res/app_color/app_color.dart';
+import 'package:meter/provider/payment/card_provider.dart';
+import 'package:meter/widgets/app_text_field.dart';
 import 'package:meter/widgets/custom_button.dart';
+import 'package:meter/widgets/custom_textfield.dart';
+import 'package:meter/widgets/master_card_widget.dart';
+import 'package:meter/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 import '../../model/paymentpayment/payment_model.dart';
 import '../../provider/payment/payment_provider.dart';
@@ -24,7 +30,7 @@ class PaymentScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
-        title: Text('Moyasar Credit Card Payment'),
+        title: const Text('Moyasar Credit Card Payment'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -32,82 +38,133 @@ class PaymentScreen extends StatelessWidget {
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Card Holder Name'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the card holder name';
+
+
+                Consumer<CardProvider>(
+                    builder: (context,provider,child){
+                      return MasterCard(
+                          cardHolderName: provider.cardHolderName,
+                        cardNumber: provider.cardNumber,
+                        cvv: provider.cvv,
+                        expiryMonth: provider.expiryMonth,
+                        expiryYear: provider.expiryYear,
+                      );
                     }
-                    return null;
+                ),
+
+               const SizedBox(height: 50.0,),
+               const TextWidget(
+                  title: "Card Holder Name",
+                  fontWeight: FontWeight.bold,
+                  textColor: Colors.black,
+                ),
+               const SizedBox(height: 10.0,),
+                AppTextField(hintText: "Card Holder Name",
+                  onFieldChanged: (value) {
+                    Provider.of<CardProvider>(context, listen: false).updateCardHolderName(value);
                   },
                 ),
-                TextFormField(
-                  controller: _numberController,
-                  decoration: InputDecoration(labelText: 'Card Number'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the card number';
-                    }
-                    return null;
-                  },
+
+                const SizedBox(height: 20.0,),
+                const TextWidget(
+                  title: "Card Number",
+                  fontWeight: FontWeight.bold,
+                  textColor: Colors.black,
                 ),
-                TextFormField(
-                  controller: _cvcController,
-                  decoration: InputDecoration(labelText: 'CVC'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the CVC';
-                    }
-                    return null;
+                const SizedBox(height: 10.0,),
+                AppTextField(
+                  hintText: "Card Number",
+                  onFieldChanged: (value) {
+                    Provider.of<CardProvider>(context, listen: false).updateCardNumber(value);
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    CardNumberInputFormatter(),
+                  ],
                 ),
-                TextFormField(
-                  controller: _monthController,
-                  decoration: InputDecoration(labelText: 'Expiry Month'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the expiry month';
-                    }
-                    return null;
+
+                const SizedBox(height: 20.0,),
+                const TextWidget(
+                  title: "CVV",
+                  fontWeight: FontWeight.bold,
+                  textColor: Colors.black,
+                ),
+                const SizedBox(height: 10.0,),
+                AppTextField(
+                  hintText: "CVV",
+                  onFieldChanged: (value) {
+                    Provider.of<CardProvider>(context, listen: false).updateCVV(value);
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                 ),
-                TextFormField(
-                  controller: _yearController,
-                  decoration: InputDecoration(labelText: 'Expiry Year'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the expiry year';
-                    }
-                    return null;
-                  },
+
+                const SizedBox(height: 20.0,),
+                Row(
+                  children: [
+                    Expanded(
+                        child:
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const TextWidget(
+                              title: "Expiry Month",
+                              fontWeight: FontWeight.bold,
+                              textColor: Colors.black,
+                            ),
+                            const SizedBox(height: 10.0,),
+                            AppTextField(
+                              hintText: "Expiry Month",
+                              onFieldChanged: (value) {
+                                Provider.of<CardProvider>(context, listen: false).updateExpiryMonth(value);
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                            ),
+                          ],
+                        )),
+                    SizedBox(width: 5.0,),
+                    Expanded(
+                        child:
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const TextWidget(
+                              title: "Expiry Year",
+                              fontWeight: FontWeight.bold,
+                              textColor: Colors.black,
+                            ),
+                            const SizedBox(height: 10.0,),
+                            AppTextField(
+                              hintText: "Expiry Year",
+                              onFieldChanged: (value) {
+                                Provider.of<CardProvider>(context, listen: false).updateExpiryYear(value);
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                            ),
+                          ],
+                        )),
+                  ],
                 ),
-                TextFormField(
-                  controller: _descriptionController,
-                  decoration: InputDecoration(labelText: 'Description'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a description';
-                    }
-                    return null;
-                  },
+
+                const SizedBox(height: 20.0,),
+                const TextWidget(
+                  title: "Description",
+                  fontWeight: FontWeight.bold,
+                  textColor: Colors.black,
                 ),
-                TextFormField(
-                  controller: _amountController,
-                  decoration: InputDecoration(labelText: 'Amount (in cents)'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an amount';
-                    }
-                    return null;
-                  },
+                const SizedBox(height: 10.0,),
+                AppTextField(
+                  hintText: "Description",
                 ),
+
                 // TextFormField(
                 //   controller: _currencyController,
                 //   decoration: InputDecoration(labelText: 'Currency'),
@@ -167,4 +224,33 @@ class PaymentScreen extends StatelessWidget {
       ),
     );
   }
+
 }
+
+
+class CardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue,
+      TextEditingValue newValue,
+      ) {
+    String newText = newValue.text.replaceAll(RegExp(r'\D'), ''); // Remove non-digit characters
+
+    if (newText.length > 16) {
+      newText = newText.substring(0, 16);
+    }
+
+    String formattedText = '';
+
+    for (int i = 0; i < newText.length; i++) {
+      if (i % 4 == 0 && i != 0) formattedText += ' ';
+      formattedText += newText[i];
+    }
+
+    return TextEditingValue(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
+    );
+  }
+}
+
