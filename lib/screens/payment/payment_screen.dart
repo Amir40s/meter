@@ -20,8 +20,6 @@ class PaymentScreen extends StatelessWidget {
   final _yearController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _amountController = TextEditingController();
-  final _currencyController = TextEditingController();
-  final _callbackUrlController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -165,29 +163,10 @@ class PaymentScreen extends StatelessWidget {
                   hintText: "Description",
                 ),
 
-                // TextFormField(
-                //   controller: _currencyController,
-                //   decoration: InputDecoration(labelText: 'Currency'),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Please enter a currency';
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // TextFormField(
-                //   controller: _callbackUrlController,
-                //   decoration: InputDecoration(labelText: 'Callback URL'),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Please enter a callback URL';
-                //     }
-                //     return null;
-                //   },
-                // ),
-                SizedBox(height: 20),
+
+               const SizedBox(height: 20),
                 if (paymentProvider.isLoading)
-                  CircularProgressIndicator()
+                 const CircularProgressIndicator()
                 else
                   CustomButton(
                     onTap: () {
@@ -210,7 +189,7 @@ class PaymentScreen extends StatelessWidget {
                     },
                     title: "Make Payment",
                   ),
-                SizedBox(height: 20),
+               const SizedBox(height: 20),
                 if (paymentProvider.paymentResponse != null)
                   Text('Payment ID: ${paymentProvider.paymentResponse!.id}\n'
                       'Invoice ID: ${paymentProvider.paymentResponse!.invoiceId}\n'

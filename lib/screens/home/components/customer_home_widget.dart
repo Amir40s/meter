@@ -270,6 +270,7 @@ class CustomerHomeWidget extends StatelessWidget {
                               CircularContainer(
                                 onTap: () async{
                                   final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(data.userUID,"");
+                                  final userStatus = await context.read<ChatProvider>().getUserStatus(chatRoomId);
                                   log("Id in home screen::${data.id} and ${data.userUID}");
                                   Get.to(ChatDetail(
                                     userUID: data.userUID,
@@ -277,6 +278,7 @@ class CustomerHomeWidget extends StatelessWidget {
                                     image: data.deviceImage,
                                     otherEmail: data.userUID,
                                     chatRoomId: chatRoomId,
+                                    userStatus: userStatus,
                                   ));
                                   // Get.to(ChatDetail());
                                   // Get.find<BottomNavController>()

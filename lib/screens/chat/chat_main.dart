@@ -1,12 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/constant.dart';
 import 'package:meter/model/chat/userchat_model.dart';
 import 'package:meter/widgets/image_loader_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../../constant/res/app_color/app_color.dart';
 import '../../constant/res/app_images/app_images.dart';
 import '../../model/chat/chatroom_model.dart';
@@ -15,7 +13,6 @@ import '../../provider/chat/chat_provider.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/text_widget.dart';
 import 'chat_detail.dart';
-import 'chat_screen.dart';
 
 class ChatMain extends StatelessWidget {
   const ChatMain({super.key});
@@ -31,15 +28,15 @@ class ChatMain extends StatelessWidget {
               padding: const EdgeInsets.all(14.0),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
+                  SizedBox(height: Get.height * 0.02,),
+
                   const TextWidget(
                     title: "Message",
                     textColor: AppColor.semiDarkGrey,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
+
                   CustomTextField(
                       controller: controller.searchController,
                       prefixImagePath: AppImage.search,
@@ -48,9 +45,9 @@ class ChatMain extends StatelessWidget {
                         controller.updateSearchQuery(value);
                       },
                       title: ""),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
+
+                  SizedBox(height: Get.height * 0.02,),
+
                   Consumer<ChatProvider>(
                     builder: (context, chatProvider, _) {
                       return Obx((){
@@ -86,8 +83,7 @@ class ChatMain extends StatelessWidget {
                                 ),
                               );
                               return otherUser.ownerName.toLowerCase().contains(searchQuery);
-                            })
-                                .toList();
+                            }).toList();
 
                             // Debug output
                             log('Search Query: $searchQuery');
@@ -112,6 +108,7 @@ class ChatMain extends StatelessWidget {
                                 var otherUserEmail = chatRoom.users.firstWhere((user) => user != getCurrentUid().toString());
                                 var lastMessage = chatRoom.lastMessage;
                                 var timeStamp = chatRoom.lastTimestamp;
+                                var userStatus = chatRoom.userStatus;
 
 
                                 log("message $unreadCount");
@@ -184,6 +181,7 @@ class ChatMain extends StatelessWidget {
                                   ),
                                   onTap: () async{
                                     final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(otherUser.userId,"");
+                                    final userBlockStatus = await context.read<ChatProvider>().getUserStatus(chatRoomId);
                                     Provider.of<ChatProvider>(context,listen: false).updateMessageStatus(chatRoomId);
                                     log("Id in home Chat Main::${otherUser.id} and ${otherUser.userId}");
 
@@ -192,13 +190,11 @@ class ChatMain extends StatelessWidget {
                                       name: otherUser.ownerName,
                                       image: otherUser.profilePicture,
                                       otherEmail: otherUser.userId,
-                                      chatRoomId: chatRoomId,
+                                      chatRoomId: chatRoomId, userStatus: userBlockStatus,
                                     ));
                                     await chatProvider.getUnreadMessageCount(chatRoom.id);
                                     log("message ${ chatProvider.getUnreadMessageCount(chatRoom.id).toString()}");
 
-                                    // await chatProvider.getCollectionLength(chatRoom.id);
-                                    // log('get Messages ${chatProvider.collectionLength}');
 
                                   },
                                 );

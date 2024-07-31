@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:meter/constant.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -16,30 +15,33 @@ import '../../model/chat/message_model.dart';
 import '../../model/chat/userchat_model.dart';
 import 'package:http/http.dart' as http;
 
-
-
 class ChatProvider with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-
 
   List<MessageModel> _messages = [];
   List<UserchatModel> _users = [];
   List<ChatRoomModel> _chatRooms = [];
   Map<String, int> _unreadMessageCounts = {};
 
-
+   bool? _isUserBlock;
 
   List<MessageModel> get messages => _messages;
   List<UserchatModel> get users => _users;
   List<ChatRoomModel> get chatRooms => _chatRooms;
   Map<String, int> get unreadMessageCounts => _unreadMessageCounts;
 
+  bool get isUserBlock => _isUserBlock!;
 
   ChatProvider() {
     _loadUsers();
     _loadMessages();
     loadChatRooms();
+  }
+
+  void userBlock(bool isUserBlock) {
+    _isUserBlock = isUserBlock;
+    notifyListeners();
   }
 
   UploadTask uploadAudio(var audioFile, String fileName) {
@@ -48,21 +50,6 @@ class ChatProvider with ChangeNotifier {
     return uploadTask;
   }
 
-  // Future<void> _loadChatRooms() async {
-  //   final currentUserEmail = auth.currentUser!.email!;
-  //   QuerySnapshot snapshot = await _firestore
-  //       .collection('chatRooms')
-  //       .where('users', arrayContains: currentUserEmail)
-  //       .get();
-  //
-  //   _chatRooms = snapshot.docs.map((doc) => ChatRoomModel.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
-  //
-  //   for (var chatRoom in _chatRooms) {
-  //     final unreadCount = await _getUnreadMessageCount(chatRoom.id);
-  //     _unreadMessageCounts[chatRoom.id] = unreadCount;
-  //   }
-  //   notifyListeners();
-  // }
   Future<void> loadChatRooms() async {
     log("Chat Room Load");
     final currentUserEmail = getCurrentUid().toString();
@@ -152,20 +139,6 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-
-  // working
-  // Future<void> sendMessage({required String chatRoomId,required String message}) async {
-  //   await _firestore.collection("chatRooms").doc(chatRoomId).update({
-  //     "lastMessage" : message
-  //   });
-  //   await _firestore.collection('chatRooms').doc(chatRoomId).collection('messages').add({
-  //     'text': message,
-  //     'sender': auth.currentUser!.email,
-  //     'timestamp': FieldValue.serverTimestamp(),
-  //     'delivered': false, // Add delivered status
-  //   });
-  // }
 
   // Send location message
   Future<void> sendLocationMessage({
@@ -299,12 +272,12 @@ class ChatProvider with ChangeNotifier {
 
 
     final newMessage = {
-      'text': price, // Store file URL in 'text'
-      'tax': tax, // Store file URL in 'text'
-      'fees': fees, // Store file URL in 'text'
-      'total': total, // Store file URL in 'text'
-      'details': details, // Store file URL in 'text'
-      'offerStatus': "pending", // Store file URL in 'text'
+      'text': price,
+      'tax': tax,
+      'fees': fees,
+      'total': total,
+      'details': details,
+      'offerStatus': "pending",
       'sender': currentUserEmail,
       'timestamp': FieldValue.serverTimestamp(),
       'read': false,
@@ -318,6 +291,21 @@ class ChatProvider with ChangeNotifier {
       'isMessage': otherEmail,
       'lastTimestamp': FieldValue.serverTimestamp(),
     });
+  }
+
+
+  Future<void> blockUser({
+    required String chatRoomId,
+    required String otherEmail,
+  }) async {
+
+    await _firestore.collection('chatRooms').doc(chatRoomId).update({
+      'lastMessage': 'user blocked',
+      'isMessage': otherEmail,
+      'lastTimestamp': FieldValue.serverTimestamp(),
+      'userStatus': "block",
+    });
+    userBlock(false);
   }
 
   Future<void> updateOfferMessage({
@@ -340,8 +328,8 @@ class ChatProvider with ChangeNotifier {
     });
   }
 
-
-  Future<void> downloadFile(String url, String fileName, {String? fallbackUrl}) async {
+  Future<void> downloadFile(String url, String fileName,
+      {String? fallbackUrl}) async {
     PermissionStatus status = await Permission.storage.request();
 
     if (status.isGranted) {
@@ -394,6 +382,21 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
+  Future<void> deleteMessage(String chatRoomId,
+      String messageId) async {
+    try {
+      await _firestore
+          .collection('chatRooms')
+          .doc(chatRoomId)
+          .collection('messages')
+          .doc(messageId)
+          .delete();
+      notifyListeners();
+    } catch (e) {
+      log("Error deleting message: $e");
+    }
+  }
+
   void showToast(String message) {
     Fluttertoast.showToast(
       msg: message,
@@ -405,7 +408,6 @@ class ChatProvider with ChangeNotifier {
       fontSize: 16.0,
     );
   }
-
 
   Future<void> openWebPage(String url) async {
     final Uri uri = Uri.parse(url);
@@ -442,7 +444,6 @@ class ChatProvider with ChangeNotifier {
     await _firestore.collection("chatRooms").doc(chatRoomID).update({"isMessage" : "seen"});
   }
 
-
   Future<void> markMessageAsRead(String chatRoomId) async {
     final currentUserEmail = getCurrentUid().toString();
     final messageDocs = await _firestore
@@ -460,31 +461,13 @@ class ChatProvider with ChangeNotifier {
     await loadChatRooms(); // Refresh chat rooms to update unread counts
   }
 
-
-  // Future<void> markMessageAsRead(String chatRoomId) async {
-  //   final currentUserEmail = auth.currentUser!.email;
-  //   final messageDocs = await _firestore
-  //       .collection('chatRooms')
-  //       .doc(chatRoomId)
-  //       .collection('messages')
-  //       .where('sender', isNotEqualTo: currentUserEmail)
-  //       .get();
-  //
-  //   for (var doc in messageDocs.docs) {
-  //     if (!(doc['read'] as bool)) {
-  //       await doc.reference.update({'read': true});
-  //       _unreadChatRooms.remove(chatRoomId);
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
-
   Future<String> createChatRoom(String otherUserEmail,String lastMessage) async {
     final chatRoom = await _firestore.collection('chatRooms').add({
       'users': [getCurrentUid().toString(), otherUserEmail],
       'lastMessage': lastMessage,
       'lastTimestamp': FieldValue.serverTimestamp(),
       'isMessage': getCurrentUid().toString(),
+      'userStatus': "active",
     });
     return chatRoom.id;
   }
@@ -502,8 +485,6 @@ class ChatProvider with ChangeNotifier {
         .snapshots();
   }
 
-
-  // working
   Stream<QuerySnapshot> getMessages(String chatRoomId) {
     return _firestore
         .collection('chatRooms')
@@ -512,15 +493,6 @@ class ChatProvider with ChangeNotifier {
         .orderBy('timestamp', descending: true)
         .snapshots();
   }
-  // Stream<List<MessageModel>> getMessages(String chatRoomId) {
-  //   return _firestore
-  //       .collection('chatRooms')
-  //       .doc(chatRoomId)
-  //       .collection('messages')
-  //       .orderBy('timestamp', descending: true)
-  //       .snapshots()
-  //       .map((snapshot) => snapshot.docs.map((doc) => MessageModel.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList());
-  // }
 
   Future<String> createOrGetChatRoom(String otherUserEmail,String lastMessage) async {
     final currentUserEmail = getCurrentUid().toString();
@@ -535,11 +507,33 @@ class ChatProvider with ChangeNotifier {
         'lastMessage': lastMessage,
         'isMessage': getCurrentUid().toString(),
         'lastTimestamp': FieldValue.serverTimestamp(),
+        'userStatus': "active",
       });
     }
-
     return chatRoomId;
   }
+
+  Future<String> getUserStatus(String chatRoomID) async {
+    String? userStatus = "";
+    final chatRoomDoc = _firestore.collection('chatRooms').doc(chatRoomID);
+    final chatRoomSnapshot = await chatRoomDoc.get();
+
+    if(chatRoomSnapshot.exists){
+      userStatus = chatRoomSnapshot.data()?['userStatus'] ?? "active";
+      if(userStatus == "active"){
+        userBlock(true);
+      }else{
+        userBlock(false);
+      }
+    }else{
+      userBlock(false);
+      userStatus = "active";
+    }
+    return userStatus!;
+  }
+
+
+
 
   int _collectionLength = 0;
   int get collectionLength => _collectionLength;

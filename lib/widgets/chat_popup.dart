@@ -42,6 +42,7 @@ class _ChatAddBottomSheetState extends State<ChatAddBottomSheet> {
 
   String audioURL = "";
 
+  double boxWidth = 120.0;
 
   @override
   Widget build(BuildContext context) {
@@ -57,103 +58,115 @@ class _ChatAddBottomSheetState extends State<ChatAddBottomSheet> {
             height: Get.height * 0.03,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              twoWidgets(
-                  imagePath: AppImage.offer,
-                  onTap: () {
-                    Get.bottomSheet(
-                       RequestFormBottomSheet(
-                        showPicture: false,
-                         chatRoomID: widget.chatRoomId,
-                         otherEmail: widget.otherEmail,
-                      ),
-                      isScrollControlled: false,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                    );
-                  },
-                  title: "Create an offer".tr),
-              twoWidgets(
-                  imagePath: AppImage.pickLocation,
-                  onTap: () {
-                    log("Location tap");
-                    provider.sendLocationMessage(
-                      chatRoomId: widget.chatRoomId,
-                      otherEmail: widget.otherEmail,
-                    );
-                    // Get.back();
-                  },
-                  iconSize: 25.0,
-                  title: "Location".tr)
+              Expanded(
+                child: Center(
+                  child: twoWidgets(
+                      imagePath: AppImage.offer,
+                      onTap: () {
+                        Get.bottomSheet(
+                           RequestFormBottomSheet(
+                            showPicture: false,
+                             chatRoomID: widget.chatRoomId,
+                             otherEmail: widget.otherEmail,
+                          ),
+                          isScrollControlled: false,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                        );
+                      },
+                      title: "Create an offer".tr),
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: twoWidgets(
+                      imagePath: AppImage.pickLocation,
+                      onTap: () {
+                        log("Location tap");
+                        provider.sendLocationMessage(
+                          chatRoomId: widget.chatRoomId,
+                          otherEmail: widget.otherEmail,
+                        );
+                        // Get.back();
+                      },
+                      iconSize: 25.0,
+                      title: "Location".tr),
+                ),
+              )
             ],
           ),
           SizedBox(
             height: Get.height * 0.02,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              GestureDetector(
-                onLongPress: () async {
-                  var audioPlayer = AudioPlayer();
-                  await audioPlayer.play(AssetSource("Notification.mp3"));
-                  audioPlayer.onPlayerComplete.listen((a) {
-                    audioController.start.value = DateTime.now();
-                    startRecord();
-                    audioController.isRecording.value = true;
-                  });
-                },
-                onLongPressEnd: (details) async {
-                  stopRecord();
-                  String? url =  await uploadAudio();
-                  if(url!=null){
-                    provider.sendVoiceMessage(
-                        chatRoomId: widget.chatRoomId, text: url,otherEmail: widget.otherEmail
-                    );
-                  }
-                },
-                child: twoWidgets(
-                    imagePath: AppImage.record, onTap: () async{
-                },
-                    onSecondTap: (){
-
-                    }
-                    ,title: "Record".tr),
-              ),
-
-              Transform.translate(
-                offset: Offset(Get.width * 0.05, 0),
-                child: twoWidgets(
-                  imagePath: AppImage.gallery,
-                  onTap: () async {
-                    final result = await FilePicker.platform.pickFiles();
-                    if (result != null) {
-                      final file = result.files.single;
-                      final filePath = file.path!;
-                      final fileType = file.extension;
-                      String messageType;
-                      if (fileType == 'mp3' || fileType == 'wav') {
-                        messageType = 'voice';
-                      } else if (fileType == 'jpg' || fileType == 'png') {
-                        messageType = 'image';
-                      } else {
-                        messageType = 'document';
+              Expanded(
+                child: Center(
+                  child: GestureDetector(
+                    onLongPress: () async {
+                      var audioPlayer = AudioPlayer();
+                      await audioPlayer.play(AssetSource("Notification.mp3"));
+                      audioPlayer.onPlayerComplete.listen((a) {
+                        audioController.start.value = DateTime.now();
+                        startRecord();
+                        audioController.isRecording.value = true;
+                      });
+                    },
+                    onLongPressEnd: (details) async {
+                      stopRecord();
+                      String? url =  await uploadAudio();
+                      if(url!=null){
+                        provider.sendVoiceMessage(
+                            chatRoomId: widget.chatRoomId, text: url,otherEmail: widget.otherEmail
+                        );
                       }
-                      await provider.sendFileMessage(
-                        chatRoomId: widget.chatRoomId,
-                        filePath: filePath,
-                        type: messageType,
-                        otherEmail: widget.otherEmail,
-                      );
-                    }
-                  },
-                  iconSize: 25.0,
-                  title: "Gallery".tr,
+                    },
+                    child: twoWidgets(
+                        imagePath: AppImage.record, onTap: () async{
+                    },
+                        onSecondTap: (){
+                
+                        }
+                        ,title: "Record".tr),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: twoWidgets(
+                    imagePath: AppImage.gallery,
+                    onTap: () async {
+                      final result = await FilePicker.platform.pickFiles();
+                      if (result != null) {
+                        final file = result.files.single;
+                        final filePath = file.path!;
+                        final fileType = file.extension;
+                        String messageType;
+                        if (fileType == 'mp3' || fileType == 'wav') {
+                          messageType = 'voice';
+                        } else if (fileType == 'jpg' || fileType == 'png') {
+                          messageType = 'image';
+                        } else {
+                          messageType = 'document';
+                        }
+                        await provider.sendFileMessage(
+                          chatRoomId: widget.chatRoomId,
+                          filePath: filePath,
+                          type: messageType,
+                          otherEmail: widget.otherEmail,
+                        );
+                      }
+                    },
+                    iconSize: 25.0,
+                    title: "Gallery".tr,
+                  ),
                 ),
               ),
             ],
@@ -169,6 +182,8 @@ class _ChatAddBottomSheetState extends State<ChatAddBottomSheet> {
   Widget twoWidgets(
       {required imagePath, required onTap, required title, iconSize = 30.0,var onSecondTap}) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CircularContainer(
           imagePath: imagePath,
@@ -267,10 +282,12 @@ class _ChatAddBottomSheetState extends State<ChatAddBottomSheet> {
 }
 
 class ChatPopupMenu extends StatelessWidget {
-  const ChatPopupMenu({super.key});
+  final String otherUserUid,chatRoomID;
+   const ChatPopupMenu({super.key, required this.otherUserUid, required this.chatRoomID});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ChatProvider>(context,listen: false);
     return PopupMenuButton<String>(
       offset: Offset(0, Get.height * 0.06),
       shape: RoundedRectangleBorder(
@@ -283,7 +300,8 @@ class ChatPopupMenu extends StatelessWidget {
             print('Report selected');
             break;
           case 'Block':
-            print('Block selected');
+            log('Block selected');
+            provider.blockUser(chatRoomId: chatRoomID, otherEmail: otherUserUid);
             break;
           case 'Delete Chat':
             print('Delete Chat selected');
