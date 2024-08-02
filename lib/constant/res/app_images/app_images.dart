@@ -33,9 +33,11 @@ class AppImage {
   static const String editImage = "${mainImage}editImage.webp";
   static const String home = "${mainImage}home.webp";
   static const String surveyOffices = "${mainImage}surveyOffices.webp";
+  static const String engineeringOffices = "${mainImage}eng_office.webp";
   static const String productImage = "${mainImage}productImage.webp";
   static const String product = "${mainImage}product.webp";
   static const String surveyReport = "${mainImage}surveyReport.webp";
+  static const String consultantCompany = "${mainImage}consultantComany.webp";
   static const String designWork = "${mainImage}designWork.webp";
   static const String accupancyCertificate =
       "${mainImage}accupancyCertificate.webp";

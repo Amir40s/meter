@@ -73,11 +73,12 @@ class RequestServiceConsolationController extends GetxController {
   }
 
   RxBool loading = false.obs;
+  RxBool requestLoading = false.obs;
   RxString filePath = "".obs;
   RxString fileName = "".obs;
   Future<void> onClickContinue(GlobalKey<FormState> _formKey) async {
     try {
-      loading.value = true;
+      requestLoading.value = true;
       if (_formKey.currentState!.validate() &&
           isAllChecked &&
           filePath.value != "") {
@@ -129,7 +130,7 @@ class RequestServiceConsolationController extends GetxController {
     } catch (e) {
       ErrorUtil.handleDatabaseErrors(e);
     } finally {
-      loading.value = false;
+      requestLoading.value = false;
     }
   }
 

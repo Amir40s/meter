@@ -68,6 +68,10 @@ class BottomNav extends StatelessWidget {
         bool isProvider = role == "Provider";
 
         List<BottomNavigationBarItem> items = [
+
+
+
+
           BottomNavigationBarItem(
             icon: Image.asset(
               AppImage.home,
@@ -136,23 +140,26 @@ class BottomNav extends StatelessWidget {
           ),
         ];
 
-        return BottomNavigationBar(
-          elevation: 0,
-          items: items,
-          showUnselectedLabels: true,
-          backgroundColor: Colors.transparent,
-          // selectedFontSize: 10,
-          currentIndex: bottomNavController.currentIndex.value,
-          selectedItemColor: AppColor.primaryColor,
-          unselectedItemColor: AppColor.semiTransparentDarkGrey,
-          iconSize: 18,
-          selectedLabelStyle: GoogleFonts.poppins(
-            fontSize: 12.0,
-            fontWeight: FontWeight.w500,
+        return Directionality(
+          textDirection: Get.locale?.languageCode == 'ar' ? TextDirection.ltr : TextDirection.ltr,
+          child: BottomNavigationBar(
+            elevation: 0,
+            items: items,
+            showUnselectedLabels: true,
+            backgroundColor: Colors.transparent,
+            // selectedFontSize: 10,
+            currentIndex: bottomNavController.currentIndex.value,
+            selectedItemColor: AppColor.primaryColor,
+            unselectedItemColor: AppColor.semiTransparentDarkGrey,
+            iconSize: 18,
+            selectedLabelStyle: GoogleFonts.poppins(
+              fontSize: 12.0,
+              fontWeight: FontWeight.w500,
+            ),
+            onTap: (index) {
+              bottomNavController.onIndexChange(index);
+            },
           ),
-          onTap: (index) {
-            bottomNavController.onIndexChange(index);
-          },
         );
       }),
     ));

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:meter/constant/res/app_color/app_color.dart';
 import 'package:meter/provider/payment/card_provider.dart';
 import 'package:meter/widgets/app_text_field.dart';
@@ -24,6 +26,9 @@ class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paymentProvider = Provider.of<PaymentProvider>(context);
+
+    final Map<String, dynamic> arguments = Get.arguments;
+    final String price = arguments['price'];
 
     return Scaffold(
       appBar: AppBar(
@@ -180,14 +185,14 @@ class PaymentScreen extends StatelessWidget {
                           sourceMonth: int.parse(_monthController.text),
                           sourceYear: int.parse(_yearController.text),
                           description: _descriptionController.text,
-                          amount: int.parse(_amountController.text),
+                          amount: int.parse(price),
                           currency: "SAR",
                           callbackUrl: "https://meter.com.sa/",
                         );
                         paymentProvider.makePayment(paymentModel);
                       }
                     },
-                    title: "Make Payment",
+                    title: "Make Payment (SAR $price)",
                   ),
                const SizedBox(height: 20),
                 if (paymentProvider.paymentResponse != null)

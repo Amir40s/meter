@@ -56,10 +56,10 @@ class PublishFirstDevice extends StatelessWidget {
                     height: Get.height * 0.04,
                   ),
                   CustomTextField(
-                    validator: ValidationUtils.validateRequired("Device price"),
+                    validator: ValidationUtils.validateRequired("Device Price"),
                     controller: publishDeviceController.devicePriceController,
                     hintText: "Enter device price".tr,
-                    title: "Device price".tr,
+                    title: "Device Price".tr,
                     textInputType: TextInputType.number,
                   ),
                   SizedBox(

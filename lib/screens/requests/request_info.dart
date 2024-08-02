@@ -26,7 +26,7 @@ class RequestInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomerRequestsContainer(
-                      status: "2m",
+                      status: convertTimestamp(model.timestamp.toString()),
                       showAvatar: false, model: model,
                     ),
                     SizedBox(
@@ -39,7 +39,7 @@ class RequestInfo extends StatelessWidget {
                         children: [
                           TextSpan(text: 'Proposals'.tr),
                           TextSpan(
-                            text:" (${ model.proposalCount.toString()})".tr,
+                            text:"(${ model.proposalCount.toString()})".tr,
                             style: AppTextStyle.dark14.copyWith(
                                 color: AppColor.primaryColor, fontSize: 16),
                           ),

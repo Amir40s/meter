@@ -33,6 +33,7 @@ class TextWidget extends StatelessWidget {
       title.tr,
       textAlign: textAlign,
       overflow: textOverflow,
+      softWrap: true,
       style: GoogleFonts.poppins(
           color: textColor,
           fontSize: fontSize,

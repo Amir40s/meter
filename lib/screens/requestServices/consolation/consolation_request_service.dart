@@ -148,13 +148,12 @@ class ConsolationRequestService extends StatelessWidget {
                       SizedBox(
                         height: Get.height * 0.03,
                       ),
-                      Obx(() => controller.loading.value
+                      Obx(() => controller.requestLoading.value
                           ? const CustomLoading()
                           : CustomButton(
                               title: "Submit Request",
                               onTap: () {
                                 controller.onClickContinue(_formKey);
-
                                 // Get.offAll(const BottomNavMain());
                               }))
                     ],

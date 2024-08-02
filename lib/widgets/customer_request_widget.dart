@@ -40,6 +40,8 @@ class CustomerRequestsContainer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -88,10 +90,14 @@ class CustomerRequestsContainer extends StatelessWidget {
                           const SizedBox(
                             width: 7,
                           ),
-                          TextWidget(
-                            textColor: AppColor.semiTransparentDarkGrey,
-                            fontSize: 14,
-                            title: model.location,
+                          Container(
+                            constraints: BoxConstraints(maxWidth: Get.width * 0.55),
+                            child: TextWidget(
+                              textColor: AppColor.semiTransparentDarkGrey,
+                              fontSize: 14,
+                              textOverflow: TextOverflow.ellipsis,
+                              title: model.location,
+                            ),
                           ),
                         ],
                       )

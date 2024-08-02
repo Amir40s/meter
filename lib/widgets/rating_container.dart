@@ -7,15 +7,17 @@ import 'package:meter/constant/routes/routes_name.dart';
 import 'package:meter/model/requestServices/request_services_model.dart';
 import 'package:meter/widgets/image_loader_widget.dart';
 import 'package:meter/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
+import '../provider/chat/chat_provider.dart';
 import '../screens/chat/chat_detail.dart';
 import 'circular_container.dart';
 import 'custom_button.dart';
 
 class RatingContainer extends StatelessWidget {
   final String ownerName,details,price,url,status,requestId,proposalId;
-   RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url, required this.status, required this.requestId, required this.proposalId,});
+  RatingContainer({super.key, required this.ownerName, required this.details, required this.price, required this.url, required this.status, required this.requestId, required this.proposalId,});
 
 
   final TextEditingController controller  = TextEditingController();
@@ -26,60 +28,88 @@ class RatingContainer extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12), color: Colors.transparent),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Transform.translate(
             offset: Offset(-12, 3),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  radius: 20,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Container(
-                          width: 50.0,
-                          height: 50.0,
-                          child: ImageLoaderWidget(imageUrl: url,))),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    TextWidget(
-                        textAlign: TextAlign.start,
-                        title:ownerName,
-                        textColor: AppColor.semiDarkGrey,
-                        fontSize: 16),
-                    TextWidget(
-                        title: "Engineering Office",
-                        textColor: AppColor.semiTransparentDarkGrey,
-                        fontSize: 15)
+                    CircleAvatar(
+                      radius: 20,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              child: ImageLoaderWidget(imageUrl: url,))),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                            textAlign: TextAlign.start,
+                            title:ownerName,
+                            textColor: AppColor.semiDarkGrey,
+                            fontSize: 16),
+                        TextWidget(
+                            title: "Engineering Office",
+                            textColor: AppColor.semiTransparentDarkGrey,
+                            fontSize: 15)
+                      ],
+                    ),
+                    Transform.translate(
+                      offset: Offset(-30, -11),
+                      child: Image.asset(
+                        AppImage.rating,
+                        height: 14,
+                      ),
+                    ),
                   ],
                 ),
-                Transform.translate(
-                  offset: Offset(-9, -9),
-                  child: Image.asset(
-                    AppImage.rating,
-                    height: 14,
+
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircularContainer(
+                        backgroundColor: AppColor.success10,
+                        imagePath: AppImage.chatActive,
+                        onTap: () async{
+                          // final chatRoomId = await context.read<ChatProvider>().createOrGetChatRoom(data.userUID,"");
+                          // final userStatus = await context.read<ChatProvider>().getUserStatus(chatRoomId);
+                          // log("Id in home screen::${data.id} and ${mo.userUID}");
+                          // Get.to(ChatDetail(
+                          //   userUID: data.userUID,
+                          //   name: data.deviceName,
+                          //   image: data.deviceImage,
+                          //   otherEmail: data.userUID,
+                          //   chatRoomId: chatRoomId,
+                          //   userStatus: userStatus,
+                          // ));
+                        },
+                      ),
+                      CircularContainer(
+                        backgroundColor: AppColor.primaryColor,
+                        widget:  TextWidget(
+                          textColor: AppColor.whiteColor,
+                          title: "\n$price\nSAR\n",
+                          fontSize: 14,
+                        ),
+                        onTap: () {},
+                      ),
+                    ],
                   ),
                 ),
-                CircularContainer(
-                  backgroundColor: AppColor.success10,
-                  imagePath: AppImage.chatActive,
-                  onTap: () {
-                  //  Get.to(ChatDetail());
-                  },
-                ),
-                CircularContainer(
-                  backgroundColor: AppColor.primaryColor,
-                  widget:  TextWidget(
-                    textColor: AppColor.whiteColor,
-                    title: "\n$price\nSAR\n",
-                    fontSize: 16,
-                  ),
-                  onTap: () {},
-                ),
+
               ],
             ),
           ),
@@ -139,7 +169,9 @@ class RatingContainer extends StatelessWidget {
     Get.snackbar("Alert", "Status Updated");
 
     if(status == "active"){
-      Get.toNamed(RoutesName.paymentScreen);
+      Get.toNamed(RoutesName.paymentScreen,arguments: {
+        'price' : price.toString()
+      });
     }
   }
 }

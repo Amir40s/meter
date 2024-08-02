@@ -123,7 +123,7 @@ class StoreDetail extends StatelessWidget {
                       width: Get.width * 0.02,
                     ),
                     TextWidget(
-                        title: "userName",
+                        title: deviceModel!.deviceType.toString(),
                         textColor: AppColor.semiDarkGrey,
                         fontSize: 14)
                     // FutureBuilder(

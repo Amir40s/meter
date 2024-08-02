@@ -97,14 +97,16 @@ class ChatOfferWidget extends StatelessWidget {
                 const SizedBox(width: 5.0,),
                 Expanded(
                   child: CustomButton(title: "Accept",backgroundColor: Colors.green, onTap: ()async{
-                    // await chatProvider.updateOfferMessage(
-                    //     status: "accept",
-                    //     messageID: messageID,
-                    //     chatRoomId: chatRoomId,
-                    //     otherEmail: otherEmail
-                    // );
+                    await chatProvider.updateOfferMessage(
+                        status: "accept",
+                        messageID: messageID,
+                        chatRoomId: chatRoomId,
+                        otherEmail: otherEmail
+                    );
                     Fluttertoast.showToast(msg: "Offer accepted");
-                    Get.toNamed(RoutesName.paymentScreen);
+                    Get.toNamed(RoutesName.paymentScreen,arguments: {
+                      'price' : price.toString()
+                    });
                   }),
                 ),
               ],

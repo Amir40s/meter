@@ -26,8 +26,10 @@ class ChatRoomModel {
       lastMessage: data['lastMessage'] ?? '',
       isMessage: data['isMessage'] ?? '',
       userStatus: data['userStatus'] ?? '',
-      lastTimestamp: (data['lastTimestamp'] as Timestamp).toDate(),
-      unreadMessageCount: 0, // Initialize with 0; it will be updated later
+      lastTimestamp: data['lastTimestamp'] != null
+          ? (data['lastTimestamp'] as Timestamp).toDate()
+          : DateTime.now(),
+      unreadMessageCount: 0,
     );
   }
 

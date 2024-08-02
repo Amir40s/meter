@@ -42,7 +42,7 @@ class ServicesScreen extends StatelessWidget {
                   child: MyCustomButton(
                     onTap: () {
                       if (getCurrentUid().toString().isNotEmpty) {
-                        Get.offAllNamed(RoutesName.requestServicesScreen);
+                        Get.toNamed(RoutesName.requestServicesScreen);
                       } else {
                         controller.switchToNewRole(customer);
                         controller.changeActive(false);

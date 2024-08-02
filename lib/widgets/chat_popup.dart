@@ -63,6 +63,37 @@ class _ChatAddBottomSheetState extends State<ChatAddBottomSheet> {
               Expanded(
                 child: Center(
                   child: twoWidgets(
+                    imagePath: AppImage.gallery,
+                    onTap: () async {
+                      final result = await FilePicker.platform.pickFiles();
+                      if (result != null) {
+                        final file = result.files.single;
+                        final filePath = file.path!;
+                        final fileType = file.extension;
+                        String messageType;
+                        if (fileType == 'mp3' || fileType == 'wav') {
+                          messageType = 'voice';
+                        } else if (fileType == 'jpg' || fileType == 'png') {
+                          messageType = 'image';
+                        } else {
+                          messageType = 'document';
+                        }
+                        await provider.sendFileMessage(
+                          chatRoomId: widget.chatRoomId,
+                          filePath: filePath,
+                          type: messageType,
+                          otherEmail: widget.otherEmail,
+                        );
+                      }
+                    },
+                    iconSize: 25.0,
+                    title: "Gallery".tr,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: twoWidgets(
                       imagePath: AppImage.offer,
                       onTap: () {
                         Get.bottomSheet(
@@ -83,22 +114,6 @@ class _ChatAddBottomSheetState extends State<ChatAddBottomSheet> {
                       title: "Create an offer".tr),
                 ),
               ),
-              Expanded(
-                child: Center(
-                  child: twoWidgets(
-                      imagePath: AppImage.pickLocation,
-                      onTap: () {
-                        log("Location tap");
-                        provider.sendLocationMessage(
-                          chatRoomId: widget.chatRoomId,
-                          otherEmail: widget.otherEmail,
-                        );
-                        // Get.back();
-                      },
-                      iconSize: 25.0,
-                      title: "Location".tr),
-                ),
-              )
             ],
           ),
           SizedBox(
@@ -141,34 +156,19 @@ class _ChatAddBottomSheetState extends State<ChatAddBottomSheet> {
               Expanded(
                 child: Center(
                   child: twoWidgets(
-                    imagePath: AppImage.gallery,
-                    onTap: () async {
-                      final result = await FilePicker.platform.pickFiles();
-                      if (result != null) {
-                        final file = result.files.single;
-                        final filePath = file.path!;
-                        final fileType = file.extension;
-                        String messageType;
-                        if (fileType == 'mp3' || fileType == 'wav') {
-                          messageType = 'voice';
-                        } else if (fileType == 'jpg' || fileType == 'png') {
-                          messageType = 'image';
-                        } else {
-                          messageType = 'document';
-                        }
-                        await provider.sendFileMessage(
+                      imagePath: AppImage.pickLocation,
+                      onTap: () {
+                        log("Location tap");
+                        provider.sendLocationMessage(
                           chatRoomId: widget.chatRoomId,
-                          filePath: filePath,
-                          type: messageType,
                           otherEmail: widget.otherEmail,
                         );
-                      }
-                    },
-                    iconSize: 25.0,
-                    title: "Gallery".tr,
-                  ),
+                        // Get.back();
+                      },
+                      iconSize: 25.0,
+                      title: "My Location".tr),
                 ),
-              ),
+              )
             ],
           ),
           SizedBox(

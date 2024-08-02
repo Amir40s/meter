@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../constant.dart';
 import '../constant/language/language_utils.dart';
+import '../constant/prefUtils/pref_utils.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
 
@@ -54,6 +55,7 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,7 +165,7 @@ class CustomTextField extends StatelessWidget {
                 dropdownColor: Theme.of(context)
                     .canvasColor, // Dropdown background color
                 icon: Padding(
-                  padding: EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.only(right: isEnglish ? 10 : 0,left: isEnglish ? 0 : 10),
                   child: Image.asset(
                     AppImage.downArrow,
                     width: 18,

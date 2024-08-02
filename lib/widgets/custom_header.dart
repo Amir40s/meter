@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meter/widgets/text_widget.dart';
 
+import '../constant/prefUtils/pref_utils.dart';
 import '../constant/res/app_color/app_color.dart';
 import 'custom_back_button.dart';
 
@@ -19,6 +20,7 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
     return Column(
       children: [
         SizedBox(
@@ -26,13 +28,13 @@ class CustomHeader extends StatelessWidget {
         ),
         Padding(
           padding:
-          const EdgeInsets.only(left: 14.0, right: 5, top: 14, bottom: 14),
+           EdgeInsets.only(left:  14.0, right:  isEnglish ? 5 : 0, top: 14, bottom: 14),
           child: Row(
             children: [
               const CustomBackButton(),
-              const Spacer(),
+
               SizedBox(
-                width: Get.width * 0.60,
+                width: Get.width * 0.50,
                 child: TextWidget(
                   title: title,
                   textColor: AppColor.semiDarkGrey,
@@ -40,8 +42,8 @@ class CustomHeader extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const Spacer(),
-              Container(),
+             const Spacer(),
+              //Container(),
             ],
           ),
         ),

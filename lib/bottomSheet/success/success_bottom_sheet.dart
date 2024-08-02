@@ -51,8 +51,8 @@ class SuccessBottomSheet extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
-                const TextWidget(
-                    title: "Successfully🎉",
+                 TextWidget(
+                    title: "Successfully🎉".tr,
                     fontWeight: FontWeight.bold,
                     textColor: AppColor.primaryColor,
                     fontSize: 20),

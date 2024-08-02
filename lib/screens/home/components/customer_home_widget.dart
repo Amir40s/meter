@@ -10,6 +10,7 @@ import '../../../constant/CollectionUtils/collection_utils.dart';
 import '../../../constant/datetime/date_time_util.dart';
 import '../../../constant/res/app_color/app_color.dart';
 import '../../../constant/res/app_images/app_images.dart';
+import '../../../constant/routes/routes_name.dart';
 import '../../../controller/account/profile_controller.dart';
 import '../../../controller/bottomNav/bottom_nav_controller_main.dart';
 import '../../../controller/home/home_controller.dart';
@@ -37,6 +38,19 @@ class CustomerHomeWidget extends StatelessWidget {
     final onBoardController = Get.find<OnBoardController>();
     final controller = Get.find<HomeController>();
     final storeController = Get.put(StoreController());
+
+    List<String> imagesPath = [
+      AppImage.surveyOffices,
+      AppImage.engineeringOffices,
+      AppImage.consultantCompany,
+    ];
+
+    List<String> textList = [
+      'Survey Offices',
+      'Engineering Offices',
+      'consulting Company'
+    ];
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,12 +88,13 @@ class CustomerHomeWidget extends StatelessWidget {
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: 6,
+            itemCount: imagesPath.length,
             padding: EdgeInsets.zero,
             itemBuilder: (itemBuilder, index) {
-              return const CategoriesWidget(
-                  imagePath: AppImage.surveyOffices,
-                  title: "Survey Offices");
+              return  CategoriesWidget(
+                  imagePath: imagesPath[index],
+                  title: textList[index]
+              );
             },
             separatorBuilder:
                 (BuildContext context, int index) {
@@ -89,7 +104,7 @@ class CustomerHomeWidget extends StatelessWidget {
             },
           ),
         ),
-        const Row(
+         Row(
           children: [
             TextWidget(
               title: "Services",
@@ -97,11 +112,16 @@ class CustomerHomeWidget extends StatelessWidget {
               fontSize: 18,
             ),
             Spacer(),
-            TextWidget(
-              title: "See All",
-              textColor: AppColor.primaryColor,
-              fontSize: 14,
-              showUnderline: true,
+            GestureDetector(
+              onTap: (){
+                Get.toNamed(RoutesName.requestServicesScreen);
+              },
+              child: TextWidget(
+                title: "See All",
+                textColor: AppColor.primaryColor,
+                fontSize: 14,
+                showUnderline: true,
+              ),
             )
           ],
         ),

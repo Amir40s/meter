@@ -74,7 +74,7 @@ class AccountMain extends StatelessWidget {
                         ),
                         ProfileHeader(
                           showPersonalInfo: currentRole == "Seller" ||
-                              currentRole == "Customer" || currentRole == "Provider",
+                              currentRole == "Customer" || currentRole == "Provider" ,
                           currentRole: currentRole,
                         ),
                         if (currentRole == "Provider") ...[
@@ -91,14 +91,14 @@ class AccountMain extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.05,
                         ),
-                        currentRole != "Provider" && currentRole != "Customer"
+                        currentRole == "Provider" || currentRole == "Customer" || currentRole == "Seller"
                             ? CustomRow(
                                 firstImagePath: AppImage.paymentMethod,
                                 title: "Payment Methods".tr,
                                 onTap: () {},
                               )
                             : Container(),
-                        currentRole != "Provider" && currentRole != "Customer"
+                        currentRole == "Provider" || currentRole == "Customer" || currentRole == "Seller"
                             ? CustomRow(
                                 firstImagePath: AppImage.help,
                                 title: "Help Center".tr,
@@ -116,14 +116,14 @@ class AccountMain extends StatelessWidget {
                           title: "Language".tr,
                           onTap: () {},
                         ),
-                        currentRole == "Provider" || currentRole == "Customer"
-                            ? CustomRow(
-                                title: "Help Center".tr,
-                                onTap: () {
-                                  Get.to(const HelpCenter());
-                                },
-                              )
-                            : Container(),
+                        // currentRole == "Provider" || currentRole == "Customer"
+                        //     ? CustomRow(
+                        //         title: "Help Center".tr,
+                        //         onTap: () {
+                        //           Get.to(const HelpCenter());
+                        //         },
+                        //       )
+                        //     : Container(),
                         CustomRow(
                           title: "Terms Of Services".tr,
                           onTap: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meter/widgets/text_widget.dart';
 import '../constant/res/app_color/app_color.dart';
 import '../constant/res/app_images/app_images.dart';
@@ -37,7 +38,7 @@ class EditPopUpWidget extends StatelessWidget {
                 width: 10,
               ),
               TextWidget(
-                  title: "Edit",
+                  title: "Edit".tr,
                   textColor: AppColor.semiDarkGrey,
                   fontSize: 16),
             ],
@@ -57,7 +58,7 @@ class EditPopUpWidget extends StatelessWidget {
                   width: 10,
                 ),
                 TextWidget(
-                    title: "Delete",
+                    title: "Delete".tr,
                     textColor: AppColor.semiDarkGrey,
                     fontSize: 16),
               ],

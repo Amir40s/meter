@@ -112,11 +112,14 @@ class ProposalContainer extends StatelessWidget {
                         const SizedBox(
                           width: 7,
                         ),
-                        TextWidget(
-                          textColor: AppColor.semiTransparentDarkGrey,
-                          fontSize: 14,
-                          textOverflow: TextOverflow.ellipsis,
-                          title: location ?? "",
+                        Container(
+                          constraints: BoxConstraints(maxWidth: Get.width * 0.55),
+                          child: TextWidget(
+                            textColor: AppColor.semiTransparentDarkGrey,
+                            fontSize: 14,
+                            textOverflow: TextOverflow.ellipsis,
+                            title: location ?? "",
+                          ),
                         ),
                       ],
                     )

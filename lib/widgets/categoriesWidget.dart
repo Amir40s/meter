@@ -25,7 +25,7 @@ class CategoriesWidget extends StatelessWidget {
         ),
         ConstrainedBox(
           constraints: BoxConstraints(
-              maxWidth: Get.width * 0.18), // Specify your width here
+              maxWidth: Get.width * 0.24), // Specify your width here
           child: TextWidget(
             title: title,
             fontSize: 14,

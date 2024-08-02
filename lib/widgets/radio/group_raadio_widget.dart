@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../constant/prefUtils/pref_utils.dart';
 import '../../constant/res/app_color/app_color.dart';
 import '../text_widget.dart';
 
@@ -69,6 +70,7 @@ Widget columnWithRadio(String title, String groupValue, String value,
 Widget filledContainerWithRadio(String title, String groupValue, String value,
     Function(String?)? onChanged, bool active,
     {double fontSize = 14}) {
+  bool? isEnglish = PrefUtil.getBool(PrefUtil.language) ?? true;
   return GestureDetector(
     onTap: () {
       onChanged!(value);
@@ -83,12 +85,13 @@ Widget filledContainerWithRadio(String title, String groupValue, String value,
                   ? AppColor.primaryColor
                   : AppColor.semiTransparentDarkGrey)),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
               width: Get.width * 0.70,
               child: TextWidget(
                 title: title,
-                textAlign: TextAlign.left,
+                textAlign: isEnglish ? TextAlign.left : TextAlign.right,
                 textColor: active
                     ? AppColor.semiDarkGrey
                     : AppColor.semiTransparentDarkGrey,
